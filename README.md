@@ -85,7 +85,7 @@
 
 ---
 
-## :Mocomoco: 팀 동료
+## FE 팀원
 
 <table>
     <tbody>
