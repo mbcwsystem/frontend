@@ -1,4 +1,4 @@
-# megabox PJ 
+# megabox PJ
 
 ## 프로젝트 소개
 
@@ -38,7 +38,6 @@
 
 ---
 
-
 ## 시작하기
 
 1. **웹사이트 접속**: 간단히 가입하고 [ 시작 ](https://mocomoco.store/)하세요.
@@ -49,17 +48,16 @@
 
 ## 🔗 배포 링크
 
-
 ---
 
 ## 📀 시연 영상
-
 
 ---
 
 ## 🧰 사용 스택
 
 ### FE
+
 <div align=center>
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React">
   <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
@@ -192,5 +190,5 @@
 > [📜 테이블 명세서]
 >
 > [📜 화면 정의서](https://docs.google.com/spreadsheets/d/1yOX38O-yLxh3yl3mxPX6QggRxTSpqZP1vrX1k_hhZmg/edit?gid=1289677710#gid=1289677710)
-> 
+>
 > [📜 와이어 프레임](https://www.figma.com/design/Gkxq4tpCbJmyXbZlmsCbqq/Megabox_FE_%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0-1&t=xO3m8hUNRDTSfgn5-1)
