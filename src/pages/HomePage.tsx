@@ -1,11 +1,5 @@
-import App from '@/app/providers/App';
-
 const HomePage = () => {
-  return (
-    <div>
-      <App />
-    </div>
-  );
+  return <div>main</div>;
 };
 
 export default HomePage;

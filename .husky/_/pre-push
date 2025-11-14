@@ -9,3 +9,4 @@ npm run lint
 if [ $? -ne 0 ]; then
   echo "ESLint errors detected. Push aborted."
   exit 1
+fi
