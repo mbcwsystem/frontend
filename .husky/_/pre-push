@@ -1,12 +1,2 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/husky.sh"
-
-# pre-push Hook: push 전에 ESLint 검사 실행
-echo "Running ESLint before push..."
-npm run lint
-
-# ESLint가 실패하면 push 중단
-if [ $? -ne 0 ]; then
-  echo "ESLint errors detected. Push aborted."
-  exit 1
-fi
+. "$(dirname "$0")/h"
