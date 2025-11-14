@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/husky.sh"
+# . "$(dirname "$0")/husky.sh"
 
 # pre-push Hook: push 전에 ESLint 검사 실행
 echo "Running ESLint before push..."
