@@ -2,4 +2,4 @@ const HomePage = () => {
   return <div>main-!</div>;
 };
 
-export default HomePage
+export default HomePage;
