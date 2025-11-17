@@ -1,0 +1,130 @@
+<section id="schedule"></section>
+
+<div class="actions">
+  <button id="openShift">교대신청</button>
+  <button id="openDayoff">휴무신청</button>
+</div>
+
+<!-- 내 신청내역 -->
+<section id="my-requests">
+  <div class="tabs">
+    <button data-filter="all" class="on">전체</button>
+    <button data-filter="shift">교대</button>
+    <button data-filter="dayoff">휴무</button>
+  </div>
+  <table>
+      <thead><tr><th>유형</th><th>날짜</th><th>대상자/사유</th><th>상태</th><th>신청일</th></tr></thead>
+      <tbody id="reqBody"></tbody>
+    </table>
+</section>
+
+<!-- 교대신청 모달 -->
+<div id="shiftModal" hidden>
+  <form id="shiftForm">
+    <input type="date" name="date" required>
+<!--    <select name="targetUserId" required></select>-->
+    <input name="reason" placeholder="메모(선택)">
+    <button type="submit">신청</button>
+  </form>
+</div>
+
+<!-- 휴무신청 모달 -->
+<div id="dayoffModal" hidden>
+  <form id="dayoffForm">
+    <input type="date" name="date" required>
+    <textarea name="reason" required placeholder="사유"></textarea>
+    <button type="submit">신청</button>
+  </form>
+</div>
+
+<script>
+  const reqBody = document.getElementById('reqBody');
+  const openShift = document.getElementById('openShift');
+  const openDayoff = document.getElementById('openDayoff');
+  const shiftModal = document.getElementById('shiftModal');
+  const dayoffModal = document.getElementById('dayoffModal');
+  const shiftForm = document.getElementById('shiftForm');
+  const dayoffForm = document.getElementById('dayoffForm');
+
+  const API = {
+    myRequests: (type='all') => fetch(`/me/requests?type=${type}`).then(r=>r.json()),
+    postShift:  (p) => fetch('/schedules/shift-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)}).then(r=>r.json()),
+    postDayoff: (p) => fetch('/schedules/dayoff-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)}).then(r=>r.json())
+  };
+
+  async function loadRequests(filter='all'){
+    const {items=[]} = await API.myRequests(filter).catch(()=>({items:[]})); // 서버 없을 때 오류 방지
+    const toBadge = s => `<span class="badge ${s}">${s}</span>`;
+    reqBody.innerHTML = items.map(x => `
+      <tr>
+        <td>${x.type==='shift'?'교대':'휴무'}</td>
+        <td>${x.date}</td>
+        <td>${x.type==='shift'? (x.targetUserName||'-') : (x.reason||'-')}</td>
+        <td>${toBadge(x.status)}</td>
+        <td>${x.createdAt?.slice(0,10)||''}</td>
+      </tr>`).join('');
+  }
+
+  // 모달 열기/닫기
+  openShift.onclick = () => shiftModal.hidden = false;
+  openDayoff.onclick = () => dayoffModal.hidden = false;
+
+  // 교대신청 임시 추가
+  shiftForm.onsubmit = async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(shiftForm);
+    const data = Object.fromEntries(fd.entries());
+    data.type = 'shift';
+    data.status = 'pending';
+    data.createdAt = new Date().toISOString().slice(0,10);
+
+    const newRow = `
+      <tr>
+        <td>교대</td>
+        <td>${data.date}</td>
+        <td>${data.targetUserId}</td>
+        <td><span class="badge pending">pending</span></td>
+        <td>${data.createdAt}</td>
+      </tr>`;
+    reqBody.insertAdjacentHTML('afterbegin', newRow);
+
+    shiftModal.hidden = true;
+    shiftForm.reset();
+  };
+
+  // 휴무신청 임시 추가
+  dayoffForm.onsubmit = async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(dayoffForm);
+    const data = Object.fromEntries(fd.entries());
+    data.type = 'dayoff';
+    data.status = 'pending';
+    data.createdAt = new Date().toISOString().slice(0,10);
+
+    const newRow = `
+      <tr>
+        <td>휴무</td>
+        <td>${data.date}</td>
+        <td>${data.reason}</td>
+        <td><span class="badge pending">pending</span></td>
+        <td>${data.createdAt}</td>
+      </tr>`;
+    reqBody.insertAdjacentHTML('afterbegin', newRow);
+
+    dayoffModal.hidden = true;
+    dayoffForm.reset();
+  };
+
+  // 탭 필터
+  document.querySelectorAll('.tabs button').forEach(b=>{
+    b.onclick = ()=>{
+      document.querySelector('.tabs .on')?.classList.remove('on');
+      b.classList.add('on');
+      loadRequests(b.dataset.filter);
+    };
+  });
+
+  // 초기 로드
+  loadRequests();
+</script>
+
