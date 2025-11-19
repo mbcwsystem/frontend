@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router';
 import { ROUTES } from './routes';
 
 import HomePage from '@/pages/HomePage';
+import LoginPage from '@/pages/login/LoginPage';
 import PayPage from '@/pages/PayPage';
 import { Layout } from '@/shared/layouts/Layout';
 
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: 'pay',
         element: <PayPage />,
+      },
+      {
+        path: ROUTES.LOGIN,
+        element: <LoginPage />,
       },
     ],
   },
