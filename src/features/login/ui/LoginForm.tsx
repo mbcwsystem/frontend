@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LockIcon, User2Icon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -8,8 +7,7 @@ import loginSchema from '../model/schema';
 import RHFInput from './RHFinput';
 
 import { Button } from '@/shared/components/ui/button';
-import { Form, FormField, FormItem, FormControl, FormMessage } from '@/shared/components/ui/form';
-import { Input } from '@/shared/components/ui/input';
+import { Form } from '@/shared/components/ui/form';
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
