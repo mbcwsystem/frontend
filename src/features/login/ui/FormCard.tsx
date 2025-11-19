@@ -2,8 +2,7 @@ import { LockIcon } from 'lucide-react';
 
 import LoginForm from './LoginForm';
 
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 const FormCard = () => {
   return (
@@ -16,11 +15,6 @@ const FormCard = () => {
       <CardContent>
         <LoginForm />
       </CardContent>
-      {/* <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full bg-mega text-white">
-          로그인
-        </Button>
-      </CardFooter> */}
     </Card>
   );
 };
