@@ -3,8 +3,8 @@ import { createBrowserRouter } from 'react-router';
 import { ROUTES } from './routes';
 
 import HomePage from '@/pages/HomePage';
-import { Layout } from '@/shared/layouts/Layout';
 import PayPage from '@/pages/PayPage';
+import { Layout } from '@/shared/layouts/Layout';
 
 export const router = createBrowserRouter([
   {
