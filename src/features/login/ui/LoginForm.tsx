@@ -5,6 +5,8 @@ import z from 'zod';
 
 import loginSchema from '../model/schema';
 
+import RHFInput from './RHFinput';
+
 import { Button } from '@/shared/components/ui/button';
 import { Form, FormField, FormItem, FormControl, FormMessage } from '@/shared/components/ui/form';
 import { Input } from '@/shared/components/ui/input';
@@ -30,31 +32,9 @@ const LoginForm = () => {
         onSubmit={(e) => void form.handleSubmit(onSubmit)(e)}
         className="flex flex-col gap-4"
       >
-        <FormField
-          control={form.control}
-          name="userId"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="ID" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <RHFInput form={form} name="userId" placeholder="ID" />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <RHFInput form={form} name="password" placeholder="Password" />
 
         <Button type="submit" className="mt-2 w-full bg-mega">
           로그인

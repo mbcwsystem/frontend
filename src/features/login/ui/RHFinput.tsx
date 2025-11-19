@@ -4,17 +4,17 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
+  FormLabel,
 } from '@/shared/components/ui/form';
 import { Input } from '@/shared/components/ui/input';
 
 interface RHFInputProps<T extends FieldValues> {
   form: UseFormReturn<T>;
   name: Path<T>;
-  placeholder: string;
-  label: string;
-  type: string;
+  label?: string;
+  placeholder?: string;
+  type?: string;
   className?: string;
   disabled?: boolean;
 }
@@ -22,9 +22,9 @@ interface RHFInputProps<T extends FieldValues> {
 const RHFInput = <T extends FieldValues>({
   form,
   name,
-  placeholder,
   label,
-  type,
+  placeholder = '',
+  type = 'text',
   className = '',
   disabled = false,
 }: RHFInputProps<T>) => {
@@ -34,19 +34,17 @@ const RHFInput = <T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col gap-0 relative">
-          <div className="flex gap-2 items-center">
-            <FormLabel className="w-[100px] font-bold">{label}</FormLabel>
-            <FormControl>
-              <Input
-                type={type}
-                disabled={disabled}
-                placeholder={placeholder}
-                {...field}
-                className={className}
-              />
-            </FormControl>
-          </div>
-          <FormMessage className=" text-end absolute right-0 -bottom-5" />
+          {label && <FormLabel className="mb-1 font-semibold">{label}</FormLabel>}
+          <FormControl>
+            <Input
+              type={type}
+              placeholder={placeholder}
+              disabled={disabled}
+              {...field}
+              className={className}
+            />
+          </FormControl>
+          <FormMessage className="text-end mt-1" />
         </FormItem>
       )}
     />
