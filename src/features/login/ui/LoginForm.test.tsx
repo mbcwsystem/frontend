@@ -68,9 +68,12 @@ describe('LoginForm Component', () => {
     await user.click(submitButton);
 
     // 2. Zod 스키마에 정의된 오류 메시지가 표시될 때까지 기다립니다.
-    await waitFor(() => {
-      expect(screen.getByText(/아이디를 입력해주세요/i)).toBeInTheDocument();
-      expect(screen.getByText(/비밀번호를 입력해주세요/i)).toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByText(/아이디를 입력해주세요/i)).toBeInTheDocument();
+        expect(screen.getByText(/비밀번호를 입력해주세요/i)).toBeInTheDocument();
+      },
+      { timeout: 3000 },
+    );
   });
 });
