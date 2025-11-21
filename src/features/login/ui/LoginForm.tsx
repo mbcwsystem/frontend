@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import z from 'zod';
 
-import loginSchema from '../model/schema';
+import loginSchema, { type LoginSchemaType } from '../model/schema';
 
 import RHFInput from './RHFinput';
 
@@ -10,7 +9,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Form } from '@/shared/components/ui/form';
 
 const LoginForm = () => {
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       userId: '',
@@ -18,7 +17,7 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+  const onSubmit = (values: LoginSchemaType) => {
     console.log('Login values:', values);
     // 여기서 API 호출
   };

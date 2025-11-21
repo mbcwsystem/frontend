@@ -41,6 +41,7 @@ const RHFInput = <T extends FieldValues>({
               placeholder={placeholder}
               disabled={disabled}
               {...field}
+              data-testid={`input-${name}`} // 테스트 식별자 추가
               className={className}
             />
           </FormControl>
