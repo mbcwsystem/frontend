@@ -55,7 +55,7 @@ export default defineConfig([
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       // 명시적인 any 사용은 경고로 낮춤 (프로젝트 성격에 따라 error로 변경 가능)
       '@typescript-eslint/no-explicit-any': 'off',
-
+      '@typescript-eslint/no-base-to-string': 'warn',
       // **FSD를 위한 Import 순서 규칙** (핵심)
       // 모듈 간의 순서를 강제하여 아키텍처 레이어별 분리를 명확히 함
       'import/order': [
