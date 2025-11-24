@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router';
 import { ROUTES } from './routes';
 
 import HomePage from '@/pages/HomePage';
-import LoginPage from '@/pages/login/LoginPage';
+import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
 import { Layout } from '@/shared/layouts/Layout';
 

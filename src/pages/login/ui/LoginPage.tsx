@@ -1,4 +1,4 @@
-import FormCard from '@/features/login/ui/FormCard';
+import { FormCard } from '@/features/login';
 import Logo from '@/shared/assets/logo/LogowithText_white.png';
 
 const LoginPage = () => {
