@@ -10,7 +10,7 @@ export const Header = () => {
   const navigate = useNavigate();
 
   const goHome = () => {
-    navigate('/');
+    void navigate('/');
   };
 
   const today = useMemo(() => {
