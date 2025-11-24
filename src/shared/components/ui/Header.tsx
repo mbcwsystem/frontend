@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import { Bell, KeyRound, Lock, CirclePlus } from 'lucide-react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 
 import '../../../app/global/App.css';
@@ -42,4 +42,3 @@ export const Header = () => {
     </>
   );
 };
-
