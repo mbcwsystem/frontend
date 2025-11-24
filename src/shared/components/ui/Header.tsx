@@ -5,8 +5,14 @@ import { Bell } from 'lucide-react';
 import { KeyRound } from 'lucide-react';
 import { Lock } from 'lucide-react';
 import { CirclePlus } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 export const Header = () => {
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate('/');
+  };
 
   const today = useMemo(() => {
     return new Date().toISOString().slice(0, 10);
@@ -21,7 +27,7 @@ export const Header = () => {
       <div className="h-16 bg-[#EAF3F4] flex justify-between items-center px-5">
         {/* 왼쪽 로고 + 타이틀 */}
         <div className="flex items-center gap-4">
-          <img src={logo} alt="logo" className={`${logoHover} h-7`} />
+          <img onClick={goHome} src={logo} alt="logo" className={`${logoHover} h-7`} />
           <div className="font-bold">M SYSTEM</div>
         </div>
         {/* 오른쪽 유저 이름 (메박이) + 날짜 */}
@@ -37,3 +43,4 @@ export const Header = () => {
     </>
   );
 };
+
