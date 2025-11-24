@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
-import '../../../app/global/App.css';
-import logo from '../../../shared/components/logo/Megabox_Logo_Indigo.png';
-import { Bell } from 'lucide-react';
-import { KeyRound } from 'lucide-react';
-import { Lock } from 'lucide-react';
-import { CirclePlus } from 'lucide-react';
+import { Bell, KeyRound, Lock, CirclePlus } from 'lucide-react';
 import { useNavigate } from 'react-router';
+
+import '../../../app/global/App.css';
+
+import logo from '../../../shared/components/logo/Megabox_Logo_Indigo.png';
 
 export const Header = () => {
   const navigate = useNavigate();
