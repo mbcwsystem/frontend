@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router';
 
-import { ROUTES } from '../app/routes/routes';
+import { ROUTES } from '../../app/routes/routes';
 
 export const Sidebar = () => {
   const iconHover = 'transition-all duration-200 hover:bg-mega-blue cursor-pointer';

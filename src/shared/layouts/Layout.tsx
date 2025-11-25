@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router';
 
-import { Header } from '../../widgets/Header';
-import { Sidebar } from '../../widgets/Sidebar';
+import { Header } from '../../widgets/ui/Header';
+import { Sidebar } from '../../widgets/ui/Sidebar';
 
 export const Layout = () => {
   return (
