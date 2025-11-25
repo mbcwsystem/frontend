@@ -1,5 +1,6 @@
 import { Bell, KeyRound, Lock, CirclePlus } from 'lucide-react';
 import { useMemo } from 'react';
+import '../app/global/App.css'
 import { Link } from 'react-router';
 
 import { ROUTES } from '../app/routes/routes';
