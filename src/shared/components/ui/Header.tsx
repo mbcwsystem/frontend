@@ -1,18 +1,12 @@
 import { Bell, KeyRound, Lock, CirclePlus } from 'lucide-react';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router';
-
 import '../../../app/global/App.css';
+import { Link } from 'react-router';
 
+import { ROUTES } from '../../../app/routes/routes';
 import logo from '../../../shared/components/logo/Megabox_Logo_Indigo.png';
 
 export const Header = () => {
-  const navigate = useNavigate();
-
-  const goHome = () => {
-    void navigate('/');
-  };
-
   const today = useMemo(() => {
     return new Date().toISOString().slice(0, 10);
   }, []);
@@ -26,7 +20,9 @@ export const Header = () => {
       <div className="h-16 bg-[#EAF3F4] flex justify-between items-center px-5">
         {/* 왼쪽 로고 + 타이틀 */}
         <div className="flex items-center gap-4">
-          <img onClick={goHome} src={logo} alt="logo" className={`${logoHover} h-7`} />
+          <Link to={ROUTES.ROOT}>
+            <img src={logo} alt="logo" className={`${logoHover} h-7`} />
+          </Link>
           <div className="font-bold">M SYSTEM</div>
         </div>
         {/* 오른쪽 유저 이름 (메박이) + 날짜 */}
