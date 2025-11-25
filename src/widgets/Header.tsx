@@ -17,7 +17,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="h-14 bg-[#EAF3F4] flex justify-between items-center px-5">
+      <div className="h-14 bg-mega-header-blue flex justify-between items-center px-5">
         {/* 왼쪽 로고 + 타이틀 */}
         <div className="flex items-center gap-4">
           <Link to={ROUTES.ROOT}>
@@ -27,7 +27,7 @@ export const Header = () => {
         </div>
         {/* 오른쪽 유저 이름 (메박이) + 날짜 */}
         <div className="flex items-center gap-4">
-          <div className="text-[#5FB3D3] text-xs"> 메박이 </div>
+          <div className="text-mega-blue text-xs"> 메박이 </div>
           <div className="font-light text-sm"> {today} </div>
           <Bell size={18} strokeWidth={3} className={iconHover} />
           <KeyRound size={18} strokeWidth={3} className={iconHover} />
