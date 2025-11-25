@@ -1,5 +1,19 @@
+import { UserCalendar, UserProfile } from '@/features/home';
+import PageLogo from '@/shared/components/ui/PageLogo';
+import ContentsCard from '@/widgets/ui/ContentsCard';
+
 const HomePage = () => {
-  return <div>main</div>;
+  return (
+    <div className=" flex flex-col gap-10 p-15 relative w-full h-screen items-center after:absolute after:bg-mega after:h-[40%] after:w-full after:-z-10 after:top-0 after:left-0">
+      <PageLogo />
+      <div className=" flex gap-6 w-full">
+        <ContentsCard profile={<UserProfile />} title="정경준">
+          {/* TODOS : features 컴포넌트 생성 후 추가 */}
+          <UserCalendar />
+        </ContentsCard>
+      </div>
+    </div>
+  );
 };
 
 export default HomePage;
