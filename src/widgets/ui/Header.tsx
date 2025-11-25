@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Link } from 'react-router';
 
 import { ROUTES } from '../../app/routes/routes';
-import logo from '../shared/assets/logo/Megabox_Logo_Indigo.png';
+import logo from '../../shared/assets/logo/Megabox_Logo_Indigo.png';
 
 export const Header = () => {
   const today = useMemo(() => {
