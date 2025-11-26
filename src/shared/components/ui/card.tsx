@@ -2,12 +2,19 @@ import * as React from 'react';
 
 import { cn } from '@/shared//lib/utils';
 
-function Card({ className, ...props }: React.ComponentProps<'div'>) {
+type CardProps = React.ComponentProps<'div'> & {
+  // default = 기본 white 배경 색상 카드 , blueMain = 연한파란색 배경 색상 카드 , blueSide = 연한 파란색 배경 사이드 카드
+  variant?: 'default' | 'blueMain' | 'blueSide';
+};
+
+function Card({ className, variant = 'default', ...props }: CardProps) {
   return (
     <div
       data-slot="card"
       className={cn(
-        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm w-full',
+        variant === 'blueSide' && 'max-w-1/6 bg-mega-light-blue',
+        variant === 'blueMain' && 'bg-mega-light-blue',
         className,
       )}
       {...props}
