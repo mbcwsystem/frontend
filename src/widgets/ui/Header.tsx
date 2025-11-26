@@ -16,7 +16,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="h-14 bg-mega-header-blue flex justify-between items-center px-5">
+      <div className="fixed top-0 left-0 w-full h-14 bg-mega-header-blue flex justify-between items-center px-5 z-50">
         {/* 왼쪽 로고 + 타이틀 */}
         <div className="flex items-center gap-4">
           <Link to={ROUTES.ROOT}>
