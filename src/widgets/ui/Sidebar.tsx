@@ -15,7 +15,7 @@ export const Sidebar = () => {
   const iconHover = 'transition-all duration-200 hover:bg-mega-blue cursor-pointer';
 
   return (
-    <div className="w-18 h-full bg-mega-gray flex flex-col items-center">
+    <div className="fixed top-14 left-0 bottom-0 w-18 bg-mega-gray flex flex-col items-center z-40">
       <div className="flex items-center justify-center h-20 w-full">
         <Menu size={30} strokeWidth={3} color="white" />
       </div>
