@@ -11,7 +11,7 @@ interface AuthRouteProps extends PropsWithChildren {
 }
 export const AuthRoute = ({ isPublic, children }: AuthRouteProps) => {
   //   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   if (!isPublic && !isAuthenticated) {
     return <Navigate to={ROUTES.LOGIN} replace />;
