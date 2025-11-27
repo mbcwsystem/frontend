@@ -13,7 +13,7 @@ const HomePage = () => {
           <ScheduleList />
         </ContentsCard>
         <div className=" w-full flex flex-col gap-6">
-          <ContentsCard title="급여" className=" w-full" profile={<UserProfile />}></ContentsCard>
+          <ContentsCard title="급여" className=" w-full"></ContentsCard>
           <ContentsCard title="커뮤니티" className=" w-full"></ContentsCard>
         </div>
       </div>
