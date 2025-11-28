@@ -1,4 +1,4 @@
-import { ScheduleList, UserCalendar, UserProfile } from '@/features/home';
+import { PayHeader, ScheduleList, UserCalendar, UserProfile } from '@/features/home';
 import PageLogo from '@/shared/components/ui/PageLogo';
 import ContentsCard from '@/widgets/ui/ContentsCard';
 
@@ -13,7 +13,9 @@ const HomePage = () => {
           <ScheduleList />
         </ContentsCard>
         <div className=" w-full flex flex-col gap-6">
-          <ContentsCard title="급여" className=" w-full"></ContentsCard>
+          <ContentsCard title="급여" className=" w-full">
+            {/* <PayHeader /> */}
+          </ContentsCard>
           <ContentsCard title="커뮤니티" className=" w-full"></ContentsCard>
         </div>
       </div>
