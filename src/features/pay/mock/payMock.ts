@@ -1,4 +1,4 @@
-export const mockPayroll = [
+const mockPayroll = [
   {
     name: "홍길동",
     position: "매니저",
@@ -78,3 +78,5 @@ export const mockPayroll = [
     totalPay: 2450000,
   },
 ];
+
+export default mockPayroll;

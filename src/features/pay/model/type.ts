@@ -1,4 +1,4 @@
-type WorkInfo = {
+export type WorkInfo = {
   days: number;
   holiday: number;
   dailyHours: number;
@@ -7,7 +7,7 @@ type WorkInfo = {
   overtime: number;
 };
 
-type PayInfo = {
+export type PayInfo = {
   base: number;
   overtime: number;
   night: number;
@@ -15,7 +15,7 @@ type PayInfo = {
   bonus: number;
 };
 
-type InsuranceInfo = {
+export type InsuranceInfo = {
   health: number;
   employment: number;
   accident: number;
