@@ -1,6 +1,8 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { useState } from "react";
-import { DropdownSelect } from "../shared/components/ui/dropdown-select";
+import { useState } from 'react';
+
+import { DropdownSelect } from '../shared/components/ui/dropdown-select';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 export default function PayPage() {
   const currentYear = new Date().getFullYear();
@@ -10,7 +12,7 @@ export default function PayPage() {
 
   const years = Array.from(
     { length: currentYear - startYear + 1 },
-    (_, i) => startYear + i
+    (_, i) => startYear + i,
   ).reverse();
 
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -24,7 +26,6 @@ export default function PayPage() {
 
       <Card variant="blueMain">
         <CardContent className="flex items-center gap-5">
-
           <DropdownSelect
             label="급여 연도"
             items={years}
@@ -38,7 +39,6 @@ export default function PayPage() {
             value={selectedMonth}
             onChange={setSelectedMonth}
           />
-
         </CardContent>
       </Card>
     </div>

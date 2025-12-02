@@ -1,5 +1,11 @@
-import { ChevronDown } from "lucide-react";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/shared/components/ui/dropdown-menu";
+import { ChevronDown } from 'lucide-react';
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/shared/components/ui/dropdown-menu';
 
 interface DropdownSelectProps<T> {
   label: string;
@@ -34,11 +40,7 @@ export function DropdownSelect<T extends string | number>({
 
         <DropdownMenuContent className="w-40 max-h-40 overflow-y-auto bg-white p-1 rounded-md shadow-md">
           {items.map((item) => (
-            <DropdownMenuItem
-              key={item}
-              onClick={() => onChange(item)}
-              className="cursor-pointer"
-            >
+            <DropdownMenuItem key={item} onClick={() => onChange(item)} className="cursor-pointer">
               {item}
             </DropdownMenuItem>
           ))}
