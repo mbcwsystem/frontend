@@ -1,7 +1,7 @@
 const mockPayroll = [
   {
-    name: "홍길동",
-    position: "매니저",
+    name: '홍길동',
+    position: '매니저',
     work: {
       days: 20,
       holiday: 1,
@@ -26,8 +26,8 @@ const mockPayroll = [
     totalPay: 2450000,
   },
   {
-    name: "김하늘",
-    position: "크루",
+    name: '김하늘',
+    position: '크루',
     work: {
       days: 22,
       holiday: 2,
@@ -52,8 +52,8 @@ const mockPayroll = [
     totalPay: 2800000,
   },
   {
-    name: "박두철",
-    position: "미화",
+    name: '박두철',
+    position: '미화',
     work: {
       days: 20,
       holiday: 1,

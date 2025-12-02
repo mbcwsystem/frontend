@@ -2,20 +2,19 @@ import { useState } from 'react';
 
 import { DropdownSelect } from '../shared/components/ui/dropdown-select';
 
-import { Card, CardContent } from '@/shared/components/ui/card';
 import { mockPayroll } from '@/features/pay';
 import { UserPosition } from '@/features/pay';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 export default function PayPage() {
-
   const [role, setRole] = useState<'manager' | 'user'>('user');
 
   // 테스트용 user 설정
   const [currentUserName, setCurrentUserName] = useState('김하늘');
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
-  const periodOptions: Array<"연도" | "반기" | "월"> = ["연도", "반기", "월"];
-  const halfOptions = ["상반기 (1~6월)", "하반기 (7~12월)"];
+  const periodOptions: Array<'연도' | '반기' | '월'> = ['연도', '반기', '월'];
+  const halfOptions = ['상반기 (1~6월)', '하반기 (7~12월)'];
 
   const startYear = 2020;
 
@@ -26,10 +25,10 @@ export default function PayPage() {
 
   const months = Array.from({ length: 12 }, (_, month) => month + 1);
 
-  const [periodType, setPeriodType] = useState<"연도" | "반기" | "월">("월");
+  const [periodType, setPeriodType] = useState<'연도' | '반기' | '월'>('월');
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-  const [selectedHalf, setSelectedHalf] = useState("상반기 (1~6월)");
+  const [selectedHalf, setSelectedHalf] = useState('상반기 (1~6월)');
 
   // 일반직 직급 리스트
   const userPositions = ['리더', '크루', '미화'];
@@ -41,9 +40,7 @@ export default function PayPage() {
 
   if (role === 'manager') {
     // 관리직 → 일반직만 보이도록 필터링 (본인 급여도 제외)
-    filteredData = mockPayroll.filter((user) =>
-      userPositions.includes(user.position)
-    );
+    filteredData = mockPayroll.filter((user) => userPositions.includes(user.position));
   } else {
     // 일반직 로그인 → 본인 급여만
     filteredData = mockPayroll.filter((user) => user.name === currentUserName);
@@ -69,7 +66,7 @@ export default function PayPage() {
             onChange={setSelectedYear}
           />
 
-          {periodType === "반기" && (
+          {periodType === '반기' && (
             <DropdownSelect
               label="급여 반기"
               items={halfOptions}
@@ -78,7 +75,7 @@ export default function PayPage() {
             />
           )}
 
-          {periodType === "월" && (
+          {periodType === '월' && (
             <DropdownSelect
               label="급여 월"
               items={months}
@@ -89,10 +86,7 @@ export default function PayPage() {
         </CardContent>
       </Card>
 
-      {role === 'user' && filteredData.length === 1 && (
-        <UserPosition data={filteredData} />
-      )}
-
+      {role === 'user' && filteredData.length === 1 && <UserPosition data={filteredData} />}
     </div>
   );
 }
