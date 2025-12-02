@@ -1,5 +1,11 @@
+import { WorkStatus } from '@/features/work-status';
+
 const WorkStatuspage = () => {
-  return <div>WorkStatuspage</div>;
+  return (
+    <div>
+      <WorkStatus />
+    </div>
+  );
 };
 
 export default WorkStatuspage;
