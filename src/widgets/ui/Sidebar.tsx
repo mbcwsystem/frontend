@@ -34,12 +34,12 @@ export const Sidebar = () => {
       </Link>
 
       {/* 스케쥴 페이지 구현 완료 시 router 연결 */}
-       <Link to={ROUTES.SCHEDULE} className="w-full">
+      {/* <Link to={ROUTES.} className="w-full"> */}
       <div className={`${iconHover} flex flex-col items-center justify-center gap-2 h-20 w-full`}>
         <CalendarCheck2 size={26} strokeWidth={2} color="white" />
         <div className="text-white text-xs">스케쥴</div>
       </div>
-       </Link>
+      {/*</Link>*/}
 
 
       {/* 휴무신청 페이지 구현 완료 시 router 연결 */}

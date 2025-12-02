@@ -3,12 +3,14 @@ import { createBrowserRouter } from 'react-router';
 import { AuthRoute } from './AuthRoute';
 import { ROUTES } from './routes';
 
-import HomePage from '@/pages/HomePage';
+import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
 import SchedulePage from '@/pages/SchedulePage';
 import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
+
+
 
 export const router = createBrowserRouter([
   //public routes
