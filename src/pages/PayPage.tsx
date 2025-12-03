@@ -2,10 +2,9 @@ import { useState } from 'react';
 
 import { DropdownSelect } from '../shared/components/ui/dropdown-select';
 
-import { mockPayroll } from '@/features/pay';
-import { UserPosition } from '@/features/pay';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { mockPayroll, UserPosition, ManagerPositions } from '@/features/pay';
 import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 export default function PayPage() {
   const [role, setRole] = useState<'manager' | 'user'>('user');
@@ -50,8 +49,8 @@ export default function PayPage() {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="text-2xl font-bold">급여현황</div>
-            <div>
-      <div className="flex gap-2">
+      <div>
+        <div className="flex gap-2">
           <Button
             className={`px-3 py-1 border rounded ${
               role === 'manager' ? 'bg-blue-500 text-white' : ''
@@ -109,6 +108,9 @@ export default function PayPage() {
       </Card>
 
       {role === 'user' && filteredData.length === 1 && <UserPosition data={filteredData} />}
+      {role === 'manager' && filteredData.length > 0 && (
+        <ManagerPositions filteredData={filteredData} />
+      )}
     </div>
   );
 }
