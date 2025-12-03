@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import { DropdownSelect } from '../shared/components/ui/dropdown-select';
 
-import { mockPayroll } from '@/features/pay';
-import { UserPosition } from '@/features/pay';
+import { mockPayroll, UserPosition, ManagerPositions } from '@/features/pay';
+import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
 
 export default function PayPage() {
@@ -49,6 +49,27 @@ export default function PayPage() {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="text-2xl font-bold">급여현황</div>
+      <div>
+        <div className="flex gap-2">
+          <Button
+            className={`px-3 py-1 border rounded ${
+              role === 'manager' ? 'bg-blue-500 text-white' : ''
+            }`}
+            onClick={() => setRole('manager')}
+          >
+            관리직 로그인
+          </Button>
+
+          <Button
+            className={`px-3 py-1 border rounded ${
+              role === 'user' ? 'bg-green-900 text-white' : ''
+            }`}
+            onClick={() => setRole('user')}
+          >
+            일반직 로그인
+          </Button>
+        </div>
+      </div>
 
       <Card variant="blueMain">
         <CardContent className="flex items-center gap-5">
@@ -87,6 +108,9 @@ export default function PayPage() {
       </Card>
 
       {role === 'user' && filteredData.length === 1 && <UserPosition data={filteredData} />}
+      {role === 'manager' && filteredData.length > 0 && (
+        <ManagerPositions filteredData={filteredData} />
+      )}
     </div>
   );
 }
