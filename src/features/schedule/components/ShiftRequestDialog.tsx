@@ -1,12 +1,18 @@
 // src/features/schedule/components/ShiftRequestDialog.tsx
 
 import { useState } from 'react';
-// shadcn 경로는 프로젝트에 맞게 수정해줘!
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/shared/components/ui/dialog';
+
 import { Button } from '@/shared/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';
-import { Textarea } from '@/shared/components/ui/textarea';
 import { Label } from '@/shared/components/ui/label';
+import { Textarea } from '@/shared/components/ui/textarea';
 
 export const ShiftRequestDialog = () => {
   const [targetName, setTargetName] = useState('');
@@ -18,7 +24,7 @@ export const ShiftRequestDialog = () => {
     e.preventDefault();
     // TODO: 나중에 여기서 mutation으로 API 호출
     console.log({ targetName, date, timeRange, reason });
-    alert('교대 신청이 임시로 콘솔에 찍혔어요 😄 (나중에 API 연결 예정)');
+    alert('근무 교대 신청이 완료되었습니다 (API 연결해야함)');
   };
 
   return (
@@ -44,12 +50,7 @@ export const ShiftRequestDialog = () => {
 
           <div className="flex flex-col gap-1">
             <Label htmlFor="date">날짜</Label>
-            <Input
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
+            <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           </div>
 
           <div className="flex flex-col gap-1">

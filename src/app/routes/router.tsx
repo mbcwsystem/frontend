@@ -10,8 +10,6 @@ import SchedulePage from '@/pages/SchedulePage';
 import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
 
-
-
 export const router = createBrowserRouter([
   //public routes
   {
@@ -44,9 +42,9 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.PAY,
         element: <PayPage />,
-        },
+      },
       {
-        path: 'schedule',
+        path: ROUTES.SCHEDULE,
         element: <SchedulePage />,
       },
     ],
