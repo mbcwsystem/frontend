@@ -6,4 +6,5 @@ export const ROUTES = {
   PAY: '/pay',
   LOGIN: '/login',
   SCHEDULE: '/schedule',
+  ADMIN_SCHEDULE: '/admin/schedule',
 } as const;

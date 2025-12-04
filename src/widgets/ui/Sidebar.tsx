@@ -33,22 +33,20 @@ export const Sidebar = () => {
         </div>
       </Link>
 
-      {/* 스케쥴 페이지 구현 완료 시 router 연결 */}
-      {/* <Link to={ROUTES.} className="w-full"> */}
-      <div className={`${iconHover} flex flex-col items-center justify-center gap-2 h-20 w-full`}>
-        <CalendarCheck2 size={26} strokeWidth={2} color="white" />
-        <div className="text-white text-xs">스케쥴</div>
-      </div>
-      {/*</Link>*/}
-
+      <Link to={ROUTES.SCHEDULE} className="w-full">
+        <div className={`${iconHover} flex flex-col items-center justify-center gap-2 h-20 w-full`}>
+          <CalendarCheck2 size={26} strokeWidth={2} color="white" />
+          <div className="text-white text-xs">스케쥴</div>
+        </div>
+      </Link>
 
       {/* 휴무신청 페이지 구현 완료 시 router 연결 */}
-      {/* <Link to={ROUTES.} className="w-full"> */}
+      {/*<Link to={`${ROUTES.SCHEDULE}?modal=dayoff`} className="w-full">*/}
       <div className={`${iconHover} flex flex-col items-center justify-center gap-2 h-20 w-full`}>
         <CloudOff size={26} strokeWidth={2} color="white" />
         <div className="text-white text-xs">휴무신청</div>
       </div>
-      {/* </Link> */}
+      {/*</Link>*/}
 
       {/* 커뮤니티 페이지 구현 완료 시 router 연결 */}
       {/* <Link to={ROUTES.} className="w-full"> */}

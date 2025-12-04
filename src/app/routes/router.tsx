@@ -7,10 +7,9 @@ import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
 import SchedulePage from '@/pages/SchedulePage';
+import AdminSchedulePage from '@/pages/AdminSchedulePage';
 import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
-
-
 
 export const router = createBrowserRouter([
   //public routes
@@ -44,10 +43,14 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.PAY,
         element: <PayPage />,
-        },
+      },
       {
-        path: 'schedule',
+        path: ROUTES.SCHEDULE,
         element: <SchedulePage />,
+      },
+      {
+        path: ROUTES.ADMIN_SCHEDULE,
+        element: <AdminSchedulePage />,
       },
     ],
   },
