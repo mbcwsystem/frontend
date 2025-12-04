@@ -12,7 +12,7 @@ const LoginForm = () => {
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      userId: '',
+      username: '',
       password: '',
     },
   });
@@ -29,7 +29,7 @@ const LoginForm = () => {
         onSubmit={(e) => void form.handleSubmit(onSubmit)(e)}
         className="flex flex-col gap-4"
       >
-        <RHFInput form={form} name="userId" placeholder="ID" />
+        <RHFInput form={form} name="username" placeholder="ID" />
 
         <RHFInput form={form} name="password" placeholder="Password" />
 
