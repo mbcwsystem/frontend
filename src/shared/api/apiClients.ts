@@ -4,7 +4,7 @@ import { requestInterceptor } from './interceptors';
 
 import type { ApiResponse } from '../types/apiResponse';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8000';
+const BASE_URL = (import.meta.env.VITE_BASE_URL as string) || 'http://localhost:8000';
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
