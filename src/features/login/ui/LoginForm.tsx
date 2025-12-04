@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
+import { authQueries } from '../api/queries';
 import loginSchema, { type LoginSchemaType } from '../model/schema';
 
 import RHFInput from './RHFinput';
@@ -17,6 +19,8 @@ const LoginForm = () => {
     },
   });
 
+  const { mutate } = useMutation({ ...authQueries.login, onSuccess: () => {} });
+
   const onSubmit = (values: LoginSchemaType) => {
     console.log('Login values:', values);
     // 여기서 API 호출
@@ -31,7 +35,7 @@ const LoginForm = () => {
       >
         <RHFInput form={form} name="username" placeholder="ID" />
 
-        <RHFInput form={form} name="password" placeholder="Password" />
+        <RHFInput type="password" form={form} name="password" placeholder="Password" />
 
         <Button type="submit" className="mt-2 w-full bg-mega">
           로그인
