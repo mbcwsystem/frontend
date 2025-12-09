@@ -19,7 +19,12 @@ const LoginForm = () => {
     },
   });
 
-  const { mutate } = useMutation({ ...authQueries.login, onSuccess: () => {} });
+  const { mutate } = useMutation({
+    ...authQueries.login,
+    onSuccess: () => {
+      // TODOS : 로그인 성공 후 처리
+    },
+  });
 
   const onSubmit = (values: LoginSchemaType) => {
     // console.log('Login values:', values);
