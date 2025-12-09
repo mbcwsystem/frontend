@@ -59,7 +59,7 @@ export default function UserPosition({ data }: UserPositionProps) {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border border-gray-400 border-t-0 rounded-b-md">
             {workHeaders.map((h) => (
-              <div key={h.key} className="p-2 border-r last:border-r-0 border-gray-300 text-center">
+              <div key={h.key} className="p-2 border-r last:border-r-0 border-b border-gray-200 text-center">
                 <div className="text-sm text-gray-700">{h.label}</div>
                 <div className="mt-1 font-semibold text-sm">
                   {user.work[h.key]}
@@ -75,11 +75,11 @@ export default function UserPosition({ data }: UserPositionProps) {
             급여
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 border border-gray-400 border-t-0 rounded-b-md">
+          <div className="flex flex-wrap justify-center border border-gray-400 border-t-0 rounded-b-md">
             {payHeaders.map((h) => (
-              <div key={h.key} className="p-2 border-r last:border-r-0 border-gray-300 text-center">
+              <div key={h.key} className="w-1/2 md:w-1/3 p-2 border-r last:border-r-0 border-b border-gray-200 text-center">
                 <div className="text-sm text-gray-700">{h.label}</div>
-                <div className="mt-1 font-semibold text-sm">
+                <div className="mt-1 font-semibold text-sm break-words">
                   {user.pay[h.key].toLocaleString()}
                 </div>
               </div>
@@ -93,9 +93,9 @@ export default function UserPosition({ data }: UserPositionProps) {
             4대보험
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 border border-gray-400 border-t-0 rounded-b-md">
+          <div className="flex flex-wrap justify-center border border-gray-400 border-t-0 rounded-b-md">
             {insuranceHeaders.map((h) => (
-              <div key={h.key} className="p-2 border-r last:border-r-0 border-gray-300 text-center">
+              <div key={h.key} className="w-1/2 md:w-1/4 p-2 border-r last:border-r-0 border-b border-gray-200 text-center">
                 <div className="text-sm text-gray-700">{h.label}</div>
                 <div className="mt-1 font-semibold text-sm">
                   {user.insurance[h.key].toLocaleString()}

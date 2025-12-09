@@ -8,7 +8,7 @@ interface ManagerPositionsProps {
 
 export default function ManagerPositions({ filteredData }: ManagerPositionsProps) {
   const totals = calculateTotals(filteredData);
-  const defaultStyle = 'border p-2 text-xs';
+  const defaultStyle = 'border p-2 text-[8px]';
 
   const workColumns: { key: keyof WorkInfo; label: string }[] = [
     { key: 'totalWorkHours', label: '총근무시간' },
@@ -44,14 +44,14 @@ export default function ManagerPositions({ filteredData }: ManagerPositionsProps
       <table className="w-full border-collapse border text-sm">
         <thead>
           <tr className="bg-gray-100 text-center">
-            <th rowSpan={2} className={`${defaultStyle} w-20`}>이름</th>
-            <th rowSpan={2} className={`${defaultStyle} w-16`}>직책</th>
+            <th rowSpan={2} className={`${defaultStyle} w-14`}>이름</th>
+            <th rowSpan={2} className={`${defaultStyle} w-10`}>직책</th>
 
             <th colSpan={workColumns.length} className={defaultStyle}>근무시간</th>
             <th colSpan={payColumns.length} className={defaultStyle}>급여</th>
             <th colSpan={insuranceColumns.length} className={defaultStyle}>4대보험</th>
 
-            <th rowSpan={2} className={`${defaultStyle} bg-mega text-white w-24`}>
+            <th rowSpan={2} className={`border p-2 text-[10px] bg-mega text-white w-24`}>
               총 지급액
             </th>
           </tr>
@@ -97,7 +97,7 @@ export default function ManagerPositions({ filteredData }: ManagerPositionsProps
                 </td>
               ))}
 
-              <td className={`${defaultStyle} bg-purple-100 font-semibold`}>
+              <td className={`border p-2 text-[10px] bg-purple-100 font-semibold`}>
                 {manager.paymentAmount.toLocaleString()}
               </td>
             </tr>
@@ -126,7 +126,7 @@ export default function ManagerPositions({ filteredData }: ManagerPositionsProps
               </td>
             ))}
 
-            <td className={`${defaultStyle} bg-mega text-white`}>
+            <td className={`border p-2 text-[10px] bg-mega text-white`}>
               {totals.paymentAmount.toLocaleString()}
             </td>
           </tr>
