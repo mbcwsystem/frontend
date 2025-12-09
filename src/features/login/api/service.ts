@@ -10,7 +10,6 @@ export const authService = {
       data,
     });
     const token = response.data.access_token;
-
     if (token) {
       const setAccessToken = useAuthStore.getState().setAccessToken;
       const setAuth = useAuthStore.getState().setAuth;

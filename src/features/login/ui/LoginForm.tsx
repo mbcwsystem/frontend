@@ -22,8 +22,9 @@ const LoginForm = () => {
   const { mutate } = useMutation({ ...authQueries.login, onSuccess: () => {} });
 
   const onSubmit = (values: LoginSchemaType) => {
-    console.log('Login values:', values);
+    // console.log('Login values:', values);
     // 여기서 API 호출
+    mutate(values);
   };
 
   return (
