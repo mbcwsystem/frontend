@@ -23,6 +23,10 @@ const WorkStatusForm = ({ type }: WorkStatusFormProps) => {
       password: '',
     },
   });
+
+  const handleCheckIn = form.handleSubmit((values: WorkStatusSchemaType) => {
+    console.log(values);
+  });
   const onSubmit = (values: WorkStatusSchemaType) => {
     console.log('Login values:', values);
     // 여기서 API 호출
@@ -44,8 +48,14 @@ const WorkStatusForm = ({ type }: WorkStatusFormProps) => {
 
         {isAttendance ? (
           <>
-            <Button className="w-full">출근</Button>
-            <Button className="w-full" variant="secondary">
+            <Button className="w-full" onClick={(e) => void handleCheckIn(e)}>
+              출근
+            </Button>
+            <Button
+              className="w-full"
+              onClick={(e) => void form.handleSubmit(onSubmit)(e)}
+              variant="secondary"
+            >
               퇴근
             </Button>
           </>

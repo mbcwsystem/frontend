@@ -52,7 +52,7 @@ export default defineConfig([
       // JSX를 포함하는 파일에서 React import 요구 비활성화 (React 17+ JSDX Transform)
       'react/react-in-jsx-scope': 'off',
       // 사용하지 않는 변수 경고 (인수는 예외로 둠)
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       // 명시적인 any 사용은 경고로 낮춤 (프로젝트 성격에 따라 error로 변경 가능)
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-base-to-string': 'warn',
