@@ -1,3 +1,6 @@
+import type { UserPosition, ManagerPosition, Role } from './role';
+
+
 export type WorkInfo = {
   days: number;
   holiday: number;
@@ -24,7 +27,8 @@ export type InsuranceInfo = {
 
 export type UserPayroll = {
   name: string;
-  position: string;
+  role: Role;
+  position: UserPosition | ManagerPosition;
   work: WorkInfo;
   pay: PayInfo;
   insurance: InsuranceInfo;

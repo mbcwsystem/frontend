@@ -1,6 +1,10 @@
-const mockPayroll = [
+import { ROLE } from '../model/role';
+import type { UserPayroll } from '../model/type';
+
+const mockPayroll: UserPayroll[] = [
   {
     name: '홍길동',
+    role: ROLE.MANAGER,
     position: '매니저',
     work: {
       days: 20,
@@ -27,6 +31,7 @@ const mockPayroll = [
   },
   {
     name: '김하늘',
+    role: ROLE.USER,
     position: '크루',
     work: {
       days: 22,
@@ -53,6 +58,7 @@ const mockPayroll = [
   },
   {
     name: '박두철',
+    role: ROLE.USER,
     position: '미화',
     work: {
       days: 20,
