@@ -7,6 +7,7 @@ interface AuthState {
   isAuthenticated: boolean;
   setAccessToken: (token: string | null) => void;
   setAuth: () => void;
+  clearAuth: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -25,9 +26,19 @@ export const useAuthStore = create<AuthState>()(
         set({
           isAuthenticated: true,
         }),
+      clearAuth: () => {
+        set({
+          accessToken: null,
+          isAuthenticated: false,
+        });
+      },
     }),
     {
       name: 'auth-storage',
+      partialize: (state) => ({
+        accessToken: state.accessToken,
+        isAuthenticated: state.isAuthenticated,
+      }),
     },
   ),
 );
