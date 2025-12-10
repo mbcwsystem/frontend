@@ -4,11 +4,14 @@ import '../global/App.css';
 import { router } from '../routes/router';
 
 import QueryProvider from './QueryProvider';
+import ToastProvider from './ToastProvider';
 
 function App() {
   return (
     <QueryProvider>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </QueryProvider>
   );
 }
