@@ -1,19 +1,7 @@
 import { useAuthStore } from '../model/authStore';
 
+import type { ErrorResponse } from '../types/apiResponse';
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-
-// FastAPI 에러 응답 타입 정의
-interface ValidationError {
-  loc: (string | number)[];
-  msg: string;
-  type: string;
-}
-
-// 에러 응답 타입 정의
-interface ErrorResponse {
-  detail?: string | ValidationError[];
-  [key: string]: unknown;
-}
 
 function appendFormData(formData: FormData, key: string, value: unknown) {
   if (value == null) return;

@@ -8,6 +8,7 @@ import loginSchema, { type LoginSchemaType } from '../model/schema';
 
 import RHFInput from './RHFinput';
 
+import { getErrorMessage } from '@/shared/api/error';
 import { Button } from '@/shared/components/ui/button';
 import { Form } from '@/shared/components/ui/form';
 
@@ -24,14 +25,17 @@ const LoginForm = () => {
   const { mutate } = useMutation({
     ...authQueries.login,
     onSuccess: () => {
-      // 로그인 성공 → 페이지 이동
+      // 로그인 성공 -> 페이지 이동
+      void navigate('/');
       console.log('success');
+    },
+    onError: (error) => {
+      const errorMessage = getErrorMessage(error);
+      console.log(errorMessage);
     },
   });
 
   const onSubmit = (values: LoginSchemaType) => {
-    // console.log('Login values:', values);
-    // 여기서 API 호출
     mutate(values);
   };
 
