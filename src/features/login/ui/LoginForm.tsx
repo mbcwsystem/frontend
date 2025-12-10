@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 
 import { authQueries } from '../api/queries';
 import loginSchema, { type LoginSchemaType } from '../model/schema';
@@ -11,6 +12,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Form } from '@/shared/components/ui/form';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -22,7 +24,8 @@ const LoginForm = () => {
   const { mutate } = useMutation({
     ...authQueries.login,
     onSuccess: () => {
-      // TODOS : 로그인 성공 후 처리
+      // 로그인 성공 → 페이지 이동
+      console.log('success');
     },
   });
 
