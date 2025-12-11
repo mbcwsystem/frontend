@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useSearchParams, Link } from 'react-router';
+import { ROUTES } from '@/app/routes/routes';
+
 
 import {
   ShiftRequestModal,
@@ -8,6 +10,7 @@ import {
   ScheduleTable,
   mockShifts,
 } from '@/features/schedule';
+import { Shield } from 'lucide-react';
 
 const SchedulePage = () => {
   const [, setWeekOffset] = useState(0);
@@ -32,7 +35,13 @@ const SchedulePage = () => {
       <div className="mb-2 flex items-center justify-between">
         <h1 className="text-xl font-bold">스케줄</h1>
         <div className="flex items-center gap-3">
-          {/*<AdminSchedule />*/}
+          {/* 관리자 페이지 버튼 */}
+          <Link to={ROUTES.ADMIN_SCHEDULE}>
+            <button className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-[#351F66] text-[#351F66] hover:bg-[#f3eaff] p-0">
+              <Shield className="h-5 w-5" />
+            </button>
+          </Link>
+          {/* 모달 버튼들 */}
           <ShiftRequestModal />
           <DayoffRequestModal open={dayoffModalOpen} setOpen={setDayoffModalOpen} />
         </div>
