@@ -7,3 +7,6 @@ export * from './ui/ScheduleControls';
 export * from './ui/ScheduleTable';
 
 export * from './ui/AdminSchedule.tsx'
+export * from './ui/AdminSchduleDayoff.tsx'
+export * from './ui/AdminSchduleShift.tsx'
+
