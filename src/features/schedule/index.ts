@@ -5,3 +5,5 @@ export * from './ui/DayoffRequestModal';
 
 export * from './ui/ScheduleControls';
 export * from './ui/ScheduleTable';
+
+export * from './ui/AdminSchedule.tsx'
