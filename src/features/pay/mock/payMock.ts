@@ -1,4 +1,5 @@
 import { ROLE } from '../model/role';
+
 import type { UserPayroll } from '../model/type';
 
 const mockPayroll: UserPayroll[] = [

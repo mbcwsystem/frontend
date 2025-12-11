@@ -1,9 +1,6 @@
 import type { UserPayroll, WorkInfo, PayInfo, InsuranceInfo } from './type';
 
-function sumFields<T extends Record<string, number>>(
-  target: T,
-  source: Partial<T>,
-): void {
+function sumFields<T extends Record<string, number>>(target: T, source: Partial<T>): void {
   for (const key in target) {
     const value = source[key] ?? 0;
     // number 타입만 받기
