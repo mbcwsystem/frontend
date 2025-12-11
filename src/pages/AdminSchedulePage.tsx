@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { Menu } from 'lucide-react';
+import { useState } from 'react';
 
 import {
-  AdminSchedule,        // 근무 스케줄 입력
-  AdminScheduleShift,   // 근무교대/대체근무
-  AdminScheduleDayoff,  // 휴무신청
+  AdminSchedule, // 근무 스케줄 입력
+  AdminScheduleShift, // 근무교대/대체근무
+  AdminScheduleDayoff, // 휴무신청
 } from '@/features/schedule';
 
 type AdminTab = 'base' | 'shift' | 'dayoff';
@@ -47,11 +47,7 @@ const AdminSchedulePage = () => {
               <Menu className="h-5 w-5 text-gray-900" />
               <p className="text-sm font-bold text-gray-900">목록</p>
             </div>
-            <button
-              type="button"
-              className={menuItemClass('base')}
-              onClick={() => setTab('base')}
-            >
+            <button type="button" className={menuItemClass('base')} onClick={() => setTab('base')}>
               근무 스케줄 입력
             </button>
 
@@ -74,9 +70,7 @@ const AdminSchedulePage = () => {
         </aside>
 
         {/* 오른쪽 */}
-        <section className="flex-1">
-          {renderContent()}
-        </section>
+        <section className="flex-1">{renderContent()}</section>
       </div>
     </div>
   );

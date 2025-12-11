@@ -3,11 +3,11 @@ import { createBrowserRouter } from 'react-router';
 import { AuthRoute } from './AuthRoute';
 import { ROUTES } from './routes';
 
+import AdminSchedulePage from '@/pages/AdminSchedulePage';
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
 import SchedulePage from '@/pages/SchedulePage';
-import AdminSchedulePage from '@/pages/AdminSchedulePage';
 import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
 

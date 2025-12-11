@@ -1,7 +1,6 @@
+import { Shield } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router';
-import { ROUTES } from '@/app/routes/routes';
-
+import { useSearchParams, Link, useLocation } from 'react-router';
 
 import {
   ShiftRequestModal,
@@ -10,10 +9,12 @@ import {
   ScheduleTable,
   mockShifts,
 } from '@/features/schedule';
-import { Shield } from 'lucide-react';
+import { ROUTES } from '@/shared/config/routes';
 
 const SchedulePage = () => {
   const [, setWeekOffset] = useState(0);
+
+  const location = useLocation();
 
   const [searchParams] = useSearchParams();
   const [dayoffModalOpen, setDayoffModalOpen] = useState(false);

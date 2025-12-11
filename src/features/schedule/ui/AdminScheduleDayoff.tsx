@@ -1,9 +1,4 @@
-import {
-  Calendar,
-  LucideCheckCircle,
-  XCircle,
-  Clock,
-} from 'lucide-react';
+import { Calendar, LucideCheckCircle, XCircle, Clock } from 'lucide-react';
 
 type RequestType = 'DAYOFF' | 'SHIFT_CHANGE' | 'SHIFT_REPLACE';
 type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
@@ -68,9 +63,7 @@ export const AdminScheduleDayoff = ({ className = '' }: AdminScheduleProps) => {
   };
 
   return (
-    <section
-      className={`p-6 bg-white rounded-xl border border-gray-200 shadow-sm ${className}`}
-    >
+    <section className={`p-6 bg-white rounded-xl border border-gray-200 shadow-sm ${className}`}>
       {/* 상단 타이틀 */}
       <header className="mb-4 flex flex-col gap-2">
         <div className="flex items-center gap-2">
@@ -132,26 +125,19 @@ const StatusBadge = ({ status }: { status: RequestStatus }) => {
 
 const RequestCard = ({ req, handleApprove, handleReject }: RequestCardProps) => {
   const typeStyles =
-    req.type === 'DAYOFF'
-      ? 'bg-[#FDECEC] text-[#C53030]'
-      : 'bg-[#E5F0FF] text-[#1D4ED8]';
+    req.type === 'DAYOFF' ? 'bg-[#FDECEC] text-[#C53030]' : 'bg-[#E5F0FF] text-[#1D4ED8]';
 
   return (
     <article className="w-[420px] rounded-[20px] border border-[#E5E7EB] bg-white p-5 shadow-[0_4px_8px_rgba(15,23,42,0.03)]">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-bold text-gray-900">
-            {req.applicantName}
-          </span>
-          <span
-            className={`rounded-full px-2 py-[2px] text-[11px] font-semibold ${typeStyles}`}
-          >
+          <span className="text-sm font-bold text-gray-900">{req.applicantName}</span>
+          <span className={`rounded-full px-2 py-[2px] text-[11px] font-semibold ${typeStyles}`}>
             {TYPE_LABEL[req.type]}
           </span>
         </div>
         <StatusBadge status={req.status} />
       </div>
-
 
       {/* 본문 카드 */}
       <div className="mb-4 space-y-1 text-[13px] text-gray-800">
@@ -163,51 +149,46 @@ const RequestCard = ({ req, handleApprove, handleReject }: RequestCardProps) => 
         {(req.type === 'SHIFT_CHANGE' || req.type === 'SHIFT_REPLACE') && (
           <>
             {req.targetName && (
-              <p className="text-[13px] text-gray-700">
-                대상 직원: {req.targetName}
-              </p>
+              <p className="text-[13px] text-gray-700">대상 직원: {req.targetName}</p>
             )}
             {req.targetDate && (
-              <p className="text-[13px] text-gray-700">
-                대상 일자: {req.targetDate}
-              </p>
+              <p className="text-[13px] text-gray-700">대상 일자: {req.targetDate}</p>
             )}
           </>
         )}
 
         {/* 사유 */}
-        {req.reason && (
-          <p className="text-[13px] text-gray-700">신청 사유: {req.reason}</p>
+        {req.reason && <p className="text-[13px] text-gray-700">신청 사유: {req.reason}</p>}
+      </div>
+      {/* 반려/승인 버튼 */}
+      {/* 승인됨/반려됨 상태면 버튼 숨김 */}
+      <div className="mt-2 flex items-center justify-between">
+        <div />
+
+        {req.status === 'PENDING' && (
+          <div className="flex gap-2 text-xs">
+            {/* 반려 버튼 */}
+            <button
+              type="button"
+              onClick={() => handleReject(req)}
+              className="flex items-center gap-1 h-8 rounded-[8px] border border-gray-800 bg-transparent px-4 text-[11px] font-semibold text-gray-800 hover:bg-gray-100 transition-colors"
+            >
+              <XCircle className="h-3 w-3 text-gray-800" />
+              반려
+            </button>
+
+            {/* 승인 버튼 */}
+            <button
+              type="button"
+              onClick={() => handleApprove(req)}
+              className="flex items-center gap-1 h-8 rounded-[8px] bg-[#59BEC9] px-4 text-[11px] font-semibold text-white hover:bg-[#0369A1] transition-colors"
+            >
+              <LucideCheckCircle className="h-3 w-3" />
+              승인
+            </button>
+          </div>
         )}
       </div>
-        {/* 반려/승인 버튼 */}
-        {/* 승인됨/반려됨 상태면 버튼 숨김 */}
-        <div className="mt-2 flex items-center justify-between"><div />
-
-          {req.status === "PENDING" && (
-            <div className="flex gap-2 text-xs">
-              {/* 반려 버튼 */}
-              <button
-                type="button"
-                onClick={() => handleReject(req)}
-                className="flex items-center gap-1 h-8 rounded-[8px] border border-gray-800 bg-transparent px-4 text-[11px] font-semibold text-gray-800 hover:bg-gray-100 transition-colors"
-              >
-                <XCircle className="h-3 w-3 text-gray-800" />
-                반려
-              </button>
-
-              {/* 승인 버튼 */}
-              <button
-                type="button"
-                onClick={() => handleApprove(req)}
-                className="flex items-center gap-1 h-8 rounded-[8px] bg-[#59BEC9] px-4 text-[11px] font-semibold text-white hover:bg-[#0369A1] transition-colors"
-              >
-                <LucideCheckCircle className="h-3 w-3" />
-                승인
-              </button>
-            </div>
-          )}
-        </div>
     </article>
   );
 };
