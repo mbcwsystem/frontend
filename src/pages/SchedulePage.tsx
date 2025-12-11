@@ -1,6 +1,6 @@
 import { Shield } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link, useLocation } from 'react-router';
+import { useSearchParams, Link } from 'react-router';
 
 import {
   ShiftRequestModal,
@@ -9,12 +9,9 @@ import {
   ScheduleTable,
   mockShifts,
 } from '@/features/schedule';
-import { ROUTES } from '@/shared/config/routes';
 
 const SchedulePage = () => {
   const [, setWeekOffset] = useState(0);
-
-  const location = useLocation();
 
   const [searchParams] = useSearchParams();
   const [dayoffModalOpen, setDayoffModalOpen] = useState(false);
@@ -22,7 +19,7 @@ const SchedulePage = () => {
   useEffect(() => {
     const modal = searchParams.get('modal');
     setDayoffModalOpen(modal === 'dayoff');
-  }, [location.search, searchParams]);
+  }, [searchParams]);
 
   const handlePrevWeek = () => setWeekOffset((prev) => prev - 1);
   const handleNextWeek = () => setWeekOffset((prev) => prev + 1);
@@ -36,8 +33,8 @@ const SchedulePage = () => {
       <div className="mb-2 flex items-center justify-between">
         <h1 className="text-xl font-bold">스케줄</h1>
         <div className="flex items-center gap-3">
-          {/* 관리자 페이지 버튼 */}
-          <Link to={ROUTES.ADMIN_SCHEDULE}>
+          {/*관리자 페이지 버튼 */}
+          <Link to="/admin/schedule">
             <button className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-[#351F66] text-[#351F66] hover:bg-[#f3eaff] p-0">
               <Shield className="h-5 w-5" />
             </button>
