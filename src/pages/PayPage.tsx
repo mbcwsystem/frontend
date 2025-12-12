@@ -2,12 +2,14 @@ import { useState } from 'react';
 
 import { DropdownSelect } from '../shared/components/ui/dropdown-select';
 
-import { mockPayroll } from '@/features/pay';
-import { UserPosition } from '@/features/pay';
+import { mockPayroll, UserPosition, ManagerPositions } from '@/features/pay';
+import { ROLE, type Role } from '@/features/pay/model/role';
+import { isUserPosition } from '@/features/pay/model/role';
+import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
 
 export default function PayPage() {
-  const [role, setRole] = useState<'manager' | 'user'>('user');
+  const [role, setRole] = useState<Role>(ROLE.USER);
 
   // 테스트용 user 설정
   const [currentUserName, setCurrentUserName] = useState('김하늘');
@@ -30,17 +32,11 @@ export default function PayPage() {
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [selectedHalf, setSelectedHalf] = useState('상반기 (1~6월)');
 
-  // 일반직 직급 리스트
-  const userPositions = ['리더', '크루', '미화'];
-
-  // 관리직 직급 리스트
-  // const managerPositions = ['점장', '바이저', '매니저'];
-
   let filteredData = [];
 
-  if (role === 'manager') {
+  if (role === ROLE.MANAGER) {
     // 관리직 → 일반직만 보이도록 필터링 (본인 급여도 제외)
-    filteredData = mockPayroll.filter((user) => userPositions.includes(user.position));
+    filteredData = mockPayroll.filter((user) => isUserPosition(user.position));
   } else {
     // 일반직 로그인 → 본인 급여만
     filteredData = mockPayroll.filter((user) => user.name === currentUserName);
@@ -49,9 +45,30 @@ export default function PayPage() {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="text-2xl font-bold">급여현황</div>
+      <div>
+        <div className="flex gap-2">
+          <Button
+            className={`px-3 py-1 border rounded ${
+              role === ROLE.MANAGER ? 'bg-blue-500 text-white' : ''
+            }`}
+            onClick={() => setRole(ROLE.MANAGER)}
+          >
+            관리직 로그인
+          </Button>
+
+          <Button
+            className={`px-3 py-1 border rounded ${
+              role === ROLE.USER ? 'bg-green-900 text-white' : ''
+            }`}
+            onClick={() => setRole(ROLE.USER)}
+          >
+            일반직 로그인
+          </Button>
+        </div>
+      </div>
 
       <Card variant="blueMain">
-        <CardContent className="flex items-center gap-5">
+        <CardContent className="flex flex-col md:flex-row md:items-center gap-5 w-full">
           <DropdownSelect
             label="조회 기준"
             items={periodOptions}
@@ -86,7 +103,10 @@ export default function PayPage() {
         </CardContent>
       </Card>
 
-      {role === 'user' && filteredData.length === 1 && <UserPosition data={filteredData} />}
+      {role === ROLE.USER && filteredData.length === 1 && <UserPosition data={filteredData} />}
+      {role === ROLE.MANAGER && filteredData.length > 0 && (
+        <ManagerPositions filteredData={filteredData} />
+      )}
     </div>
   );
 }
