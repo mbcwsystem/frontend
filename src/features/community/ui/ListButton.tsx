@@ -15,7 +15,9 @@ export default function ListButton({ label, to }: ListButtonProps) {
     <Link to={to} className="flex items-center gap-1 cursor-pointer">
       <div className="text-2xl pb-1">•</div>
 
-      <div className={`text-[14px] ${isActive ? 'font-bold underline underline-offset-4' : ''}`}>
+      <div
+        className={`text-xs sm:text-sm ${isActive ? 'font-bold underline underline-offset-4' : ''}`}
+      >
         {label}
       </div>
     </Link>
