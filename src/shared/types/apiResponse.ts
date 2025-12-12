@@ -1,26 +1,12 @@
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string | null;
-  status: number;
-  data: T;
+// 에러 응답 타입 정의
+export interface ErrorResponse {
+  detail?: string | ValidationError[];
+  [key: string]: unknown;
 }
 
-export interface ApiErrorResponse {
-  success: false;
-  message: string;
-  status: number;
-  errorDetails: ErrorDetails;
-}
-
-export interface ErrorDetails {
-  errorName: string;
-  errors: ValidationError[];
-  errorUri: string;
-  httpMethod: string;
-  timestamp: string;
-}
-
+// FastAPI 에러 응답 타입 정의
 export interface ValidationError {
-  field: string;
-  message: string;
+  loc: (string | number)[];
+  msg: string;
+  type: string;
 }

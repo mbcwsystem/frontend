@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router';
 
+import { ROUTES } from '../../shared/constants/routes';
+
 import { AuthRoute } from './AuthRoute';
-import { ROUTES } from './routes';
 
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';

@@ -2,8 +2,8 @@ import { Bell, KeyRound, Lock, CirclePlus } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link } from 'react-router';
 
-import { ROUTES } from '../../app/routes/routes';
 import logo from '../../shared/assets/logo/Megabox_Logo_Indigo.png';
+import { ROUTES } from '../../shared/constants/routes';
 
 export const Header = () => {
   const today = useMemo(() => {

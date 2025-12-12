@@ -1,8 +1,9 @@
 export interface LoginRequestDTO {
-  userId: string;
+  username: string;
   password: string;
 }
 
 export interface LoginResponseDTO {
-  accessToken: string;
+  access_token: string;
+  token_type: string;
 }
