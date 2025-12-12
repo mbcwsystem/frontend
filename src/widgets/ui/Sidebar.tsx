@@ -58,10 +58,10 @@ export const Sidebar = () => {
       {/* </Link> */}
 
       <Link to={ROUTES.COMMUNITY} className="w-full">
-      <div className={`${iconHover} flex flex-col items-center justify-center gap-2 h-20 w-full`}>
-        <MessageSquare size={26} strokeWidth={2} color="white" />
-        <div className="text-white text-xs">커뮤니티</div>
-      </div>
+        <div className={`${iconHover} flex flex-col items-center justify-center gap-2 h-20 w-full`}>
+          <MessageSquare size={26} strokeWidth={2} color="white" />
+          <div className="text-white text-xs">커뮤니티</div>
+        </div>
       </Link>
     </div>
   );
