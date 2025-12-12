@@ -68,7 +68,7 @@ export default function PayPage() {
       </div>
 
       <Card variant="blueMain">
-        <CardContent className="flex items-center gap-5">
+        <CardContent className="flex flex-col md:flex-row md:items-center gap-5 w-full">
           <DropdownSelect
             label="조회 기준"
             items={periodOptions}

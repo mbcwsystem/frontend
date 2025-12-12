@@ -12,6 +12,7 @@ interface DropdownSelectProps<T> {
   items: T[];
   value: T;
   onChange: (value: T) => void;
+  className?: string;
 }
 
 export function DropdownSelect<T extends string | number>({
@@ -22,14 +23,14 @@ export function DropdownSelect<T extends string | number>({
 }: DropdownSelectProps<T>) {
   return (
     <div className="flex items-center gap-3">
-      <div className="font-bold">{label}</div>
+      <div className="font-bold min-w-15">{label}</div>
 
       <DropdownMenu>
         <DropdownMenuTrigger>
           <button
             className="
               flex items-center justify-between 
-              w-40 px-4 py-2
+              w-full min-w-28 px-4 py-2
               border rounded-md bg-white
             "
           >
