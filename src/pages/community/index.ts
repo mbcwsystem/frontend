@@ -1,0 +1,1 @@
+export { default as Communiity } from './ui/Community';

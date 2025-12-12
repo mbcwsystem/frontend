@@ -9,6 +9,7 @@ import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
 import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
+import { Communiity } from '@/pages/community';
 
 export const router = createBrowserRouter([
   //public routes
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.PAY,
         element: <PayPage />,
+      },
+      {
+        path: ROUTES.COMMUNITY,
+        element: <Communiity />,
       },
     ],
   },

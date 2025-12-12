@@ -57,13 +57,12 @@ export const Sidebar = () => {
       </div>
       {/* </Link> */}
 
-      {/* 커뮤니티 페이지 구현 완료 시 router 연결 */}
-      {/* <Link to={ROUTES.} className="w-full"> */}
+      <Link to={ROUTES.COMMUNITY} className="w-full">
       <div className={`${iconHover} flex flex-col items-center justify-center gap-2 h-20 w-full`}>
         <MessageSquare size={26} strokeWidth={2} color="white" />
         <div className="text-white text-xs">커뮤니티</div>
       </div>
-      {/* </Link> */}
+      </Link>
     </div>
   );
 };
