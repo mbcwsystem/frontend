@@ -1,7 +1,14 @@
+import { freeBoardList } from "@/features/community/mock/freeboardMock";
+import BoardPage from "@/features/community/ui/BoardPage";
+
 export default function FreeboardPage() {
+
   return (
-    <>
-      <div>자유게시판</div>
-    </>
+      <BoardPage
+            title="자유게시판"
+            icon="📋"
+            list={freeBoardList}
+            canWrite={true}
+          />
   );
 }
