@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-interface NoticeModalProps {
+interface WriteModalProps {
   onClose: () => void;
   onSubmit: (data: { title: string; content: string }) => void;
 }
 
-export default function NoticeModal({ onClose, onSubmit }: NoticeModalProps) {
+export default function WriteModal({ onClose, onSubmit }: WriteModalProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 

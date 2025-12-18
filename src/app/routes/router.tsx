@@ -8,6 +8,7 @@ import {
   Communiity,
   DayoffPage,
   FreeboardPage,
+  FreeBoardDetail,
   NoticePage,
   NoticeDetail,
   ShiftPage,
@@ -76,7 +77,10 @@ export const router = createBrowserRouter([
           },
           {
             path: 'freeboard',
-            element: <FreeboardPage />,
+            children: [
+              { index: true, element: <FreeboardPage /> },
+              { path: ':id', element: <FreeBoardDetail /> },
+            ],
           },
         ],
       },
