@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 
 import { noticeList } from '@/features/community/mock/noticeMock';
+import NoticeModal from '@/features/community/ui/NoticeModal';
 
 // 한 페이지에 최대 글 목록 수
 const MAX_ITEMS = 10;
@@ -35,13 +36,11 @@ export default function NoticePage() {
             placeholder="검색어를 입력하세요"
             className="border px-3 py-1 rounded-2xl text-sm"
           />
-          {/* 공지사항 작성 모달 추가하기 */}
           <button onClick={() => setIsOpen(true)} className="px-4 py-1 bg-mega text-white rounded">
             작성
           </button>
 
-          {/* 공지사항 작성 모달 추가하기 */}
-          {/* {isOpen && <NoticeModal onClose={() => setIsOpen(false)} onSubmit={handleSubmit} />} */}
+          {isOpen && <NoticeModal onClose={() => setIsOpen(false)} onSubmit={handleSubmit} />}
         </div>
       </div>
 
