@@ -9,6 +9,7 @@ import {
   DayoffPage,
   FreeboardPage,
   NoticePage,
+  NoticeDetail,
   ShiftPage,
 } from '@/pages/community';
 import { HomePage } from '@/pages/home';
@@ -16,6 +17,7 @@ import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
 import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
+
 
 export const router = createBrowserRouter([
   //public routes
@@ -62,8 +64,7 @@ export const router = createBrowserRouter([
             path: 'notice',
             children: [
               { index: true, element: <NoticePage /> },
-              // 공지사항 상세 페이지 추가
-              // { path: ':id', element: <NoticeDetail /> },
+              { path: ':id', element: <NoticeDetail /> },
             ],
           },
           {
