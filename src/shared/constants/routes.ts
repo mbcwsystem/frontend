@@ -5,4 +5,5 @@ export const ROUTES = {
   AUTH: '/auth',
   PAY: '/pay',
   LOGIN: '/login',
+  WORK_STATUS: '/work-status',
 } as const;
