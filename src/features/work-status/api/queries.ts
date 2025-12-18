@@ -1,7 +1,9 @@
 import { workStatusService } from './service';
 
+import type { WorkAction } from './dto';
+
 export const workStatusQueries = {
-  checkIn: {
-    mutationFn: workStatusService.checkIn,
-  },
+  workStatus: (action: WorkAction) => ({
+    mutationFn: () => workStatusService.changeStatus(action),
+  }),
 };

@@ -1,4 +1,5 @@
-// Attendance 공통 Request DTO
+export type WorkAction = 'CHECK_IN' | 'CHECK_OUT' | 'BREAK_START' | 'BREAK_END'; // Attendance 공통 Request DTO
+
 export interface WorkStatusRequestDTO {
   username: string;
   password: string;
