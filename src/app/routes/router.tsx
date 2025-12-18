@@ -4,7 +4,13 @@ import { ROUTES } from '../../shared/constants/routes';
 
 import { AuthRoute } from './AuthRoute';
 
-import { Communiity, DayoffPage, FreeboardPage, NoticePage, ShiftPage } from '@/pages/community';
+import {
+  Communiity,
+  DayoffPage,
+  FreeboardPage,
+  NoticePage,
+  ShiftPage,
+} from '@/pages/community';
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
@@ -54,7 +60,11 @@ export const router = createBrowserRouter([
           },
           {
             path: 'notice',
-            element: <NoticePage />,
+            children: [
+              { index: true, element: <NoticePage /> },
+              // 공지사항 상세 페이지 추가
+              // { path: ':id', element: <NoticeDetail /> },
+            ],
           },
           {
             path: 'shift',
