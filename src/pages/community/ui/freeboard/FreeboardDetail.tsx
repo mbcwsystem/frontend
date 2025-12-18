@@ -1,8 +1,8 @@
+import { useParams } from 'react-router';
+
 import { freeBoardList } from '@/features/community/mock/freeboardMock';
 import BoardDetail from '@/features/community/ui/BoardDetail';
 import CommentSection from '@/features/community/ui/comment/CommentSection';
-import { useParams } from 'react-router';
-
 
 export default function FreeBoardDetail() {
   const { id } = useParams<{ id: string }>();

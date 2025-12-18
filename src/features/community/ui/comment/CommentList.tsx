@@ -1,5 +1,6 @@
-import type { Comment } from '@/features/community/mock/commentMock';
 import CommentItem from './CommentItem';
+
+import type { Comment } from '../../mock/commentMock';
 
 interface CommentListProps {
   comments: Comment[];

@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import type { Comment } from '@/features/community/mock/commentMock';
-import { commentMockList } from '@/features/community/mock/commentMock';
-import CommentItem from './CommentItem';
+
+import { commentMockList } from '../../mock/commentMock';
+
 import CommentForm from './CommentForm';
+import CommentItem from './CommentItem';
+
+import type { Comment } from '../../mock/commentMock';
 
 interface CommentSectionProps {
   postId: number;
@@ -10,15 +13,9 @@ interface CommentSectionProps {
   currentUserId: number;
 }
 
-export default function CommentSection({
-  postId,
-  postType,
-  currentUserId,
-}: CommentSectionProps) {
+export default function CommentSection({ postId, postType, currentUserId }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>(
-    commentMockList.filter(
-    (c) => c.post_id === postId && c.post_type === postType,
-  ),
+    commentMockList.filter((c) => c.post_id === postId && c.post_type === postType),
   );
 
   const handleCreate = (content: string) => {
@@ -42,9 +39,7 @@ export default function CommentSection({
 
   const handleUpdate = (id: number, content: string) => {
     setComments((prev) =>
-      prev.map((c) =>
-        c.id === id ? { ...c, content, updated_at: new Date().toISOString() } : c,
-      ),
+      prev.map((c) => (c.id === id ? { ...c, content, updated_at: new Date().toISOString() } : c)),
     );
   };
 

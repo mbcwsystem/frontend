@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
 import { useParams } from 'react-router';
+
+import type { ReactNode } from 'react';
 
 interface BoardItem {
   id: number;
@@ -22,7 +23,7 @@ export default function BoardDetail({
   icon,
   list,
   notFoundMessage = '존재하지 않는 게시글입니다.',
-  children
+  children,
 }: BoardDetailProps) {
   const { id } = useParams();
 
@@ -49,12 +50,8 @@ export default function BoardDetail({
         </div>
       </div>
 
-      <div className="whitespace-pre-line leading-7 text-sm px-2">
-        {item.content}
-      </div>
-      <div className='pt-20'>
-      {children}
-      </div>
+      <div className="whitespace-pre-line leading-7 text-sm px-2">{item.content}</div>
+      <div className="pt-20">{children}</div>
     </div>
   );
 }

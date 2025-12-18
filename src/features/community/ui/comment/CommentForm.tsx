@@ -21,10 +21,7 @@ export default function CommentForm({ onSubmit }: CommentFormProps) {
         className="flex-1 border rounded p-2 text-sm bg-white"
         placeholder="댓글을 입력하세요"
       />
-      <button
-        onClick={handleSubmit}
-        className="px-4 bg-mega text-white rounded"
-      >
+      <button onClick={handleSubmit} className="px-4 bg-mega text-white rounded">
         등록
       </button>
     </div>
