@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 
-import { noticeList } from '@/features/community/mock/noticeMock';
+import { communityPostList } from '@/features/community/mock/communityMock';
 import BoardDetail from '@/features/community/ui/BoardDetail';
 import CommentSection from '@/features/community/ui/comment/CommentSection';
 
@@ -10,6 +10,8 @@ export default function NoticeDetail() {
   if (!id) {
     return <div>잘못된 접근입니다.</div>;
   }
+
+  const noticeList = communityPostList.filter((post) => post.category === 'NOTICE');
 
   return (
     <BoardDetail

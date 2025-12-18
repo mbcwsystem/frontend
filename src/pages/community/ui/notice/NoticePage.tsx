@@ -1,4 +1,4 @@
-import { noticeList } from '@/features/community/mock/noticeMock';
+import { communityPostList } from '@/features/community/mock/communityMock';
 import BoardPage from '@/features/community/ui/BoardPage';
 import WriteModal from '@/features/community/ui/WriteModal';
 import { ROLE } from '@/features/pay/model/role';
@@ -8,6 +8,8 @@ export default function NoticePage() {
   const user = {
     role: ROLE.MANAGER,
   };
+
+  const noticeList = communityPostList.filter((post) => post.category === 'NOTICE');
 
   return (
     <BoardPage

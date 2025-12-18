@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 
-import { freeBoardList } from '@/features/community/mock/freeboardMock';
+import { communityPostList } from '@/features/community/mock/communityMock';
 import BoardDetail from '@/features/community/ui/BoardDetail';
 import CommentSection from '@/features/community/ui/comment/CommentSection';
 
@@ -10,6 +10,8 @@ export default function FreeBoardDetail() {
   if (!id) {
     return <div>잘못된 접근입니다.</div>;
   }
+
+  const freeBoardList = communityPostList.filter((post) => post.category === 'FREE');
 
   return (
     <BoardDetail

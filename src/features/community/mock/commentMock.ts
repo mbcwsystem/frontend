@@ -26,7 +26,7 @@ export const commentMockList: Comment[] = [
   },
   {
     id: 2,
-    post_id: 3,
+    post_id: 12,
     post_type: 'freeboard',
     author_id: 2,
     author_name: '익명',
