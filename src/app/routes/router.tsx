@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, Navigate } from 'react-router';
 
 import { ROUTES } from '../../shared/constants/routes';
 
@@ -17,7 +17,6 @@ import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
 import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
-
 
 export const router = createBrowserRouter([
   //public routes
@@ -58,7 +57,7 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <div>커뮤니티 메인입니다.</div>,
+            element: <Navigate to="notice" replace />,
           },
           {
             path: 'notice',

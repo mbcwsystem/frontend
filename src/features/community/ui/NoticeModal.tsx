@@ -61,4 +61,3 @@ export default function NoticeModal({ onClose, onSubmit }: NoticeModalProps) {
     </div>
   );
 }
-
