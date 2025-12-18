@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 import { noticeList } from '@/features/community/mock/noticeMock';
 import NoticeModal from '@/features/community/ui/NoticeModal';
+import { ROLE } from '@/features/pay/model/role';
 
 // 한 페이지에 최대 글 목록 수
 const MAX_ITEMS = 10;
@@ -10,6 +11,11 @@ const MAX_ITEMS = 10;
 export default function NoticePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+
+  // 임의로 매니저로 설정 해두기
+  const user = {
+    role: ROLE.MANAGER,
+  };
 
   const handleSubmit = (data: { title: string; content: string }) => {
     console.log(data);
@@ -36,9 +42,15 @@ export default function NoticePage() {
             placeholder="검색어를 입력하세요"
             className="border px-3 py-1 rounded-2xl text-sm"
           />
-          <button onClick={() => setIsOpen(true)} className="px-4 py-1 bg-mega text-white rounded">
-            작성
-          </button>
+          {/* 매니저급 유저만 활성화 */}
+          {user.role === ROLE.MANAGER && (
+            <button
+              onClick={() => setIsOpen(true)}
+              className="px-4 py-1 bg-mega text-white rounded"
+            >
+              작성
+            </button>
+          )}
 
           {isOpen && <NoticeModal onClose={() => setIsOpen(false)} onSubmit={handleSubmit} />}
         </div>
