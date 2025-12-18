@@ -23,7 +23,7 @@ export default function Communiity() {
             </div>
           </CardContent>
         </Card>
-        <Card variant="blueMain" className="min-h-140">
+        <Card variant="blueMain" className="min-h-140 mb-10">
           <CardContent>
             <Outlet />
           </CardContent>
