@@ -1,13 +1,45 @@
 export type PostCategory = 'FREE' | 'NOTICE' | 'SHIFT' | 'DAYOFF';
+export type ApprovalStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+export type ShiftType = 'SWAP' | 'REPLACE';
 
-export interface CommunityPost {
+interface BasePost {
   id: number;
-  category: PostCategory;
   title: string;
   author: string;
   createdAt: string;
   content: string;
 }
+
+export interface NoticePost extends BasePost {
+  category: 'NOTICE';
+}
+
+export interface FreePost extends BasePost {
+  category: 'FREE';
+}
+
+export interface ShiftPost extends BasePost {
+  category: 'SHIFT';
+  shiftType: ShiftType;
+  requesterWorkTime: string;
+  targetWorker: string;
+  desiredWorkTime: string;
+  approvalStatus: ApprovalStatus;
+}
+
+export interface DayoffPost extends BasePost {
+  category: 'DAYOFF';
+  dayoffDate: string;
+  approvalStatus: ApprovalStatus;
+}
+
+export type CommunityPost =
+  | NoticePost
+  | FreePost
+  | ShiftPost
+  | DayoffPost;
+
+
 
 export const communityPostList: CommunityPost[] = [
   /* ================= 공지사항 (11) ================= */
@@ -198,6 +230,11 @@ export const communityPostList: CommunityPost[] = [
     author: '김하늘',
     createdAt: '2025-10-01',
     content: '오후 근무 교대 가능하신 분 구합니다.',
+    shiftType: 'SWAP',
+    requesterWorkTime: '13:00 ~ 21:00',
+    targetWorker: '박민수',
+    desiredWorkTime: '09:00 ~ 17:00',
+    approvalStatus: 'PENDING',
   },
   {
     id: 24,
@@ -206,6 +243,11 @@ export const communityPostList: CommunityPost[] = [
     author: '박민수',
     createdAt: '2025-10-02',
     content: '개인 사정으로 교대 요청드립니다.',
+    shiftType: 'REPLACE',
+    requesterWorkTime: '09:00 ~ 17:00',
+    targetWorker: '김하늘',
+    desiredWorkTime: '13:00 ~ 21:00',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 25,
@@ -214,6 +256,11 @@ export const communityPostList: CommunityPost[] = [
     author: '이서연',
     createdAt: '2025-10-03',
     content: '야간 근무 교대 가능하신 분 계신가요?',
+    shiftType: 'SWAP',
+    requesterWorkTime: '22:00 ~ 06:00',
+    targetWorker: '정우진',
+    desiredWorkTime: '14:00 ~ 22:00',
+    approvalStatus: 'PENDING',
   },
   {
     id: 26,
@@ -222,6 +269,11 @@ export const communityPostList: CommunityPost[] = [
     author: '정우진',
     createdAt: '2025-10-04',
     content: '오전 근무 교대 희망합니다.',
+    shiftType: 'SWAP',
+    requesterWorkTime: '08:00 ~ 16:00',
+    targetWorker: '윤서',
+    desiredWorkTime: '16:00 ~ 24:00',
+    approvalStatus: 'REJECTED',
   },
   {
     id: 27,
@@ -230,6 +282,11 @@ export const communityPostList: CommunityPost[] = [
     author: '최지훈',
     createdAt: '2025-10-05',
     content: '개인 일정으로 교대 요청드립니다.',
+    shiftType: 'REPLACE',
+    requesterWorkTime: '10:00 ~ 18:00',
+    targetWorker: '민재',
+    desiredWorkTime: '18:00 ~ 02:00',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 28,
@@ -238,6 +295,11 @@ export const communityPostList: CommunityPost[] = [
     author: '윤서',
     createdAt: '2025-10-06',
     content: '근무 교대 가능 여부 문의드립니다.',
+    shiftType: 'SWAP',
+    requesterWorkTime: '12:00 ~ 20:00',
+    targetWorker: '소연',
+    desiredWorkTime: '09:00 ~ 17:00',
+    approvalStatus: 'PENDING',
   },
   {
     id: 29,
@@ -246,6 +308,11 @@ export const communityPostList: CommunityPost[] = [
     author: '민재',
     createdAt: '2025-10-07',
     content: '주간 근무로 교대 원합니다.',
+    shiftType: 'SWAP',
+    requesterWorkTime: '22:00 ~ 06:00',
+    targetWorker: '지훈',
+    desiredWorkTime: '10:00 ~ 18:00',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 30,
@@ -254,6 +321,11 @@ export const communityPostList: CommunityPost[] = [
     author: '소연',
     createdAt: '2025-10-08',
     content: '당일 교대 가능하신 분 연락 주세요.',
+    shiftType: 'REPLACE',
+    requesterWorkTime: '14:00 ~ 22:00',
+    targetWorker: '현우',
+    desiredWorkTime: '09:00 ~ 17:00',
+    approvalStatus: 'PENDING',
   },
   {
     id: 31,
@@ -262,6 +334,11 @@ export const communityPostList: CommunityPost[] = [
     author: '지훈',
     createdAt: '2025-10-09',
     content: '근무 시간 변경 요청드립니다.',
+    shiftType: 'SWAP',
+    requesterWorkTime: '11:00 ~ 19:00',
+    targetWorker: '유진',
+    desiredWorkTime: '15:00 ~ 23:00',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 32,
@@ -270,6 +347,11 @@ export const communityPostList: CommunityPost[] = [
     author: '현우',
     createdAt: '2025-10-10',
     content: '토요일 근무 교대 원합니다.',
+    shiftType: 'REPLACE',
+    requesterWorkTime: '09:00 ~ 17:00',
+    targetWorker: '김하늘',
+    desiredWorkTime: '13:00 ~ 21:00',
+    approvalStatus: 'REJECTED',
   },
   {
     id: 33,
@@ -278,6 +360,11 @@ export const communityPostList: CommunityPost[] = [
     author: '유진',
     createdAt: '2025-10-11',
     content: '다음 주 근무 교대 가능하신 분?',
+    shiftType: 'SWAP',
+    requesterWorkTime: '10:00 ~ 18:00',
+    targetWorker: '박민수',
+    desiredWorkTime: '18:00 ~ 02:00',
+    approvalStatus: 'PENDING',
   },
 
   /* ================= 휴무 신청 (11) ================= */
@@ -287,7 +374,9 @@ export const communityPostList: CommunityPost[] = [
     title: '휴무 신청',
     author: '김서연',
     createdAt: '2025-10-01',
-    content: '10월 15일 개인 사정으로 휴무 신청합니다.',
+    content: '개인 사정으로 휴무 신청합니다.',
+    dayoffDate: '2025-10-15',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 35,
@@ -295,7 +384,9 @@ export const communityPostList: CommunityPost[] = [
     title: '연차 사용 신청',
     author: '박준호',
     createdAt: '2025-10-02',
-    content: '10월 18일 연차 사용 예정입니다.',
+    content: '연차 사용 예정입니다.',
+    dayoffDate: '2025-10-18',
+    approvalStatus: 'PENDING',
   },
   {
     id: 36,
@@ -303,7 +394,9 @@ export const communityPostList: CommunityPost[] = [
     title: '병가 신청',
     author: '이민지',
     createdAt: '2025-10-03',
-    content: '몸 상태가 좋지 않아 병가 신청합니다.',
+    content: '몸 상태가 좋지 않습니다.',
+    dayoffDate: '2025-10-04',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 37,
@@ -311,7 +404,9 @@ export const communityPostList: CommunityPost[] = [
     title: '휴무 요청',
     author: '최현우',
     createdAt: '2025-10-04',
-    content: '개인 일정으로 하루 휴무 요청드립니다.',
+    content: '개인 일정으로 휴무 요청드립니다.',
+    dayoffDate: '2025-10-20',
+    approvalStatus: 'REJECTED',
   },
   {
     id: 38,
@@ -319,7 +414,9 @@ export const communityPostList: CommunityPost[] = [
     title: '연차 신청',
     author: '윤지민',
     createdAt: '2025-10-05',
-    content: '10월 22일 연차 사용 예정입니다.',
+    content: '연차 사용합니다.',
+    dayoffDate: '2025-10-22',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 39,
@@ -328,6 +425,8 @@ export const communityPostList: CommunityPost[] = [
     author: '정민수',
     createdAt: '2025-10-06',
     content: '오후 반차 신청합니다.',
+    dayoffDate: '2025-10-16',
+    approvalStatus: 'PENDING',
   },
   {
     id: 40,
@@ -336,6 +435,8 @@ export const communityPostList: CommunityPost[] = [
     author: '김나연',
     createdAt: '2025-10-07',
     content: '가족 행사로 휴무 신청합니다.',
+    dayoffDate: '2025-10-25',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 41,
@@ -344,6 +445,8 @@ export const communityPostList: CommunityPost[] = [
     author: '이도현',
     createdAt: '2025-10-08',
     content: '다음 주 연차 사용 예정입니다.',
+    dayoffDate: '2025-10-28',
+    approvalStatus: 'PENDING',
   },
   {
     id: 42,
@@ -352,6 +455,8 @@ export const communityPostList: CommunityPost[] = [
     author: '서지훈',
     createdAt: '2025-10-09',
     content: '개인 사정으로 휴무 요청드립니다.',
+    dayoffDate: '2025-10-30',
+    approvalStatus: 'APPROVED',
   },
   {
     id: 43,
@@ -359,7 +464,9 @@ export const communityPostList: CommunityPost[] = [
     title: '병원 방문 휴무',
     author: '한소희',
     createdAt: '2025-10-10',
-    content: '병원 방문으로 휴무 신청합니다.',
+    content: '병원 방문 예정입니다.',
+    dayoffDate: '2025-10-17',
+    approvalStatus: 'PENDING',
   },
   {
     id: 44,
@@ -368,5 +475,7 @@ export const communityPostList: CommunityPost[] = [
     author: '오세훈',
     createdAt: '2025-10-11',
     content: '연차 최종 승인 요청드립니다.',
+    dayoffDate: '2025-10-31',
+    approvalStatus: 'APPROVED',
   },
 ];

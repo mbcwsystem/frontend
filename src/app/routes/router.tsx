@@ -69,7 +69,10 @@ export const router = createBrowserRouter([
           },
           {
             path: 'shift',
-            element: <ShiftPage />,
+            children: [
+              { index: true, element: <ShiftPage /> },
+              // { path: ':id', element: <ShiftDetailPage /> },
+            ],
           },
           {
             path: 'dayoff',
