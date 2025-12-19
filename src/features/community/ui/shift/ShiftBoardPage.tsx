@@ -1,5 +1,11 @@
 import type { ShiftPost } from '@/features/community/mock/communityMock';
 
+import {
+  SHIFT_TYPE_LABEL,
+  APPROVAL_STATUS_LABEL,
+  APPROVAL_STATUS_STYLE,
+} from '@/features/community/model/shiftLabel';
+
 import { useState } from 'react';
 import { Link } from 'react-router';
 
@@ -17,21 +23,6 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
 
   const startIndex = (currentPage - 1) * MAX_ITEMS;
   const currentItems = reversedList.slice(startIndex, startIndex + MAX_ITEMS);
-
-  const getShiftTypeLabel = (type: ShiftPost['shiftType']) => {
-    return type === 'SWAP' ? '교대' : '대체';
-  };
-
-  const getStatusLabel = (status: ShiftPost['approvalStatus']) => {
-    switch (status) {
-      case 'APPROVED':
-        return '승인';
-      case 'REJECTED':
-        return '반려';
-      default:
-        return '대기';
-    }
-  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -62,7 +53,7 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
               </td>
 
               <td className="py-4">
-                {getShiftTypeLabel(item.shiftType)}
+                {SHIFT_TYPE_LABEL[item.shiftType]}
               </td>
 
               <td className="py-4">
@@ -87,15 +78,9 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
                 {/* 승인 상태 색상으로 구분 */}
                 <span
                   className={`px-2 py-1 rounded text-xs
-                    ${
-                      item.approvalStatus === 'APPROVED'
-                        ? 'bg-green-100 text-green-700'
-                        : item.approvalStatus === 'REJECTED'
-                        ? 'bg-red-100 text-red-700'
-                        : 'bg-gray-100 text-gray-700'
-                    }`}
+                    ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}
                 >
-                  {getStatusLabel(item.approvalStatus)}
+                  {APPROVAL_STATUS_LABEL[item.approvalStatus]}
                 </span>
               </td>
 
