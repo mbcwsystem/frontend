@@ -1,13 +1,13 @@
-import type { ShiftPost } from '@/features/community/mock/communityMock';
+import { useState } from 'react';
+import { Link } from 'react-router';
 
 import {
   SHIFT_TYPE_LABEL,
   APPROVAL_STATUS_LABEL,
   APPROVAL_STATUS_STYLE,
-} from '@/features/community/model/shiftLabel';
+} from '../../model/shiftLabel';
 
-import { useState } from 'react';
-import { Link } from 'react-router';
+import type { ShiftPost } from '../../mock/communityMock';
 
 const MAX_ITEMS = 10;
 
@@ -48,13 +48,9 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
         <tbody>
           {currentItems.map((item, index) => (
             <tr key={item.id} className="border-b text-sm">
-              <td className="py-4">
-                {list.length - (startIndex + index)}
-              </td>
+              <td className="py-4">{list.length - (startIndex + index)}</td>
 
-              <td className="py-4">
-                {SHIFT_TYPE_LABEL[item.shiftType]}
-              </td>
+              <td className="py-4">{SHIFT_TYPE_LABEL[item.shiftType]}</td>
 
               <td className="py-4">
                 <Link to={`${item.id}`} className="hover:underline">
@@ -62,17 +58,11 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
                 </Link>
               </td>
 
-              <td className="py-4">
-                {item.requesterWorkTime}
-              </td>
+              <td className="py-4">{item.requesterWorkTime}</td>
 
-              <td className="py-4">
-                {item.targetWorker}
-              </td>
+              <td className="py-4">{item.targetWorker}</td>
 
-              <td className="py-4">
-                {item.desiredWorkTime}
-              </td>
+              <td className="py-4">{item.desiredWorkTime}</td>
 
               <td className="py-4">
                 {/* 승인 상태 색상으로 구분 */}
@@ -84,9 +74,7 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
                 </span>
               </td>
 
-              <td className="py-4">
-                {item.createdAt}
-              </td>
+              <td className="py-4">{item.createdAt}</td>
             </tr>
           ))}
         </tbody>
@@ -101,11 +89,7 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={`px-3 py-1 rounded border text-sm
-                  ${
-                    page === currentPage
-                      ? 'bg-mega text-white'
-                      : 'hover:bg-gray-100'
-                  }`}
+                  ${page === currentPage ? 'bg-mega text-white' : 'hover:bg-gray-100'}`}
               >
                 {page}
               </button>

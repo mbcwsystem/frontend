@@ -33,13 +33,7 @@ export interface DayoffPost extends BasePost {
   approvalStatus: ApprovalStatus;
 }
 
-export type CommunityPost =
-  | NoticePost
-  | FreePost
-  | ShiftPost
-  | DayoffPost;
-
-
+export type CommunityPost = NoticePost | FreePost | ShiftPost | DayoffPost;
 
 export const communityPostList: CommunityPost[] = [
   /* ================= 공지사항 (11) ================= */

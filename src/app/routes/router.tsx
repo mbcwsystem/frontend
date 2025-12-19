@@ -12,6 +12,7 @@ import {
   NoticePage,
   NoticeDetail,
   ShiftPage,
+  ShiftDetailPage,
 } from '@/pages/community';
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
@@ -71,7 +72,7 @@ export const router = createBrowserRouter([
             path: 'shift',
             children: [
               { index: true, element: <ShiftPage /> },
-              // { path: ':id', element: <ShiftDetailPage /> },
+              { path: ':id', element: <ShiftDetailPage /> },
             ],
           },
           {
