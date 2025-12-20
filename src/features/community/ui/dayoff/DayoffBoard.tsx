@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import type { DayoffPost } from '@/features/community/mock/communityMock';
 import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '../../model/statusLabel';
 import Pagenation from '../Pagenation';
+import { usePagenation } from '../../hooks/usePagenation';
 
 interface DayoffBoardPageProps {
   list: DayoffPost[];
@@ -15,13 +16,16 @@ export default function DayoffBoardPage({
   list,
   canWrite,
 }: DayoffBoardPageProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(list.length / MAX_ITEMS);
-  const reversedList = [...list].reverse();
-
-  const startIndex = (currentPage - 1) * MAX_ITEMS;
-  const currentItems = reversedList.slice(startIndex, startIndex + MAX_ITEMS);
+  const {
+      currentPage,
+      totalPages,
+      currentItems,
+      startIndex,
+      setCurrentPage,
+    } = usePagenation({
+      items: [...list].reverse(),
+      itemsPerPage: MAX_ITEMS,
+    });
 
   return (
     <div className="flex flex-col gap-6">
@@ -70,7 +74,6 @@ export default function DayoffBoardPage({
                 <td className="py-4">{item.dayoffDate}</td>
 
                 <td className="py-4">
-                    {/* 승인 상태 근무교대 라벨 모델 사용 */}
                     <span
                     className={`px-2 py-1 rounded text-xs
                         ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}

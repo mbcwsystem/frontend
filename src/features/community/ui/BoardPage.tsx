@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import type { BoardPageProps } from '../model/boardType';
 import Pagenation from './Pagenation';
+import { usePagenation } from '../hooks/usePagenation';
 
 const MAX_ITEMS = 10;
 
@@ -13,14 +14,18 @@ export default function BoardPage({
   onSubmit,
   ModalComponent,
 }: BoardPageProps) {
-  const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
-  const totalPages = Math.ceil(list.length / MAX_ITEMS);
-  const reversedList = [...list].reverse();
-
-  const startIndex = (currentPage - 1) * MAX_ITEMS;
-  const currentItems = reversedList.slice(startIndex, startIndex + MAX_ITEMS);
+  const {
+    currentPage,
+    totalPages,
+    currentItems,
+    startIndex,
+    setCurrentPage,
+  } = usePagenation({
+    items: [...list].reverse(),
+    itemsPerPage: MAX_ITEMS,
+  });
 
   return (
     <div className="flex flex-col gap-6">

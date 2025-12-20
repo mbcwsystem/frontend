@@ -9,6 +9,7 @@ import {
 
 import type { ShiftPost } from '../../mock/communityMock';
 import Pagenation from '../Pagenation';
+import { usePagenation } from '../../hooks/usePagenation';
 
 const MAX_ITEMS = 10;
 
@@ -17,13 +18,16 @@ interface ShiftBoardPageProps {
 }
 
 export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(list.length / MAX_ITEMS);
-  const reversedList = [...list].reverse();
-
-  const startIndex = (currentPage - 1) * MAX_ITEMS;
-  const currentItems = reversedList.slice(startIndex, startIndex + MAX_ITEMS);
+  const {
+      currentPage,
+      totalPages,
+      currentItems,
+      startIndex,
+      setCurrentPage,
+    } = usePagenation({
+      items: [...list].reverse(),
+      itemsPerPage: MAX_ITEMS,
+    });
 
   return (
     <div className="flex flex-col gap-6">
@@ -66,7 +70,6 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
               <td className="py-4">{item.desiredWorkTime}</td>
 
               <td className="py-4">
-                {/* 승인 상태 색상으로 구분 */}
                 <span
                   className={`px-2 py-1 rounded text-xs
                     ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}
