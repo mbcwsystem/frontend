@@ -1,9 +1,20 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, Navigate } from 'react-router';
 
 import { ROUTES } from '../../shared/constants/routes';
 
 import { AuthRoute } from './AuthRoute';
 
+import {
+  Communiity,
+  DayoffPage,
+  DayoffDetailPage,
+  FreeboardPage,
+  FreeBoardDetail,
+  NoticePage,
+  NoticeDetail,
+  ShiftPage,
+  ShiftDetailPage,
+} from '@/pages/community';
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/PayPage';
@@ -43,6 +54,44 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.PAY,
         element: <PayPage />,
+      },
+      {
+        path: ROUTES.COMMUNITY,
+        element: <Communiity />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="notice" replace />,
+          },
+          {
+            path: 'notice',
+            children: [
+              { index: true, element: <NoticePage /> },
+              { path: ':id', element: <NoticeDetail /> },
+            ],
+          },
+          {
+            path: 'shift',
+            children: [
+              { index: true, element: <ShiftPage /> },
+              { path: ':id', element: <ShiftDetailPage /> },
+            ],
+          },
+          {
+            path: 'dayoff',
+            children: [
+              { index: true, element: <DayoffPage /> },
+              { path: ':id', element: <DayoffDetailPage /> },
+            ],
+          },
+          {
+            path: 'freeboard',
+            children: [
+              { index: true, element: <FreeboardPage /> },
+              { path: ':id', element: <FreeBoardDetail /> },
+            ],
+          },
+        ],
       },
       {
         path: ROUTES.WORK_STATUS,
