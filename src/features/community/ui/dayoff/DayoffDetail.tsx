@@ -1,15 +1,17 @@
-import { useParams } from 'react-router';
-import { communityPostList } from '@/features/community/mock/communityMock';
-import type { DayoffPost } from '@/features/community/mock/communityMock';
-import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
 import { CloudOff } from 'lucide-react';
+import { useParams } from 'react-router';
+
+import {
+  APPROVAL_STATUS_LABEL,
+  APPROVAL_STATUS_STYLE,
+} from '../../../../features/community/model/statusLabel';
+import { type DayoffPost, communityPostList } from '../../mock/communityMock';
 
 export default function DayoffDetail() {
   const { id } = useParams<{ id: string }>();
 
   const post = communityPostList.find(
-    (item): item is DayoffPost =>
-      item.category === 'DAYOFF' && item.id === Number(id)
+    (item): item is DayoffPost => item.category === 'DAYOFF' && item.id === Number(id),
   );
 
   if (!post) {
@@ -32,13 +34,13 @@ export default function DayoffDetail() {
           <h1 className="text-xl font-semibold">
             {post.author} {post.position}의 휴무 신청
           </h1>
-          <span className="text-sm text-gray-500">
-            {post.createdAt}
-          </span>
+          <span className="text-sm text-gray-500">{post.createdAt}</span>
         </div>
 
-        <span className={`px-2 py-1 rounded text-sm
-            ${APPROVAL_STATUS_STYLE[post.approvalStatus]}`}>
+        <span
+          className={`px-2 py-1 rounded text-sm
+            ${APPROVAL_STATUS_STYLE[post.approvalStatus]}`}
+        >
           {APPROVAL_STATUS_LABEL[post.approvalStatus]}
         </span>
       </div>
@@ -62,9 +64,7 @@ export default function DayoffDetail() {
         </div>
       </div>
 
-      <div className="text-sm text-gray-500 pt-8">
-        위 일자에 휴무를 신청합니다.
-      </div>
+      <div className="text-sm text-gray-500 pt-8">위 일자에 휴무를 신청합니다.</div>
     </div>
   );
 }

@@ -1,9 +1,9 @@
+import { Megaphone } from 'lucide-react';
 import { useParams } from 'react-router';
 
 import { communityPostList } from '@/features/community/mock/communityMock';
 import BoardDetail from '@/features/community/ui/BoardDetail';
 import CommentSection from '@/features/community/ui/comment/CommentSection';
-import { Megaphone } from 'lucide-react';
 
 export default function NoticeDetail() {
   const { id } = useParams<{ id: string }>();
@@ -17,7 +17,7 @@ export default function NoticeDetail() {
   return (
     <BoardDetail
       title="공지사항"
-      icon={<Megaphone/>}
+      icon={<Megaphone />}
       list={noticeList}
       notFoundMessage="존재하지 않는 공지사항입니다."
     >

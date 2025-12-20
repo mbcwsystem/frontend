@@ -5,19 +5,13 @@ interface UsePagenationProps<T> {
   itemsPerPage: number;
 }
 
-export function usePagenation<T>({
-  items,
-  itemsPerPage,
-}: UsePagenationProps<T>) {
+export function usePagenation<T>({ items, itemsPerPage }: UsePagenationProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = items.slice(
-    startIndex,
-    startIndex + itemsPerPage,
-  );
+  const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
 
   useEffect(() => {
     if (currentPage > totalPages) {

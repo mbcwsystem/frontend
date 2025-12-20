@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { commentMockList } from '../../mock/commentMock';
 
 import CommentForm from './CommentForm';
+import CommentList from './CommentList';
 
 import type { Comment } from '../../mock/commentMock';
-import CommentList from './CommentList';
 
 interface CommentSectionProps {
   postId: number;
@@ -52,11 +52,11 @@ export default function CommentSection({ postId, postType, currentUserId }: Comm
       <h3 className="font-bold">댓글 {comments.length}</h3>
 
       <CommentList
-      comments={comments}
-      currentUserId={currentUserId}
-      onUpdate={handleUpdate}
-      onDelete={handleDelete}
-    />
+        comments={comments}
+        currentUserId={currentUserId}
+        onUpdate={handleUpdate}
+        onDelete={handleDelete}
+      />
 
       <CommentForm onSubmit={handleCreate} />
     </div>

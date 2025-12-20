@@ -1,11 +1,14 @@
+import { CalendarSync } from 'lucide-react';
 import { useParams } from 'react-router';
 
 import type { ShiftPost } from '@/features/community/mock/communityMock';
 
 import { ShiftCompareSection } from '@/features/community//ui/shift/ShiftCompareSection';
 import { communityPostList } from '@/features/community/mock/communityMock';
-import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
-import { CalendarSync } from 'lucide-react';
+import {
+  APPROVAL_STATUS_LABEL,
+  APPROVAL_STATUS_STYLE,
+} from '@/features/community/model/statusLabel';
 
 export default function ShiftDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -23,9 +26,9 @@ export default function ShiftDetailPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-2 text-2xl font-bold">
-          <CalendarSync/>
-          <span>근무교대 / 근무대체</span>
-        </div>
+        <CalendarSync />
+        <span>근무교대 / 근무대체</span>
+      </div>
 
       <hr />
 
@@ -37,10 +40,12 @@ export default function ShiftDetailPage() {
           </p>
         </div>
 
-          <span className={`px-2 py-1 rounded text-sm
-              ${APPROVAL_STATUS_STYLE[post.approvalStatus]}`}>
-            {APPROVAL_STATUS_LABEL[post.approvalStatus]}
-          </span>
+        <span
+          className={`px-2 py-1 rounded text-sm
+              ${APPROVAL_STATUS_STYLE[post.approvalStatus]}`}
+        >
+          {APPROVAL_STATUS_LABEL[post.approvalStatus]}
+        </span>
       </div>
 
       <div className="grid grid-cols-2 gap-10 mt-8">

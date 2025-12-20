@@ -1,8 +1,9 @@
-import CommentItem from './CommentItem';
+import { usePagenation } from '../../hooks/usePagenation';
 import Pagenation from '../../ui/Pagenation';
 
+import CommentItem from './CommentItem';
+
 import type { Comment } from '../../mock/commentMock';
-import { usePagenation } from '../../hooks/usePagenation';
 
 const MAX_ITEMS = 10;
 
@@ -21,12 +22,7 @@ export default function CommentList({
 }: CommentListProps) {
   const reversedList = [...comments].reverse();
 
-    const {
-    currentPage,
-    totalPages,
-    currentItems,
-    setCurrentPage,
-  } = usePagenation({
+  const { currentPage, totalPages, currentItems, setCurrentPage } = usePagenation({
     items: reversedList,
     itemsPerPage: MAX_ITEMS,
   });
@@ -45,11 +41,7 @@ export default function CommentList({
         ))}
       </ul>
 
-      <Pagenation
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onChangePage={setCurrentPage}
-      />
+      <Pagenation totalPages={totalPages} currentPage={currentPage} onChangePage={setCurrentPage} />
     </div>
   );
 }

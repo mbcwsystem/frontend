@@ -1,26 +1,35 @@
 import { useMemo, useState } from 'react';
-import Pagenation from './Pagenation';
+
 import { usePagenation } from '../hooks/usePagenation';
+
+import Pagenation from './Pagenation';
 import SearchInput from './SearchInput';
 
-export interface Column<T> {
+export interface BaseRow {
+  id: number | string;
+}
+
+export interface Column<T extends BaseRow> {
   header: string;
-  key: keyof T | string;
+  key: keyof T;
   width?: string;
   render?: (item: T, index: number) => React.ReactNode;
 }
 
-interface BoardProps<T> {
+interface BoardProps<T extends BaseRow> {
   title: string;
   icon?: React.ReactNode;
   list: T[];
   canWrite?: boolean;
-  onSubmit?: (data: any) => void;
-  ModalComponent?: React.ComponentType<{ onClose: () => void; onSubmit: (data: any) => void }>;
+  onSubmit?: (data: unknown) => void;
+  ModalComponent?: React.ComponentType<{
+    onClose: () => void;
+    onSubmit: (data: unknown) => void;
+  }>;
   columns: Column<T>[];
 }
 
-export function BoardPage<T>({
+export function BoardPage<T extends BaseRow>({
   title,
   icon,
   list,
@@ -32,13 +41,19 @@ export function BoardPage<T>({
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-    const filteredList = useMemo(() => {
+  const filteredList = useMemo(() => {
     if (!searchTerm) return list;
+
+    const lowerSearch = searchTerm.toLowerCase();
+
     return list.filter((item) =>
       columns.some((col) => {
-        const value = (item as any)[col.key];
-        return value?.toString().toLowerCase().includes(searchTerm.toLowerCase());
-      })
+        const value = item[col.key];
+
+        if (value === null || value === undefined) return false;
+
+        return String(value).toLowerCase().includes(lowerSearch);
+      }),
     );
   }, [searchTerm, list, columns]);
 
@@ -59,7 +74,10 @@ export function BoardPage<T>({
           <SearchInput onSearch={setSearchTerm} placeholder="검색어를 입력하세요" />
 
           {canWrite && ModalComponent && onSubmit && (
-            <button onClick={() => setIsOpen(true)} className="px-4 py-1 bg-mega text-white rounded">
+            <button
+              onClick={() => setIsOpen(true)}
+              className="px-4 py-1 bg-mega text-white rounded"
+            >
               작성
             </button>
           )}
@@ -81,7 +99,10 @@ export function BoardPage<T>({
         <thead>
           <tr className="border-b text-sm text-gray-600">
             {columns.map((col) => (
-              <th key={col.header} className={`py-3 ${col.width ? `w-${col.width}` : ''} text-left`}>
+              <th
+                key={String(col.key)}
+                className={`py-3 ${col.width ? `w-${col.width}` : ''} text-left`}
+              >
                 {col.header}
               </th>
             ))}
@@ -90,10 +111,10 @@ export function BoardPage<T>({
 
         <tbody>
           {currentItems.map((item, index) => (
-            <tr key={(item as any).id} className="border-b text-sm">
+            <tr key={item.id} className="border-b text-sm">
               {columns.map((col) => (
-                <td key={col.header} className="py-4">
-                  {col.render ? col.render(item, index) : (item as any)[col.key]}
+                <td key={String(col.key)} className="py-4">
+                  {col.render ? col.render(item, index) : String(item[col.key])}
                 </td>
               ))}
             </tr>

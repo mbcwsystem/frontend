@@ -1,4 +1,5 @@
 import { useParams } from 'react-router';
+
 import type { BoardDetailProps } from '../model/boardType';
 
 export default function BoardDetail({

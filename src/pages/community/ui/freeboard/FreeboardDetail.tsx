@@ -1,9 +1,9 @@
+import { MessagesSquare } from 'lucide-react';
 import { useParams } from 'react-router';
 
 import { communityPostList } from '@/features/community/mock/communityMock';
 import BoardDetail from '@/features/community/ui/BoardDetail';
 import CommentSection from '@/features/community/ui/comment/CommentSection';
-import { MessagesSquare } from 'lucide-react';
 
 export default function FreeBoardDetail() {
   const { id } = useParams<{ id: string }>();

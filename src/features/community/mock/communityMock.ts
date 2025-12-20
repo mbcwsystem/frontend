@@ -1,4 +1,4 @@
-import type { Position } from '@/features/pay/model/role';
+import type { Position } from '../../../features/pay/model/role';
 
 export type PostCategory = 'FREE' | 'NOTICE' | 'SHIFT' | 'DAYOFF';
 export type ApprovalStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
