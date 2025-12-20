@@ -50,12 +50,18 @@ export default function WriteModal({ onClose, onSubmit }: WriteModalProps) {
             취소
           </button>
           <button
-            // 등록 시 내용 등록 [ 타이틀 / 본문 ]
-            onClick={() => onSubmit({ title, content })}
-            className="px-4 py-1 bg-mega text-white rounded"
-          >
-            등록
-          </button>
+          // 등록 시 내용 등록 [ 타이틀 / 본문 ]
+          onClick={() => {
+            if (!title.trim() || !content.trim()) {
+              alert('제목 및 내용을 모두 입력하세요.');
+              return;
+            }
+            onSubmit({ title, content });
+          }}
+          className="px-4 py-1 bg-mega text-white rounded"
+        >
+          등록
+        </button>
         </div>
       </div>
     </div>

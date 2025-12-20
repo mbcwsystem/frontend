@@ -21,7 +21,10 @@ export default function ShiftDetailPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">🔁 근무교대 / 근무대체</h1>
+      <div className="flex items-center gap-2 text-2xl font-bold">
+          <span>🔁</span>
+          <span>근무교대 / 근무대체</span>
+        </div>
 
       <hr />
 
