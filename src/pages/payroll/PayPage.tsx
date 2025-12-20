@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { DropdownSelect } from '../shared/components/ui/dropdown-select';
+import { DropdownSelect } from '../../shared/components/ui/dropdown-select';
 
 import { mockPayroll, UserPosition, ManagerPositions } from '@/features/pay';
 import { ROLE, type Role } from '@/features/pay/model/role';
