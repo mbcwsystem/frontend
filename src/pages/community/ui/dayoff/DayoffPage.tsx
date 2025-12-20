@@ -8,7 +8,7 @@ export default function DayoffPage() {
 
   return (
     <>
-      <DayoffBoardPage list={dayoffList} canWrite />
+      <DayoffBoardPage list={dayoffList} />
     </>
   );
 }

@@ -32,7 +32,7 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-2 text-2xl font-bold">
         <span>🔁</span>
-        <span>근무 교대</span>
+        <span>근무교대</span>
       </div>
 
       <table className="w-full border-t">

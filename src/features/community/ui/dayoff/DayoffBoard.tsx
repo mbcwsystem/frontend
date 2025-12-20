@@ -6,14 +6,12 @@ import { usePagenation } from '../../hooks/usePagenation';
 
 interface DayoffBoardPageProps {
   list: DayoffPost[];
-  canWrite: boolean;
 }
 
 const MAX_ITEMS = 10;
 
 export default function DayoffBoardPage({
   list,
-  canWrite,
 }: DayoffBoardPageProps) {
   const {
       currentPage,
@@ -31,14 +29,8 @@ export default function DayoffBoardPage({
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2 text-2xl font-bold">
           <span>🗓️</span>
-          <span>휴무 신청</span>
+          <span>휴무신청</span>
         </div>
-
-        {canWrite && (
-          <button className="px-4 py-1 bg-mega text-white rounded">
-            신청
-          </button>
-        )}
       </div>
 
       <table className="w-full border-t">
