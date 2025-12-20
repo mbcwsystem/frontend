@@ -5,7 +5,7 @@ import {
   SHIFT_TYPE_LABEL,
   APPROVAL_STATUS_LABEL,
   APPROVAL_STATUS_STYLE,
-} from '../../model/shiftLabel';
+} from '../../model/statusLabel';
 
 import type { ShiftPost } from '../../mock/communityMock';
 

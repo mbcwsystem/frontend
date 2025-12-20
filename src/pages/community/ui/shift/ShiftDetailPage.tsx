@@ -4,7 +4,7 @@ import type { ShiftPost } from '@/features/community/mock/communityMock';
 
 import { ShiftCompareSection } from '@/features/community//ui/shift/ShiftCompareSection';
 import { communityPostList } from '@/features/community/mock/communityMock';
-import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/shiftLabel';
+import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
 
 export default function ShiftDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -33,10 +33,10 @@ export default function ShiftDetailPage() {
           </p>
         </div>
 
-                <span className={`px-2 py-1 rounded text-sm
-                    ${APPROVAL_STATUS_STYLE[post.approvalStatus]}`}>
-                  {APPROVAL_STATUS_LABEL[post.approvalStatus]}
-                </span>
+          <span className={`px-2 py-1 rounded text-sm
+              ${APPROVAL_STATUS_STYLE[post.approvalStatus]}`}>
+            {APPROVAL_STATUS_LABEL[post.approvalStatus]}
+          </span>
       </div>
 
       <div className="grid grid-cols-2 gap-10 mt-8">

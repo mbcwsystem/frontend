@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
 import { communityPostList } from '@/features/community/mock/communityMock';
 import type { DayoffPost } from '@/features/community/mock/communityMock';
-import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/shiftLabel';
+import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
 
 export default function DayoffDetailPage() {
   const { id } = useParams<{ id: string }>();
