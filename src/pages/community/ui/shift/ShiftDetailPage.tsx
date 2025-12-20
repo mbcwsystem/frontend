@@ -5,6 +5,7 @@ import type { ShiftPost } from '@/features/community/mock/communityMock';
 import { ShiftCompareSection } from '@/features/community//ui/shift/ShiftCompareSection';
 import { communityPostList } from '@/features/community/mock/communityMock';
 import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
+import { CalendarSync } from 'lucide-react';
 
 export default function ShiftDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,7 @@ export default function ShiftDetailPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-2 text-2xl font-bold">
-          <span>🔁</span>
+          <CalendarSync/>
           <span>근무교대 / 근무대체</span>
         </div>
 

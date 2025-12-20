@@ -2,6 +2,7 @@ import { communityPostList } from '@/features/community/mock/communityMock';
 import { BoardPage } from '@/features/community/ui/BoardPage';
 import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
 import { Link } from 'react-router';
+import { CloudOff } from 'lucide-react';
 
 export default function DayoffPage() {
 
@@ -10,7 +11,7 @@ export default function DayoffPage() {
   return (
     <BoardPage
       title="휴무신청"
-      icon="🗓️"
+      icon={<CloudOff />}
       list={list}
       columns={[
         { header: "순번", key: "id", render: (_, idx) => list.length - idx },

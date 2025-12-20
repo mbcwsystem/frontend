@@ -2,6 +2,7 @@ import { communityPostList } from '@/features/community/mock/communityMock';
 import { BoardPage } from '@/features/community/ui/BoardPage';
 import WriteModal from '@/features/community/ui/WriteModal';
 import { ROLE } from '@/features/pay/model/role';
+import { Megaphone } from 'lucide-react';
 import { Link } from 'react-router';
 
 export default function NoticePage() {
@@ -12,7 +13,7 @@ export default function NoticePage() {
   return (
     <BoardPage
       title="공지사항"
-      icon="📢"
+      icon={<Megaphone/>}
       list={noticeList}
       canWrite={user.role === ROLE.MANAGER}
       ModalComponent={WriteModal}

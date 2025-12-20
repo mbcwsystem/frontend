@@ -2,6 +2,7 @@ import { communityPostList } from '@/features/community/mock/communityMock';
 import { BoardPage } from '@/features/community/ui/BoardPage';
 import { SHIFT_TYPE_LABEL, APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
 import { Link } from 'react-router';
+import { CalendarSync } from 'lucide-react';
 
 export default function ShiftPage() {
 
@@ -10,7 +11,7 @@ export default function ShiftPage() {
   return (
     <BoardPage
       title="근무교대 / 근무대체"
-      icon="🔁"
+      icon={<CalendarSync/>}
       list={list}
       columns={[
         { header: "순번", key: "id", render: (_, idx) => list.length - idx },

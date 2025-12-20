@@ -31,7 +31,7 @@ interface BoardItem {
 
 export interface BoardDetailProps {
   title: string;
-  icon: string;
+  icon: ReactNode;
   list: BoardItem[];
   notFoundMessage?: string;
   children?: ReactNode;

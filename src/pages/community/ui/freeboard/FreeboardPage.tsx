@@ -1,6 +1,7 @@
 import { communityPostList } from '@/features/community/mock/communityMock';
 import { BoardPage } from '@/features/community/ui/BoardPage';
 import WriteModal from '@/features/community/ui/WriteModal';
+import { MessagesSquare } from 'lucide-react';
 import { Link } from 'react-router';
 
 export default function FreeboardPage() {
@@ -9,7 +10,7 @@ export default function FreeboardPage() {
   return (
     <BoardPage
       title="자유게시판"
-      icon="📋"
+      icon={<MessagesSquare />}
       list={freeBoardList}
       ModalComponent={WriteModal}
       canWrite={true}

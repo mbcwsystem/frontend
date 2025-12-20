@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import { communityPostList } from '@/features/community/mock/communityMock';
 import type { DayoffPost } from '@/features/community/mock/communityMock';
 import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
+import { CloudOff } from 'lucide-react';
 
 export default function DayoffDetail() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ export default function DayoffDetail() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 text-2xl font-bold">
-          <span>🗓️</span>
+          <CloudOff />
           <span>휴무신청</span>
         </div>
 

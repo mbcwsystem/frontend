@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { communityPostList } from '@/features/community/mock/communityMock';
 import BoardDetail from '@/features/community/ui/BoardDetail';
 import CommentSection from '@/features/community/ui/comment/CommentSection';
+import { MessagesSquare } from 'lucide-react';
 
 export default function FreeBoardDetail() {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +17,7 @@ export default function FreeBoardDetail() {
   return (
     <BoardDetail
       title="자유게시판"
-      icon="📋"
+      icon={<MessagesSquare />}
       list={freeBoardList}
       notFoundMessage="존재하지 않는 자유게시글입니다."
     >
