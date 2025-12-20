@@ -1,90 +1,40 @@
+import type { DayoffPost } from '../../mock/communityMock';
+import { BoardPage } from '@/features/community/ui/BoardPage';
+import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
 import { Link } from 'react-router';
-import type { DayoffPost } from '@/features/community/mock/communityMock';
-import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '../../model/statusLabel';
-import Pagenation from '../Pagenation';
-import { usePagenation } from '../../hooks/usePagenation';
 
-interface DayoffBoardPageProps {
+interface Props {
   list: DayoffPost[];
 }
 
-const MAX_ITEMS = 10;
-
-export default function DayoffBoardPage({
-  list,
-}: DayoffBoardPageProps) {
-  const {
-      currentPage,
-      totalPages,
-      currentItems,
-      startIndex,
-      setCurrentPage,
-    } = usePagenation({
-      items: [...list].reverse(),
-      itemsPerPage: MAX_ITEMS,
-    });
-
+export default function DayoffPage({ list }: Props) {
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2 text-2xl font-bold">
-          <span>🗓️</span>
-          <span>휴무신청</span>
-        </div>
-      </div>
-
-      <table className="w-full border-t">
-        <thead>
-          <tr className="border-b text-sm text-gray-600">
-            <th className="py-3 w-16 text-left">순번</th>
-            <th className="py-3 w-32 text-left">신청자</th>
-            <th className="py-3 w-40 text-left">신청일자</th>
-            <th className="py-3 w-24 text-left">상태</th>
-            <th className="py-3 w-32 text-left">작성일자</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {currentItems.map((item, index) => {
-
-            return (
-              <tr key={item.id} className="border-b text-sm">
-                <td className="py-4">
-                  {list.length - (startIndex + index)}
-                </td>
-
-                <td className="py-4">
-                    <Link
-                    to={`${item.id}`}
-                    className="hover:underline"
-                    >
-                    {item.author}
-                    </Link>
-                </td>
-
-                <td className="py-4">{item.dayoffDate}</td>
-
-                <td className="py-4">
-                    <span
-                    className={`px-2 py-1 rounded text-xs
-                        ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}
-                    >
-                    {APPROVAL_STATUS_LABEL[item.approvalStatus]}
-                    </span>
-                </td>
-
-                <td className="py-4">{item.createdAt}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
-      <Pagenation
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onChangePage={setCurrentPage}
-      />
-    </div>
+    <BoardPage
+      title="휴무신청"
+      icon="🗓️"
+      list={list}
+      columns={[
+        { header: "순번", key: "id", render: (_, idx) => list.length - idx },
+        { header: "신청자", 
+          key: "author", 
+          render: (item) => (
+            <Link to={`${item.id}`} className="hover:underline">
+              {item.author}
+            </Link>
+          ), 
+        },
+        { header: "신청일자", key: "dayoffDate" },
+        {
+          header: "상태",
+          key: "approvalStatus",
+          render: (item) => (
+            <span className={`px-2 py-1 rounded text-xs ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}>
+              {APPROVAL_STATUS_LABEL[item.approvalStatus]}
+            </span>
+          ),
+        },
+        { header: "작성일자", key: "createdAt" },
+      ]}
+    />
   );
 }

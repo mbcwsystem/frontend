@@ -1,15 +1,13 @@
 import { communityPostList } from '@/features/community/mock/communityMock';
-import BoardPage from '@/features/community/ui/BoardPage';
+import { BoardPage } from '@/features/community/ui/BoardPage';
 import WriteModal from '@/features/community/ui/WriteModal';
 import { ROLE } from '@/features/pay/model/role';
+import { Link } from 'react-router';
 
 export default function NoticePage() {
-  // 임의로 매니저로 설정 해두기
-  const user = {
-    role: ROLE.MANAGER,
-  };
-
+  const user = { role: ROLE.MANAGER };
   const noticeList = communityPostList.filter((post) => post.category === 'NOTICE');
+
 
   return (
     <BoardPage
@@ -19,6 +17,20 @@ export default function NoticePage() {
       canWrite={user.role === ROLE.MANAGER}
       ModalComponent={WriteModal}
       onSubmit={(data) => console.log(data)}
+      columns={[
+      { header: "NO", key: "id", render: (_, idx) => noticeList.length - idx },
+      {
+        header: "제목",
+        key: "title",
+        render: (item) => (
+          <Link to={`${item.id}`} className="hover:underline">
+            {item.title}
+          </Link>
+        ),
+      },
+      { header: "작성자", key: "author" },
+      { header: "작성일자", key: "createdAt" },
+    ]}
     />
   );
 }

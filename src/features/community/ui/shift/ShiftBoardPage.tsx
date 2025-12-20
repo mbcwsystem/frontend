@@ -1,93 +1,43 @@
+import type { ShiftPost } from '@/features/community/mock/communityMock';
+import { BoardPage } from '@/features/community/ui/BoardPage';
+import { SHIFT_TYPE_LABEL, APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/statusLabel';
 import { Link } from 'react-router';
 
-import {
-  SHIFT_TYPE_LABEL,
-  APPROVAL_STATUS_LABEL,
-  APPROVAL_STATUS_STYLE,
-} from '../../model/statusLabel';
-
-import type { ShiftPost } from '../../mock/communityMock';
-import Pagenation from '../Pagenation';
-import { usePagenation } from '../../hooks/usePagenation';
-
-const MAX_ITEMS = 10;
-
-interface ShiftBoardPageProps {
+interface Props {
   list: ShiftPost[];
 }
 
-export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
-  const {
-      currentPage,
-      totalPages,
-      currentItems,
-      startIndex,
-      setCurrentPage,
-    } = usePagenation({
-      items: [...list].reverse(),
-      itemsPerPage: MAX_ITEMS,
-    });
-
+export default function ShiftPage({ list }: Props) {
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-2 text-2xl font-bold">
-        <span>🔁</span>
-        <span>근무교대</span>
-      </div>
-
-      <table className="w-full border-t">
-        <thead>
-          <tr className="border-b text-sm text-gray-600">
-            <th className="py-3 w-16 text-left">순번</th>
-            <th className="py-3 w-24 text-left">신청유형</th>
-            <th className="py-3 w-32 text-left">신청자</th>
-            <th className="py-3 w-48 text-left">신청자 근무시간</th>
-            <th className="py-3 w-32 text-left">교대자</th>
-            <th className="py-3 w-48 text-left">교대 근무시간</th>
-            <th className="py-3 w-24 text-left">상태</th>
-            <th className="py-3 w-32 text-left">작성일자</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {currentItems.map((item, index) => (
-            <tr key={item.id} className="border-b text-sm">
-              <td className="py-4">{list.length - (startIndex + index)}</td>
-
-              <td className="py-4">{SHIFT_TYPE_LABEL[item.shiftType]}</td>
-
-              <td className="py-4">
-                <Link to={`${item.id}`} className="hover:underline">
-                  {item.author}
-                </Link>
-              </td>
-
-              <td className="py-4">{item.requesterWorkTime}</td>
-
-              <td className="py-4">{item.targetWorker}</td>
-
-              <td className="py-4">{item.desiredWorkTime}</td>
-
-              <td className="py-4">
-                <span
-                  className={`px-2 py-1 rounded text-xs
-                    ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}
-                >
-                  {APPROVAL_STATUS_LABEL[item.approvalStatus]}
-                </span>
-              </td>
-
-              <td className="py-4">{item.createdAt}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <Pagenation
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onChangePage={setCurrentPage}
-      />
-    </div>
+    <BoardPage
+      title="근무교대"
+      icon="🔁"
+      list={list}
+      columns={[
+        { header: "순번", key: "id", render: (_, idx) => list.length - idx },
+        { header: "신청유형", key: "shiftType", render: (item) => SHIFT_TYPE_LABEL[item.shiftType] },
+        { header: "신청자", 
+          key: "author", 
+          render: (item) => (
+            <Link to={`${item.id}`} className="hover:underline">
+              {item.author}
+            </Link>
+          ), 
+        },
+        { header: "신청자 근무시간", key: "requesterWorkTime" },
+        { header: "교대자", key: "targetWorker" },
+        { header: "교대 근무시간", key: "desiredWorkTime" },
+        {
+          header: "상태",
+          key: "approvalStatus",
+          render: (item) => (
+            <span className={`px-2 py-1 rounded text-xs ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}>
+              {APPROVAL_STATUS_LABEL[item.approvalStatus]}
+            </span>
+          ),
+        },
+        { header: "작성일자", key: "createdAt" },
+      ]}
+    />
   );
 }
