@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router';
 import type { DayoffPost } from '@/features/community/mock/communityMock';
 import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '../../model/statusLabel';

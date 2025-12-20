@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import CommentItem from './CommentItem';
 import Pagenation from '../../ui/Pagenation';
 
