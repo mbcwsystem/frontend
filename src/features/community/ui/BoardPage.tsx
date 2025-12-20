@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Pagenation from './Pagenation';
 import { usePagenation } from '../hooks/usePagenation';
+import SearchInput from './SearchInput';
 
 export interface Column<T> {
   header: string;
@@ -29,9 +30,20 @@ export function BoardPage<T>({
   columns,
 }: BoardProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredList = useMemo(() => {
+    if (!searchTerm) return list;
+    return list.filter((item) =>
+      columns.some((col) => {
+        const value = (item as any)[col.key];
+        return value?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+  }, [searchTerm, list, columns]);
 
   const { currentPage, totalPages, currentItems, setCurrentPage } = usePagenation({
-    items: [...list].reverse(),
+    items: [...filteredList].reverse(),
     itemsPerPage: 10,
   });
 
@@ -44,7 +56,7 @@ export function BoardPage<T>({
         </div>
 
         <div className="flex items-center gap-3">
-          <input placeholder="검색어를 입력하세요" className="border px-3 py-1 rounded-2xl text-sm" />
+          <SearchInput onSearch={setSearchTerm} placeholder="검색어를 입력하세요" />
 
           {canWrite && ModalComponent && onSubmit && (
             <button onClick={() => setIsOpen(true)} className="px-4 py-1 bg-mega text-white rounded">
