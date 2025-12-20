@@ -11,6 +11,8 @@ export const MANAGER_POSITIONS = ['점장', '바이저', '매니저'] as const;
 export type UserPosition = (typeof USER_POSITIONS)[number];
 export type ManagerPosition = (typeof MANAGER_POSITIONS)[number];
 
+export type Position = UserPosition | ManagerPosition;
+
 // user position 타입 가드
 export function isUserPosition(value: unknown): value is UserPosition {
   return typeof value === 'string' && (USER_POSITIONS as readonly string[]).includes(value);

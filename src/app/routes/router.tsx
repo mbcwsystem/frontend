@@ -7,6 +7,7 @@ import { AuthRoute } from './AuthRoute';
 import {
   Communiity,
   DayoffPage,
+  DayoffDetailPage,
   FreeboardPage,
   FreeBoardDetail,
   NoticePage,
@@ -77,7 +78,10 @@ export const router = createBrowserRouter([
           },
           {
             path: 'dayoff',
-            element: <DayoffPage />,
+            children: [
+              { index: true, element: <DayoffPage /> },
+              { path: ':id', element: <DayoffDetailPage /> },
+            ],
           },
           {
             path: 'freeboard',

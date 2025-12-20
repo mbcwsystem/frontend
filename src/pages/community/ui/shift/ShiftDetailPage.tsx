@@ -4,6 +4,7 @@ import type { ShiftPost } from '@/features/community/mock/communityMock';
 
 import { ShiftCompareSection } from '@/features/community//ui/shift/ShiftCompareSection';
 import { communityPostList } from '@/features/community/mock/communityMock';
+import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '@/features/community/model/shiftLabel';
 
 export default function ShiftDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -18,26 +19,12 @@ export default function ShiftDetailPage() {
 
   const getShiftTypeLabel = (type: ShiftPost['shiftType']) => (type === 'SWAP' ? '교대' : '대체');
 
-  const getStatusLabel = () => {
-    switch (post.approvalStatus) {
-      case 'APPROVED':
-        return { text: '승인', className: 'bg-green-100 text-green-700' };
-      case 'REJECTED':
-        return { text: '반려', className: 'bg-red-100 text-red-700' };
-      default:
-        return { text: '대기', className: 'bg-gray-100 text-gray-700' };
-    }
-  };
-
-  const status = getStatusLabel();
-
   return (
     <div className="max-w-5xl mx-auto p-6 flex flex-col gap-6">
       <h1 className="text-2xl font-bold">🔁 근무교대 / 근무대체</h1>
 
       <hr />
 
-      {/* 헤더 */}
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-xl font-semibold">{getShiftTypeLabel(post.shiftType)}</h2>
@@ -46,10 +33,12 @@ export default function ShiftDetailPage() {
           </p>
         </div>
 
-        <span className={`px-3 py-1 rounded-full text-sm ${status.className}`}>{status.text}</span>
+                <span className={`px-2 py-1 rounded text-sm
+                    ${APPROVAL_STATUS_STYLE[post.approvalStatus]}`}>
+                  {APPROVAL_STATUS_LABEL[post.approvalStatus]}
+                </span>
       </div>
 
-      {/* 비교 영역 */}
       <div className="grid grid-cols-2 gap-10 mt-8">
         <ShiftCompareSection
           title="변경 전"
