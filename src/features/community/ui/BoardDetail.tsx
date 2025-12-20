@@ -1,22 +1,5 @@
 import { useParams } from 'react-router';
-
-import type { ReactNode } from 'react';
-
-interface BoardItem {
-  id: number;
-  title: string;
-  author: string;
-  createdAt: string;
-  content: string;
-}
-
-interface BoardDetailProps {
-  title: string;
-  icon: string;
-  list: BoardItem[];
-  notFoundMessage?: string;
-  children?: ReactNode;
-}
+import type { BoardDetailProps } from '../model/boardType';
 
 export default function BoardDetail({
   title,
@@ -51,6 +34,7 @@ export default function BoardDetail({
       </div>
 
       <div className="whitespace-pre-line leading-7 text-sm px-2">{item.content}</div>
+      {/* 댓글 */}
       <div className="pt-20">{children}</div>
     </div>
   );

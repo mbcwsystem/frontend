@@ -1,24 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-
-interface BoardItem {
-  id: number;
-  title: string;
-  author: string;
-  createdAt: string;
-}
-
-interface BoardPageProps {
-  title: string;
-  icon: string;
-  list: BoardItem[];
-  canWrite: boolean;
-  onSubmit?: (data: { title: string; content: string }) => void;
-  ModalComponent?: React.ComponentType<{
-    onClose: () => void;
-    onSubmit: (data: { title: string; content: string }) => void;
-  }>;
-}
+import type { BoardPageProps } from '../model/boardType';
 
 const MAX_ITEMS = 10;
 
