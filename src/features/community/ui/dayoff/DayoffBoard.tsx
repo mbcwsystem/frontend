@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import type { DayoffPost } from '@/features/community/mock/communityMock';
 import { APPROVAL_STATUS_LABEL, APPROVAL_STATUS_STYLE } from '../../model/statusLabel';
+import Pagenation from '../Pagenation';
 
 interface DayoffBoardPageProps {
   list: DayoffPost[];
@@ -85,27 +86,11 @@ export default function DayoffBoardPage({
         </tbody>
       </table>
 
-      {totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-4">
-          {Array.from({ length: totalPages }).map((_, index) => {
-            const page = index + 1;
-            return (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-3 py-1 rounded border text-sm
-                  ${
-                    page === currentPage
-                      ? 'bg-mega text-white'
-                      : 'hover:bg-gray-100'
-                  }`}
-              >
-                {page}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      <Pagenation
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onChangePage={setCurrentPage}
+      />
     </div>
   );
 }

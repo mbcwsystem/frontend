@@ -8,6 +8,7 @@ import {
 } from '../../model/statusLabel';
 
 import type { ShiftPost } from '../../mock/communityMock';
+import Pagenation from '../Pagenation';
 
 const MAX_ITEMS = 10;
 
@@ -80,23 +81,11 @@ export default function ShiftBoardPage({ list }: ShiftBoardPageProps) {
         </tbody>
       </table>
 
-      {totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-4">
-          {Array.from({ length: totalPages }).map((_, index) => {
-            const page = index + 1;
-            return (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-3 py-1 rounded border text-sm
-                  ${page === currentPage ? 'bg-mega text-white' : 'hover:bg-gray-100'}`}
-              >
-                {page}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      <Pagenation
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onChangePage={setCurrentPage}
+      />
     </div>
   );
 }
