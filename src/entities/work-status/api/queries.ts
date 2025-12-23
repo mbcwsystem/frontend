@@ -1,9 +1,9 @@
 import { workStatusService } from './service';
 
-import type { WorkAction } from './dto';
+import type { WorkAction, WorkStatusRequestDTO } from './dto';
 
 export const workStatusQueries = {
   workStatus: (action: WorkAction) => ({
-    mutationFn: () => workStatusService.changeStatus(action),
+    mutationFn: (data: WorkStatusRequestDTO) => workStatusService.changeStatus(action, data),
   }),
 };
