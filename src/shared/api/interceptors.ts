@@ -91,18 +91,20 @@ export const rejectInterceptor = async (error: AxiosError<ErrorResponse>) => {
 
   switch (status) {
     case 401: {
-      // 401 에러 처리: 토큰이 있으면 만료, 없으면 로그인 실패
-      const isTokenExpired = !!accessToken;
+      // 로그인/근태 API는 401이어도 인증 정보를 지우지 않음
+      const isAuthRequest = error.config?.url?.includes('/auth/login');
+      const isWorkStatusRequest = error.config?.url?.includes('/workstatus/');
+      const shouldClearAuth = !!accessToken && !isAuthRequest && !isWorkStatusRequest;
 
-      if (isTokenExpired) {
-        // 인증 만료 - 토큰 제거
+      if (shouldClearAuth) {
+        // 실제 토큰 만료 - 토큰 제거
         clearAuth();
       }
 
       const unauthorizedMessage =
         typeof errorData?.detail === 'string'
           ? errorData.detail
-          : isTokenExpired
+          : shouldClearAuth
             ? '인증이 만료되었습니다. 다시 로그인해주세요.'
             : '아이디 또는 비밀번호가 올바르지 않습니다.';
 
