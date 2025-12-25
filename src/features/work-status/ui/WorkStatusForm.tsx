@@ -22,7 +22,6 @@ interface WorkStatusFormProps {
 
 const WorkStatusForm = ({ type }: WorkStatusFormProps) => {
   const [currentAction, setCurrentAction] = useState<WorkAction | null>(null);
-  const isAttendance = type === STATUS_TYPES.ATTENDANCE;
 
   const form = useForm({
     resolver: zodResolver(workStatusSchema),
