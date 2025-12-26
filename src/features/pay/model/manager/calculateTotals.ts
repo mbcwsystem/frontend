@@ -1,4 +1,4 @@
-import type { PayrollData } from '../model/manager/type';
+import type { PayrollData } from './type';
 
 type NumberKeys<T> = {
   [K in keyof T]: T[K] extends number | undefined ? K : never;
