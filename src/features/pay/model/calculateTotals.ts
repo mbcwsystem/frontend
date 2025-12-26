@@ -1,53 +1,46 @@
-import type { UserPayroll, WorkInfo, PayInfo, InsuranceInfo } from './type';
+import type { PayrollData } from '../model/manager/type';
 
-function sumFields<T extends Record<string, number>>(target: T, source: Partial<T>): void {
-  for (const key in target) {
-    const value = source[key] ?? 0;
-    // number 타입만 받기
-    (target[key] as number) += value;
-  }
-}
+type NumberKeys<T> = {
+  [K in keyof T]: T[K] extends number | undefined ? K : never;
+}[keyof T];
 
-const INITIAL_TOTALS = {
-  work: {
-    totalWorkHours: 0,
-    averageDailyHours: 0,
-    weeklyWorkHours: 0,
-    nightWorkHours: 0,
-    mainHolidayHours: 0,
-    annualLeaveHours: 0,
-    holidayWorkHours: 0,
-    laborDayWorkHours: 0,
-  } as WorkInfo,
-  pay: {
-    weeklyPay: 0,
-    nightPay: 0,
-    mainHolidayPay: 0,
-    annualLeavePay: 0,
-    holidayPay: 0,
-    laborDayPay: 0,
-    totalPay: 0,
-  } as PayInfo,
-  insurance: {
-    healthInsurance: 0,
-    careInsurance: 0,
-    employmentInsurance: 0,
-    nationalPension: 0,
-    unionFee: 0,
-  } as InsuranceInfo,
-  paymentAmount: 0,
-};
+const SUM_FIELDS: NumberKeys<PayrollData>[] = [
+  'total_work_days',
+  'total_work_hours',
+  'avg_daily_hours',
 
-export default function calculateTotals(data: UserPayroll[]) {
-  const initial = structuredClone(INITIAL_TOTALS);
+  'day_hours',
+  'night_hours',
+  'weekly_allowance_hours',
+  'annual_leave_hours',
+  'holiday_hours',
+  'labor_day_hours',
 
-  return data.reduce((acc, item) => {
-    sumFields(acc.work, item.work);
-    sumFields(acc.pay, item.pay);
-    sumFields(acc.insurance, item.insurance);
+  'day_wage',
+  'night_wage',
+  'weekly_allowance_pay',
+  'annual_leave_pay',
+  'holiday_pay',
+  'labor_day_pay',
 
-    acc.paymentAmount += item.paymentAmount ?? 0;
+  'gross_pay',
 
+  'insurance_health',
+  'insurance_care',
+  'insurance_employment',
+  'insurance_pension',
+
+  'total_deduction',
+  'net_pay',
+];
+
+function calculateTotals(data: PayrollData[]): PayrollData {
+  return data.reduce<PayrollData>((acc, cur) => {
+    SUM_FIELDS.forEach((key) => {
+      acc[key] = (acc[key] ?? 0) + (cur[key] ?? 0);
+    });
     return acc;
-  }, initial);
+  }, {} as PayrollData);
 }
+
+export default calculateTotals;
