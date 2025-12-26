@@ -1,10 +1,12 @@
 import { useState } from 'react';
 
+import { mockUserPayroll } from '../../features/pay/mock/payUserMock';
+import UserPosition from '../../features/pay/ui/UserPosition';
 import { DropdownSelect } from '../../shared/components/ui/dropdown-select';
 
 import type { PayrollData } from '@/features/pay/model/manager/type';
 
-import { mockPayroll, UserPosition, ManagerPositions } from '@/features/pay';
+import { mockPayroll, ManagerPositions } from '@/features/pay';
 import { ROLE, type Role } from '@/features/pay/model/role';
 import { isUserPosition } from '@/features/pay/model/role';
 import { Button } from '@/shared/components/ui/button';
@@ -102,7 +104,7 @@ export default function PayPage() {
         </CardContent>
       </Card>
 
-      {/* {role === ROLE.USER && filteredData.length === 1 && <UserPosition data={filteredData} />} */}
+      {role === ROLE.USER && <UserPosition data={mockUserPayroll} />}
       {role === ROLE.MANAGER && filteredData.length > 0 && (
         <ManagerPositions filteredData={filteredData} />
       )}
