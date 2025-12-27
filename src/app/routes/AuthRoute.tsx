@@ -13,24 +13,9 @@ interface AuthRouteProps extends PropsWithChildren {
   allowSystem?: boolean; // 시스템 계정 접근 허용
 }
 
-// export const AuthRoute = ({ isPublic, children }: AuthRouteProps) => {
-//   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-//   if (!isPublic && !isAuthenticated) {
-//     return <Navigate to={ROUTES.LOGIN} replace />;
-//   }
-
-//   if (isPublic && isAuthenticated) {
-//     return <Navigate to={ROUTES.ROOT} replace />;
-//   }
-
-//   return <>{children}</>;
-// };
 export const AuthRoute = ({ isPublic, requireAdmin, allowSystem, children }: AuthRouteProps) => {
-  const { isAuthenticated, user } = useAuthStore((state) => ({
-    isAuthenticated: state.isAuthenticated,
-    user: state.user,
-  }));
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
 
   // 로그인 안 한 경우
   if (!isPublic && !isAuthenticated) {
@@ -38,9 +23,9 @@ export const AuthRoute = ({ isPublic, requireAdmin, allowSystem, children }: Aut
   }
 
   // 로그인한 상태에서 public 페이지 접근 시
-  if (isPublic && isAuthenticated) {
+  if (isPublic && isAuthenticated && user) {
     // 시스템 계정은 work-status로 리다이렉트
-    if (user && isSystemAccount(user.position)) {
+    if (isSystemAccount(user.position)) {
       return <Navigate to={ROUTES.WORK_STATUS} replace />;
     }
     // 일반 유저는 메인으로

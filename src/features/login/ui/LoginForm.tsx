@@ -10,6 +10,7 @@ import loginSchema, { type LoginSchemaType } from '../model/schema';
 import RHFInput from './RHFinput';
 
 import { userService } from '@/entities/user/api/service';
+import { isSystemAccount } from '@/entities/user/model/role';
 import { isApiError } from '@/shared/api/error';
 import { Button } from '@/shared/components/ui/button';
 import { Form } from '@/shared/components/ui/form';
@@ -29,9 +30,15 @@ const LoginForm = () => {
     ...authQueries.login,
     onSuccess: async () => {
       // 로그인 성공 -> 페이지 이동
-      await userService.me(); // 유저 정보 1회 요청
+      const user = await userService.me(); // 유저 정보 1회 요청
       toast.success('로그인에 성공했습니다');
-      void navigate(ROUTES.ROOT);
+
+      // 역할에 따른 리다이렉트
+      if (isSystemAccount(user.position)) {
+        void navigate(ROUTES.WORK_STATUS);
+      } else {
+        void navigate(ROUTES.ROOT);
+      }
     },
     onError: (error) => {
       if (isApiError(error)) {
