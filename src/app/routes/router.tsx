@@ -23,7 +23,6 @@ import { Layout } from '@/shared/layouts/Layout';
 import PublicLayout from '@/shared/layouts/PublicLayout';
 
 export const router = createBrowserRouter([
-  //public routes
   {
     path: ROUTES.ROOT,
     element: (
@@ -38,7 +37,24 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  // private routes
+
+  // Work Status - 시스템 계정 전용 (다른 계정도 접근 가능)
+  {
+    path: ROUTES.WORK_STATUS,
+    element: (
+      <AuthRoute allowSystem>
+        <Layout />
+      </AuthRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <WorkStatusPage />,
+      },
+    ],
+  },
+
+  // Private routes - 크루/관리자만 접근 (시스템 계정 차단)
   {
     path: ROUTES.ROOT,
     element: (

@@ -1,4 +1,4 @@
-import { PayHeader, ScheduleList, UserCalendar, UserProfile } from '@/features/home';
+import { ScheduleList, UserCalendar, UserProfile } from '@/features/home';
 import PageLogo from '@/shared/components/ui/PageLogo';
 import ContentsCard from '@/widgets/ui/ContentsCard';
 
