@@ -1,33 +1,28 @@
 import { TextAlignStart } from 'lucide-react';
+import { MessagesSquare } from 'lucide-react';
+import { Megaphone } from 'lucide-react';
+import { CalendarSync } from 'lucide-react';
+import { CloudOff } from 'lucide-react';
 import { Outlet } from 'react-router';
 
+import logo from '../../../shared/assets/logo/Megabox_Logo_Indigo.png';
+
 import { ListButton } from '@/features/community';
-import { Card, CardContent } from '@/shared/components/ui/card';
 
 export default function Communiity() {
   return (
-    <div className="flex flex-col gap-5">
-      <div className="text-2xl font-bold">커뮤니티</div>
-      <div className="flex gap-10">
-        <Card variant="blueSide" className="max-h-60 min-w-30">
-          <CardContent className="flex flex-col justify-start items-start gap-6">
-            <div className="flex gap-3 items-center">
-              <TextAlignStart size={16} strokeWidth={3} />
-              <div className="font-bold sm:text-sm text-xs">목록</div>
-            </div>
-            <div>
-              <ListButton label="공지사항" to="notice" />
-              <ListButton label="근무교대" to="shift" />
-              <ListButton label="휴무신청" to="dayoff" />
-              <ListButton label="자유게시판" to="freeboard" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card variant="blueMain" className="min-h-140 mb-10">
-          <CardContent>
-            <Outlet />
-          </CardContent>
-        </Card>
+    <div className="flex flex-col gap-5 w-3/4 mx-auto">
+      <img src={logo} alt="logo" className="w-50 self-center" />
+
+      <div className="flex flex-col gap-10">
+        <div className="flex self-start">
+          <ListButton label="전체" to="all" icon={TextAlignStart} activeColor="bg-mega opacity-90" />
+          <ListButton label="공지사항" to="notice" icon={Megaphone} activeColor="bg-red-500" />
+          <ListButton label="근무교대" to="shift" icon={CalendarSync} activeColor="bg-[#44BC62]" />
+          <ListButton label="휴무신청" to="dayoff" icon={CloudOff} activeColor="bg-[#00C0E8]" />
+          <ListButton label="자유게시판" to="freeboard" icon={MessagesSquare} activeColor="bg-mega opacity-90" />
+        </div>
+        <Outlet />
       </div>
     </div>
   );
