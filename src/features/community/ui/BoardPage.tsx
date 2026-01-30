@@ -4,6 +4,7 @@ import Pagenation from './Pagenation';
 import SearchInput from './SearchInput';
 
 import type { BaseRow, BoardProps } from '../model/boardType';
+import { Button } from '@/shared/components/ui/button';
 
 export function BoardPage<T extends BaseRow>({
   title,
@@ -35,23 +36,17 @@ export function BoardPage<T extends BaseRow>({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2 text-2xl font-bold">
-          {icon && <span>{icon}</span>}
-          <span>{title}</span>
-        </div>
-
+      <div className='flex gap-2'>
+        <SearchInput onSearch={setSearchTerm} placeholder="검색어를 입력하세요" />
         <div className="flex items-center gap-3">
-          <SearchInput onSearch={setSearchTerm} placeholder="검색어를 입력하세요" />
-
           {canWrite && (
-            <button
-              onClick={() => setIsOpen(true)}
-              className="px-4 py-1 bg-mega text-white rounded"
-            >
-              작성
-            </button>
-          )}
+              <Button
+                onClick={() => setIsOpen(true)}
+                className="bg-mega text-white text-xs"
+              >
+                ＋ 글쓰기
+              </Button>
+            )}
 
           {isOpen && ModalComponent && (
             <ModalComponent
@@ -60,6 +55,12 @@ export function BoardPage<T extends BaseRow>({
               onSubmit={(data) => console.log(data)}
             />
           )}
+        </div>
+      </div>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2 text-2xl font-bold">
+          {icon && <span>{icon}</span>}
+          <span>{title}</span>
         </div>
       </div>
 

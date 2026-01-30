@@ -1,3 +1,4 @@
+import { Input } from '@/shared/components/ui/input';
 import { useState, useEffect } from 'react';
 
 interface SearchInputProps {
@@ -21,12 +22,12 @@ export default function SearchInput({ placeholder, onSearch, delay = 500 }: Sear
   }, [value, onSearch, delay]);
 
   return (
-    <input
+    <Input
       type="text"
       value={value}
       onChange={(e) => setValue(e.target.value)}
       placeholder={placeholder || '검색어를 입력하세요'}
-      className="border px-3 py-1 rounded-2xl text-sm"
+      className="border px-3 py-1 placeholder:text-xs bg-white"
     />
   );
 }

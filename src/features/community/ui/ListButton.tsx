@@ -14,17 +14,17 @@ export default function ListButton({
   label,
   to,
   icon: Icon,
-  color = 'border border-gray-300 bg-white',
+  color = 'border border-gray-200 bg-white',
   activeColor,
 }: ListButtonProps) {
   const location = useLocation();
   const isActive = location.pathname.includes(`/community/${to}`);
 
   return (
-    <Link to={to} className="flex items-center gap-1 cursor-pointer">
+    <Link to={to} className="flex items-center cursor-pointer">
       <div
         className={`
-          flex gap-2 text-xs sm:text-10px px-4 py-2 rounded-md mx-2
+          flex gap-2 text-xs sm:text-10px px-4 py-2 rounded-md
           ${isActive ? `text-white ${activeColor}` : color}
         `}
       >
