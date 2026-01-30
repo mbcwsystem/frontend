@@ -11,14 +11,14 @@ import { ListButton } from '@/features/community';
 
 export default function Communiity() {
   return (
-    <div className="flex flex-col gap-5 w-3/4 mx-auto">
+    <div className="flex flex-col gap-5 w-3/4 mx-auto mb-10">
       <img src={logo} alt="logo" className="w-50 self-center mb-4" />
 
       <div className="flex flex-col gap-5">
         <div className="flex self-start gap-2">
           <ListButton
             label="전체"
-            to="all"
+            to="community"
             icon={TextAlignStart}
             activeColor="bg-mega opacity-90"
           />
