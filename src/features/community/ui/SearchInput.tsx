@@ -1,5 +1,6 @@
-import { Input } from '@/shared/components/ui/input';
 import { useState, useEffect } from 'react';
+
+import { Input } from '@/shared/components/ui/input';
 
 interface SearchInputProps {
   placeholder?: string;

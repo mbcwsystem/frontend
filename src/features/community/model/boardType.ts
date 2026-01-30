@@ -32,17 +32,12 @@ export interface Column<T extends BaseRow> {
 }
 
 export interface BoardProps<T extends BaseRow> {
-  title: string;
-  icon?: React.ReactNode;
   list: T[];
+  tf?: string;
   canWrite?: boolean;
-  category?: '공지' | '자유게시판';
-  ModalComponent?: React.ComponentType<{
-    onClose: () => void;
-    onSubmit: (data: unknown) => void;
-    category: '공지' | '자유게시판';
-  }>;
-  columns: Column<T>[];
+  category?: string;
+  renderBadge?: (item: T) => ReactNode;
+  ModalComponent?: React.ComponentType<any>;
   pagination?: {
     currentPage: number;
     totalPages: number;
@@ -70,4 +65,12 @@ export interface BoardDetailProps {
   list: BoardDetailItem[];
   notFoundMessage?: string;
   children?: ReactNode;
+}
+
+export interface BoardPost extends BaseRow {
+  title: string;
+  content: string;
+  author_name: string;
+  created_at: string;
+  comments_count?: number;
 }
