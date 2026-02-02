@@ -78,25 +78,24 @@ const WorkStatusForm = () => {
 
       <CardContent className="flex flex-col bg-mega-white-gray text-black">
         <Form {...form}>
-          <form id="work-status-form" className=" flex flex-col gap-2">
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <RHFInput
-                form={form}
-                name="username"
-                placeholder="ID"
-                disabled={isPending}
-                label="아이디"
-              />
-              <RHFInput
-                form={form}
-                name="password"
-                placeholder="PASSWORD"
-                type="password"
-                disabled={isPending}
-                label="패스워드"
-                className="font-sans"
-              />
-            </div>
+          <form id="work-status-form" className=" flex flex-col gap-2 sm:flex-row w-full">
+            <RHFInput
+              form={form}
+              name="username"
+              placeholder="ID"
+              disabled={isPending}
+              label="아이디"
+              className=" w-full"
+            />
+            <RHFInput
+              form={form}
+              name="password"
+              placeholder="PASSWORD"
+              type="password"
+              disabled={isPending}
+              label="패스워드"
+              className="font-sans w-full"
+            />
           </form>
         </Form>
       </CardContent>
@@ -108,10 +107,12 @@ const WorkStatusForm = () => {
             disabled={isPending}
             variant={buttonVariant}
             size="transparent"
-            className="flex-1 w-full sm:w-auto"
+            className="flex-1 w-full sm:w-auto px-6"
           >
             <div className="flex flex-col justify-center items-center gap-1">
-              <Icon />
+              <div className="p-2 rounded-full bg-accent/40">
+                <Icon className="size-6" />
+              </div>
               {isPending && currentAction === action ? '처리 중...' : label}
             </div>
           </Button>

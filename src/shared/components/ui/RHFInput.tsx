@@ -33,7 +33,7 @@ const RHFInput = <T extends FieldValues>({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col gap-0 relative">
+        <FormItem className="flex flex-col gap-0 relative w-full">
           {label && <FormLabel className="mb-1 ">{label}</FormLabel>}
           <FormControl>
             <Input
