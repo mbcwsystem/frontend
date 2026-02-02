@@ -5,6 +5,7 @@ import type { LucideIcon } from 'lucide-react';
 interface ListButtonProps {
   label: string;
   to: string;
+  count?: number;
   icon?: LucideIcon;
   color?: string;
   activeColor?: string;
@@ -13,6 +14,7 @@ interface ListButtonProps {
 export default function ListButton({
   label,
   to,
+  count,
   icon: Icon,
   color = 'border border-gray-200 bg-white',
   activeColor,
@@ -30,6 +32,17 @@ export default function ListButton({
       >
         {Icon && <Icon size={16} className={isActive ? 'text-white' : 'text-gray-600'} />}
         {label}
+        {count !== undefined && (
+          <span
+            className={
+              isActive
+                ? 'ml-1 px-1 py-0.5 text-[10px] text-center rounded-full bg-white opacity-60 text-gray-700'
+                : 'ml-1 px-1 py-0.5 text-[10px] text-center rounded-full bg-gray-200 text-gray-700'
+            }
+          >
+            {count}
+          </span>
+        )}
       </div>
     </Link>
   );
