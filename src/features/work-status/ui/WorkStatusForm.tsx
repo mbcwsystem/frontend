@@ -88,6 +88,7 @@ const WorkStatusForm = () => {
                 type="password"
                 disabled={isPending}
                 label="패스워드"
+                className="font-sans"
               />
             </div>
           </form>
