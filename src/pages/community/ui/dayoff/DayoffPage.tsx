@@ -1,46 +1,18 @@
-import { CloudOff } from 'lucide-react';
-import { Link } from 'react-router';
+import { BoardPage } from '../../../../features/community/ui/BoardPage';
+import { Badge } from '../badge';
 
 import { communityPostList } from '@/features/community/mock/communityMock';
-import {
-  APPROVAL_STATUS_LABEL,
-  APPROVAL_STATUS_STYLE,
-} from '@/features/community/model/statusLabel';
-import { BoardPage } from '@/features/community/ui/BoardPage';
 
 export default function DayoffPage() {
-  const list = communityPostList.filter((post) => post.category === 'DAYOFF');
+  const list = communityPostList
+    .filter((post) => post.category === 'DAYOFF')
+    .map((post) => ({
+      id: post.id,
+      title: '휴무 신청',
+      content: `휴무일: ${post.dayoffDate}`,
+      author_name: post.author,
+      created_at: post.createdAt,
+    }));
 
-  return (
-    <BoardPage
-      title="휴무신청"
-      icon={<CloudOff />}
-      list={list}
-      columns={[
-        { header: '순번', key: 'id', render: (_, idx) => list.length - idx },
-        {
-          header: '신청자',
-          key: 'author',
-          render: (item) => (
-            <Link to={`${item.id}`} className="hover:underline">
-              {item.author}
-            </Link>
-          ),
-        },
-        { header: '신청일자', key: 'dayoffDate' },
-        {
-          header: '상태',
-          key: 'approvalStatus',
-          render: (item) => (
-            <span
-              className={`px-2 py-1 rounded text-xs ${APPROVAL_STATUS_STYLE[item.approvalStatus]}`}
-            >
-              {APPROVAL_STATUS_LABEL[item.approvalStatus]}
-            </span>
-          ),
-        },
-        { header: '작성일자', key: 'createdAt' },
-      ]}
-    />
-  );
+  return <BoardPage list={list} renderBadge={() => <Badge variant="dayoff" label="휴무" />} />;
 }

@@ -17,6 +17,7 @@ import {
   ShiftPage,
   ShiftDetailPage,
 } from '@/pages/community';
+import CommunityPage from '@/pages/community/ui/CommunityPage';
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/payroll/PayPage';
@@ -77,7 +78,14 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to="notice" replace />,
+            element: <Navigate to="community" replace />,
+          },
+          {
+            path: 'community',
+            children: [
+              { index: true, element: <CommunityPage /> },
+              { path: ':id', element: <NoticeDetail /> },
+            ],
           },
           {
             path: 'notice',

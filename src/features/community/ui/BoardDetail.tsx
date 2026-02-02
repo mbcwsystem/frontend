@@ -64,6 +64,7 @@ export default function BoardDetail({ icon, title }: BoardDetailProps) {
           <div className="text-lg font-bold">{post.title}</div>
           <div className="text-sm text-gray-500">
             {post.author_name} · {formattedDate}
+            {post.updated_at !== post.created_at ? ' · (수정됨)' : ''}
           </div>
         </div>
 
@@ -88,12 +89,7 @@ export default function BoardDetail({ icon, title }: BoardDetailProps) {
 
       <div className="whitespace-pre-line leading-7 text-sm px-2">{post.content}</div>
 
-      <CommentSection
-        postId={post.id}
-        postType={post.category === '공지' ? 'notice' : 'freeboard'}
-        currentUserId={user.id}
-        comments={post.comments}
-      />
+      <CommentSection postId={post.id} currentUserId={user.id} />
 
       {isEditOpen && (
         <CommunityModal
