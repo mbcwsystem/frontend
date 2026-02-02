@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 import workStatusSchema, { type WorkStatusSchemaType } from '../model/schema';
 import { BUTTON_LABELS, WORK_STATUS_ACTIONS } from '../model/status';
+import { useNow } from '../model/useNow';
 
 import type { WorkAction } from '@/entities/work-status/api/dto';
 
@@ -16,9 +17,12 @@ import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Form } from '@/shared/components/ui/form';
 import RHFInput from '@/shared/components/ui/RHFInput';
+import { formatCurrentDateTime } from '@/shared/lib/date';
 
 const WorkStatusForm = () => {
   const [currentAction, setCurrentAction] = useState<WorkAction | null>(null);
+  const now = useNow();
+  const { time, date, dayOfWeek } = formatCurrentDateTime(now);
 
   const form = useForm({
     resolver: zodResolver(workStatusSchema),
@@ -62,18 +66,20 @@ const WorkStatusForm = () => {
   return (
     <Card variant="purpleMain">
       <CardHeader className="flex flex-col gap-2 justify-center items-center">
-        <div className="flex gap-1">
-          <Clock />
+        <div className="flex gap-2 items-center justify-center">
+          <Clock size={20} />
           <p>현재 시각</p>
         </div>
-        <CardTitle>16:24:18</CardTitle>
-        <div>2026-02-01 월요일</div>
+        <CardTitle className="text-4xl font-bold sm:text-5xl">{time}</CardTitle>
+        <div>
+          {date} {dayOfWeek}
+        </div>
       </CardHeader>
 
       <CardContent className="flex flex-col bg-mega-white-gray text-black">
         <Form {...form}>
           <form id="work-status-form" className=" flex flex-col gap-2">
-            <div className=" flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <RHFInput
                 form={form}
                 name="username"
@@ -94,7 +100,7 @@ const WorkStatusForm = () => {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className=" flex gap-3 p-6 bg-white">
+      <CardFooter className="flex flex-col gap-3 p-6 bg-white sm:flex-row">
         {WORK_STATUS_ACTIONS.map(({ action, label, buttonVariant, icon: Icon }) => (
           <Button
             key={action}
@@ -102,7 +108,7 @@ const WorkStatusForm = () => {
             disabled={isPending}
             variant={buttonVariant}
             size="transparent"
-            className="flex-1"
+            className="flex-1 w-full sm:w-auto"
           >
             <div className="flex flex-col justify-center items-center gap-1">
               <Icon />
