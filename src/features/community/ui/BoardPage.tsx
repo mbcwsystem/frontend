@@ -1,6 +1,11 @@
+import { Megaphone } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
+import { useCommunityPostDetailQuery } from '../api/queries';
+
 import { BoardCard } from './BoardCard';
+import BoardDetailContent from './BoardDetailContent';
+import { DetailModal } from './DetailModal';
 import Pagenation from './Pagenation';
 import SearchInput from './SearchInput';
 
@@ -18,6 +23,12 @@ export function BoardPage<T extends BoardPost>({
 }: BoardProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+
+  const { data: detailPost } = useCommunityPostDetailQuery(
+    selectedPostId === null ? -1 : selectedPostId,
+  );
 
   const filteredList = useMemo(
     () =>
@@ -46,7 +57,12 @@ export function BoardPage<T extends BoardPost>({
 
       <div className="flex flex-col gap-4">
         {filteredList.map((item) => (
-          <BoardCard key={item.id} item={item} href={`${item.id}`} badge={renderBadge?.(item)} />
+          <BoardCard
+            key={item.id}
+            item={item}
+            badge={renderBadge?.(item)}
+            onClick={() => setSelectedPostId(item.id)}
+          />
         ))}
       </div>
 
@@ -66,6 +82,16 @@ export function BoardPage<T extends BoardPost>({
             console.log(data);
           }}
         />
+      )}
+      {detailPost && (
+        <DetailModal onClose={() => setSelectedPostId(null)}>
+          <BoardDetailContent
+            post={detailPost}
+            title="공지사항"
+            icon={<Megaphone size={15} />}
+            onClose={() => setSelectedPostId(null)}
+          />
+        </DetailModal>
       )}
     </div>
   );
