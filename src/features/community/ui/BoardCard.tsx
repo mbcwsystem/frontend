@@ -20,8 +20,8 @@ export function BoardCard<T extends BoardPost>({ item, badge, onClick }: BoardCa
           </div>
         </CardHeader>
 
-        <CardContent className="p-0">
-          <p className="text-sm text-gray-600 line-clamp-2">{item.content}</p>
+        <CardContent className="p-0 max-w-2/3">
+          <p className="text-xs text-gray-600 line-clamp-2">{item.content}</p>
         </CardContent>
 
         <CardFooter className="p-0 flex items-center gap-4 text-[10px] text-gray-400">

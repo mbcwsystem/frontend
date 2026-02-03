@@ -36,17 +36,17 @@ export default function BoardDetailContent({
   const formattedDate = dayjs(post.created_at).format('YYYY-MM-DD HH:mm');
 
   const handleDelete = async () => {
-  if (!confirm('정말 삭제하시겠습니까?')) return;
+    if (!confirm('정말 삭제하시겠습니까?')) return;
 
-  try {
-    await deleteMutation.mutateAsync(post.id);
-    toast.success('삭제되었습니다.');
+    try {
+      await deleteMutation.mutateAsync(post.id);
+      toast.success('삭제되었습니다.');
 
-    onClose?.();
-  } catch {
-    toast.error('삭제가 실패되었습니다.');
-  }
-};
+      onClose?.();
+    } catch {
+      toast.error('삭제가 실패되었습니다.');
+    }
+  };
 
   const handleEditSubmit = async (data: { title: string; content: string }) => {
     await updateMutation.mutateAsync({
