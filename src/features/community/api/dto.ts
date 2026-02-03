@@ -75,3 +75,8 @@ export interface GetCommunityPostsParams {
   search?: string;
   order?: 'latest' | 'oldest' | 'popular';
 }
+
+// 카테고리별 글 갯수
+export interface CategoryCountsResponse {
+  counts: Record<string, number>;
+}

@@ -10,6 +10,7 @@ import {
   createComment,
   updateComment,
   deleteComment,
+  getCategoryCounts,
 } from './service';
 
 import type {
@@ -17,6 +18,7 @@ import type {
   CreatePostRequestDTO,
   CommunityPostDTO,
   CommentsResponseDTO,
+  CategoryCountsResponse,
 } from './dto';
 
 // 🔖 게시글
@@ -28,6 +30,9 @@ export function useCreatePostMutation() {
     mutationFn: (data: CreatePostRequestDTO) => createPost(data),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['communityPosts'] });
+      void queryClient.invalidateQueries({
+        queryKey: ['community', 'category-counts'],
+      });
     },
   });
 }
@@ -56,7 +61,7 @@ export function useUpdatePostMutation() {
   return useMutation<CommunityPostDTO, Error, { id: number; data: Partial<CreatePostRequestDTO> }>({
     mutationFn: ({ id, data }) => updatePost(id, data),
 
-    onSuccess: (data, variables) => {
+    onSuccess: (variables) => {
       void queryClient.invalidateQueries({
         queryKey: ['communityPost', variables.id],
       });
@@ -76,9 +81,21 @@ export function useDeletePostMutation() {
     mutationFn: (id: number) => deletePost(id),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['communityPosts'] });
+      void queryClient.invalidateQueries({
+        queryKey: ['community', 'category-counts'],
+      });
     },
   });
 }
+
+// 카테고리별 글 갯수
+export const useCategoryCountsQuery = () => {
+  return useQuery<CategoryCountsResponse>({
+    queryKey: ['community', 'category-counts'],
+    queryFn: () => getCategoryCounts(),
+    staleTime: 1000 * 60,
+  });
+};
 
 // 🔖 댓글
 // GET

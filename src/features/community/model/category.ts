@@ -1,4 +1,22 @@
-export type CommunityCategory = '공지' | '자유게시판' | '근무교대' | '휴무';
+export type CommunityCategory = '공지' | '자유게시판' | '근무교대' | '휴무신청';
+
+export const CATEGORY_LABEL = {
+  notice: '공지',
+  shift: '근무교대',
+  dayoff: '휴무신청',
+  free: '자유게시판',
+} as const;
+
+export type CategoryKey = keyof typeof CATEGORY_LABEL;
+export type CategoryLabel = (typeof CATEGORY_LABEL)[CategoryKey];
+
+export interface CategoryCountsResponse {
+  total: number;
+  notice: number;
+  shift: number;
+  dayoff: number;
+  free: number;
+}
 
 export function mapCategoryToVariant(category: CommunityCategory) {
   switch (category) {
@@ -8,7 +26,7 @@ export function mapCategoryToVariant(category: CommunityCategory) {
       return 'free';
     case '근무교대':
       return 'shift';
-    case '휴무':
+    case '휴무신청':
       return 'dayoff';
     default:
       return 'free';
