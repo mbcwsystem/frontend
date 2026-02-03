@@ -1,9 +1,8 @@
-import dayjs from 'dayjs';
 import { useState } from 'react';
-
 import type { CommentDTO } from '../../api/dto';
 
 import { Input } from '@/shared/components/ui/input';
+import { formatRelativeTime } from '../../model/formatData';
 
 interface CommentItemProps {
   comment: CommentDTO;
@@ -22,7 +21,7 @@ export default function CommentItem({
 
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(comment.content);
-  const formattedDate = dayjs(comment.created_at).format('YYYY-MM-DD HH:mm');
+  const formattedDate = formatRelativeTime(comment.created_at);
 
   const handleSave = () => {
     if (!value.trim()) return;

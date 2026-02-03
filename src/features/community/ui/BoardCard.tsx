@@ -1,5 +1,7 @@
 import { Calendar, MessageSquare, User } from 'lucide-react';
 
+import { formatRelativeTime } from '../model/formatData';
+
 import type { BoardPost } from '../model/boardType';
 
 import { Card, CardHeader, CardContent, CardFooter } from '@/shared/components/ui/card';
@@ -31,7 +33,7 @@ export function BoardCard<T extends BoardPost>({ item, badge, onClick }: BoardCa
           </div>
           <div className="flex gap-1">
             <Calendar size={15} />
-            <span>{new Date(item.created_at).toLocaleDateString()}</span>
+            <span>{formatRelativeTime(item.created_at)}</span>
           </div>
           <div className="flex gap-1">
             <MessageSquare size={15} />

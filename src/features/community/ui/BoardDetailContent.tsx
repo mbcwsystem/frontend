@@ -1,8 +1,8 @@
-import dayjs from 'dayjs';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { useDeletePostMutation, useUpdatePostMutation } from '../api/queries';
+import { formatRelativeTime } from '../model/formatData';
 
 import CommentSection from './comment/CommentSection';
 import CommunityModal from './CommunityModal';
@@ -33,7 +33,7 @@ export default function BoardDetailContent({
   if (!user) return <div>로그인이 필요합니다.</div>;
 
   const isMine = post.author_id === user.id;
-  const formattedDate = dayjs(post.created_at).format('YYYY-MM-DD HH:mm');
+  const formattedDate = formatRelativeTime(post.created_at);
 
   const handleDelete = async () => {
     if (!confirm('정말 삭제하시겠습니까?')) return;
