@@ -2,9 +2,9 @@ import { Captions, MessageSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-import { useCreatePostMutation } from '../api/queries';
+import { useCreatePostMutation } from '../../api/queries';
 
-import type { PostModalProps } from '../model/modalType';
+import type { PostModalProps } from '../../model/modalType';
 
 import { Input } from '@/shared/components/ui/input';
 

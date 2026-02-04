@@ -1,11 +1,10 @@
 import { toast } from 'sonner';
 
-import { useDeletePostMutation } from '../api/queries';
-import { formatRelativeTime } from '../model/formatData';
+import { useDeletePostMutation } from '../../api/queries';
+import { formatRelativeTime } from '../../model/formatData';
+import CommentSection from '../comment/CommentSection';
 
-import CommentSection from './comment/CommentSection';
-
-import type { CommunityPostDTO } from '../api/dto';
+import type { CommunityPostDTO } from '../../api/dto';
 
 import { useAuthStore } from '@/shared/model/authStore';
 

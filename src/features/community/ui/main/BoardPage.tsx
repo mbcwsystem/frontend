@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react';
 
-import { useCommunityPostDetailQuery } from '../api/queries';
-import { useEditPostFlow } from '../model/useEditPostFlow';
+import { useCommunityPostDetailQuery } from '../../api/queries';
+import { useEditPostFlow } from '../../model/useEditPostFlow';
+import BoardDetailContent from '../detail/BoardDetailContent';
+import CommunityModal from '../modal/CommunityModal';
+import { DetailModal } from '../modal/DetailModal';
+import Pagenation from '../Pagenation';
+import SearchInput from '../SearchInput';
 
 import { BoardCard } from './BoardCard';
-import BoardDetailContent from './BoardDetailContent';
-import CommunityModal from './CommunityModal';
-import { DetailModal } from './DetailModal';
-import Pagenation from './Pagenation';
-import SearchInput from './SearchInput';
 
-import type { BoardPost, BoardProps } from '../model/boardType';
+import type { BoardPost, BoardProps } from '../../model/boardType';
 
 import { Button } from '@/shared/components/ui/button';
 

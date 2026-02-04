@@ -1,10 +1,10 @@
 import { useParams } from 'react-router';
 
-import { useCommunityPostDetailQuery } from '../api/queries';
+import { useCommunityPostDetailQuery } from '../../api/queries';
 
 import BoardDetailContent from './BoardDetailContent';
 
-import type { BoardDetailProps } from '../model/boardType';
+import type { BoardDetailProps } from '../../model/boardType';
 
 export default function BoardDetail({ icon, title }: BoardDetailProps) {
   const { id } = useParams<{ id: string }>();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Badge } from './badge';
+import { Badge } from '../../../features/community/ui/badge';
 
 import { useCommunityPostsQuery } from '@/features/community/api/queries';
 import {
@@ -8,7 +8,7 @@ import {
   getTitleForCategory,
   mapCategoryToVariant,
 } from '@/features/community/model/category';
-import { BoardPage } from '@/features/community/ui/BoardPage';
+import { BoardPage } from '@/features/community/ui/main/BoardPage';
 
 export default function CommunityPage() {
   const [page, setPage] = useState(1);

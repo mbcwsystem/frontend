@@ -1,8 +1,8 @@
 import { Calendar, MessageSquare, User } from 'lucide-react';
 
-import { formatRelativeTime } from '../model/formatData';
+import { formatRelativeTime } from '../../model/formatData';
 
-import type { BoardPost } from '../model/boardType';
+import type { BoardPost } from '../../model/boardType';
 
 import { Card, CardHeader, CardContent, CardFooter } from '@/shared/components/ui/card';
 
