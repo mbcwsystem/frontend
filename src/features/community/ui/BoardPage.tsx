@@ -1,4 +1,3 @@
-import { Megaphone } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { useCommunityPostDetailQuery } from '../api/queries';
@@ -20,15 +19,15 @@ export function BoardPage<T extends BoardPost>({
   ModalComponent,
   pagination,
   renderBadge,
+  title,
+  icon,
 }: BoardProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
-  const { data: detailPost } = useCommunityPostDetailQuery(
-    selectedPostId === null ? -1 : selectedPostId,
-  );
+  const { data: detailPost } = useCommunityPostDetailQuery(selectedPostId);
 
   const filteredList = useMemo(
     () =>
@@ -87,8 +86,8 @@ export function BoardPage<T extends BoardPost>({
         <DetailModal onClose={() => setSelectedPostId(null)}>
           <BoardDetailContent
             post={detailPost}
-            title="공지사항"
-            icon={<Megaphone size={15} />}
+            title={typeof title === 'function' ? title(detailPost) : title}
+            icon={typeof icon === 'function' ? icon(detailPost) : icon}
             onClose={() => setSelectedPostId(null)}
           />
         </DetailModal>

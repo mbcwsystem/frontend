@@ -1,3 +1,4 @@
+import { MessagesSquare } from 'lucide-react';
 import { useState } from 'react';
 
 import { Badge } from '../badge';
@@ -32,6 +33,8 @@ export default function FreeboardPage() {
       ModalComponent={(props) => (
         <CommunityModal {...props} mode="create" category="자유게시판" onSubmit={async () => {}} />
       )}
+      icon={<MessagesSquare />}
+      title="자유게시판"
     />
   );
 }

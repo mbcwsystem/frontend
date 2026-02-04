@@ -46,10 +46,10 @@ export const useCommunityPostsQuery = (params: GetCommunityPostsParams) => {
 };
 
 // DETAIL
-export function useCommunityPostDetailQuery(id: number) {
+export function useCommunityPostDetailQuery(id: number | null) {
   return useQuery({
     queryKey: ['communityPost', id],
-    queryFn: () => getCommunityPostById(id),
+    queryFn: () => getCommunityPostById(id!),
     enabled: !!id,
   });
 }

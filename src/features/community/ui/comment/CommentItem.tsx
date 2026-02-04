@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
+import { formatRelativeTime } from '../../model/formatData';
+
 import type { CommentDTO } from '../../api/dto';
 
 import { Input } from '@/shared/components/ui/input';
-import { formatRelativeTime } from '../../model/formatData';
 
 interface CommentItemProps {
   comment: CommentDTO;

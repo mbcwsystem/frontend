@@ -1,3 +1,4 @@
+import type { CategoryHolder } from './category';
 import type { ReactNode } from 'react';
 
 // BoardPage
@@ -43,6 +44,8 @@ export interface BoardProps<T extends BaseRow> {
     totalPages: number;
     onChangePage: (page: number) => void;
   };
+  title?: string | ((item: CategoryHolder) => string);
+  icon?: ReactNode | ((item: CategoryHolder) => ReactNode);
 }
 
 // BoardDetail

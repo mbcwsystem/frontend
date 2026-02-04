@@ -1,3 +1,4 @@
+import { Megaphone } from 'lucide-react';
 import { useState } from 'react';
 
 import { Badge } from '../badge';
@@ -40,6 +41,8 @@ export default function NoticePage() {
       ModalComponent={(props) => (
         <CommunityModal {...props} mode="create" category="공지" onSubmit={async () => {}} />
       )}
+      icon={<Megaphone />}
+      title="공지사항"
     />
   );
 }
