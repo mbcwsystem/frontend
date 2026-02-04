@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { useDeletePostMutation, useUpdatePostMutation } from '../api/queries';
+import { useDeletePostMutation } from '../api/queries';
 import { formatRelativeTime } from '../model/formatData';
 
 import CommentSection from './comment/CommentSection';
-import CommunityModal from './CommunityModal';
 
 import type { CommunityPostDTO } from '../api/dto';
 
@@ -15,6 +13,7 @@ interface BoardDetailContentProps {
   post: CommunityPostDTO;
   icon?: React.ReactNode;
   title?: string;
+  onEdit?: (post: CommunityPostDTO) => void;
   onClose?: () => void;
 }
 
@@ -23,11 +22,10 @@ export default function BoardDetailContent({
   icon,
   title,
   onClose,
+  onEdit,
 }: BoardDetailContentProps) {
   const { user } = useAuthStore();
-  const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const updateMutation = useUpdatePostMutation();
   const deleteMutation = useDeletePostMutation();
 
   if (!user) return <div>로그인이 필요합니다.</div>;
@@ -46,14 +44,6 @@ export default function BoardDetailContent({
     } catch {
       toast.error('삭제가 실패되었습니다.');
     }
-  };
-
-  const handleEditSubmit = async (data: { title: string; content: string }) => {
-    await updateMutation.mutateAsync({
-      id: post.id,
-      data,
-    });
-    setIsEditOpen(false);
   };
 
   return (
@@ -84,7 +74,7 @@ export default function BoardDetailContent({
           {isMine && (
             <div className="flex gap-2 opacity-70">
               <button
-                onClick={() => setIsEditOpen(true)}
+                onClick={() => onEdit?.(post)}
                 className="text-sm text-blue-600 hover:underline"
               >
                 수정
@@ -106,19 +96,6 @@ export default function BoardDetailContent({
       </div>
 
       <CommentSection postId={post.id} currentUserId={user.id} />
-
-      {isEditOpen && (
-        <CommunityModal
-          mode="edit"
-          category={post.category}
-          initialData={{
-            title: post.title,
-            content: post.content,
-          }}
-          onSubmit={handleEditSubmit}
-          onClose={() => setIsEditOpen(false)}
-        />
-      )}
     </div>
   );
 }

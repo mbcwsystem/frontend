@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
 
 import { useCommunityPostDetailQuery } from '../api/queries';
+import { useEditPostFlow } from '../model/useEditPostFlow';
 
 import { BoardCard } from './BoardCard';
 import BoardDetailContent from './BoardDetailContent';
+import CommunityModal from './CommunityModal';
 import { DetailModal } from './DetailModal';
 import Pagenation from './Pagenation';
 import SearchInput from './SearchInput';
@@ -22,10 +24,11 @@ export function BoardPage<T extends BoardPost>({
   title,
   icon,
 }: BoardProps<T>) {
+  const { editPost, selectedPostId, startEdit, submitEdit, closeEdit, closeDetail, openDetail } =
+    useEditPostFlow();
+
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
   const { data: detailPost } = useCommunityPostDetailQuery(selectedPostId);
 
@@ -60,7 +63,7 @@ export function BoardPage<T extends BoardPost>({
             key={item.id}
             item={item}
             badge={renderBadge?.(item)}
-            onClick={() => setSelectedPostId(item.id)}
+            onClick={() => openDetail(item.id)}
           />
         ))}
       </div>
@@ -83,14 +86,27 @@ export function BoardPage<T extends BoardPost>({
         />
       )}
       {detailPost && (
-        <DetailModal onClose={() => setSelectedPostId(null)}>
+        <DetailModal onClose={closeDetail}>
           <BoardDetailContent
             post={detailPost}
             title={typeof title === 'function' ? title(detailPost) : title}
             icon={typeof icon === 'function' ? icon(detailPost) : icon}
-            onClose={() => setSelectedPostId(null)}
+            onEdit={startEdit}
+            onClose={closeDetail}
           />
         </DetailModal>
+      )}
+      {editPost && (
+        <CommunityModal
+          mode="edit"
+          category={editPost.category}
+          initialData={{
+            title: editPost.title,
+            content: editPost.content,
+          }}
+          onSubmit={submitEdit}
+          onClose={closeEdit}
+        />
       )}
     </div>
   );
