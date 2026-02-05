@@ -1,9 +1,9 @@
 import { User } from 'lucide-react';
 
-interface UserProfileProps {
-  icon?: React.ReactNode;
-  name: string;
-}
+// interface UserProfileProps {
+//   icon?: React.ReactNode;
+//   name: string;
+// }
 
 const UserProfile = () => {
   return (
