@@ -2,7 +2,7 @@ import WorkStatusForm from './WorkStatusForm';
 
 const WorkStatus = () => {
   return (
-    <div className="">
+    <div className="w-full">
       <WorkStatusForm />
     </div>
   );

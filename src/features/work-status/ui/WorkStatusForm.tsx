@@ -99,7 +99,7 @@ const WorkStatusForm = () => {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-col gap-3 p-6 bg-white sm:flex-row">
+      <CardFooter className="flex flex-col gap-3 p-2 bg-white sm:flex-row sm:p-6">
         {WORK_STATUS_ACTIONS.map(({ action, label, buttonVariant, icon: Icon }) => (
           <Button
             key={action}
@@ -107,9 +107,9 @@ const WorkStatusForm = () => {
             disabled={isPending}
             variant={buttonVariant}
             size="transparent"
-            className="flex-1 w-full sm:w-auto px-6"
+            className="flex-1 w-full sm:w-auto px-6 "
           >
-            <div className="flex flex-col justify-center items-center gap-1">
+            <div className="flex sm:flex-col justify-center items-center gap-2 sm:flex-1">
               <div className="p-2 rounded-full bg-accent/40">
                 <Icon className="size-6" />
               </div>
