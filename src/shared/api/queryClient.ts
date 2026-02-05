@@ -13,7 +13,7 @@ export const queryClient = new QueryClient({
 
   queryCache: new QueryCache({}),
   mutationCache: new MutationCache({
-    onError: (error, _variables, _context, mutation) => {
+    onError: (error, _variables, _context, _mutation) => {
       if (error instanceof AxiosError) {
         console.error(`Mutation failed`);
         return;
