@@ -73,8 +73,15 @@ export default function ManagerPositions({ filteredData }: ManagerPositionsProps
             <tr key={idx} className="text-[10px]">
               {sections.map((section, secIdx) =>
                 section.columns.map((col, colIdx) => {
-                  const value = user[col.key];
                   const isNameCol = secIdx === 0 && colIdx === 0;
+                  const value = user[col.key];
+                  const displayValue =
+                    value === undefined || value === null
+                      ? ''
+                      : typeof value === 'number'
+                        ? value.toLocaleString()
+                        : value;
+
                   return (
                     <td
                       key={`${section.key}-${col.key}-${idx}`}
@@ -82,13 +89,13 @@ export default function ManagerPositions({ filteredData }: ManagerPositionsProps
                         isNameCol ? 'bg-gray-300 sticky left-0 z-30 border-r' : ''
                       }`}
                     >
-                      {col.format ? col.format(value) : value}
+                      {col.format ? col.format(value ?? 0) : displayValue}
                     </td>
                   );
                 }),
               )}
               <td className={`${defaultStyle} bg-purple-100 font-semibold`}>
-                {user.net_pay?.toLocaleString()}
+                {user.net_pay?.toLocaleString() ?? '0'}
               </td>
             </tr>
           ))}
@@ -96,27 +103,25 @@ export default function ManagerPositions({ filteredData }: ManagerPositionsProps
 
         <tfoot>
           <tr className="text-[10px] font-bold text-center bg-mega-gray text-white">
-            {/* 이름 컬럼 (sticky 유지) */}
             <td className={`${defaultStyle} sticky left-0 z-40 bg-white`} />
-
-            {/* 합계 라인 9칸 */}
             <td colSpan={9} className={`${defaultStyle} border-r`}>
               합계
             </td>
 
             {sections.slice(2).map((section) =>
               section.columns.map((col) => {
-                const value = totals[col.key];
+                const key = col.key as keyof typeof totals;
+                const value = totals[key] ?? 0;
                 return (
                   <td key={`${section.key}-${col.key}-total`} className={defaultStyle}>
-                    {col.format ? col.format(value) : value}
+                    {col.format ? col.format(value) : value.toLocaleString()}
                   </td>
                 );
               }),
             )}
 
             <td className={`${defaultStyle} bg-mega text-white`}>
-              {totals.net_pay?.toLocaleString()}
+              {totals.net_pay?.toLocaleString() ?? '0'}
             </td>
           </tr>
         </tfoot>

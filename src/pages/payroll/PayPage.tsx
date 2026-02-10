@@ -1,22 +1,26 @@
 import { useState } from 'react';
 
-import { mockUserPayroll } from '../../features/pay/mock/payUserMock';
 import UserPosition from '../../features/pay/ui/UserPosition';
 import { DropdownSelect } from '../../shared/components/ui/dropdown-select';
 
-import type { PayrollData } from '@/features/pay/model/manager/type';
-
-import { mockPayroll, ManagerPositions } from '@/features/pay';
+import { ManagerPositions } from '@/features/pay';
+import { usePayrollQuery } from '@/features/pay/api/queries';
+import { mapToManagerPayroll } from '@/features/pay/model/manager/mapper';
 import { ROLE, type Role } from '@/features/pay/model/role';
 import { isUserPosition } from '@/features/pay/model/role';
-import { Button } from '@/shared/components/ui/button';
+import { mapToUserPayroll } from '@/features/pay/model/user/mapper';
 import { Card, CardContent } from '@/shared/components/ui/card';
+import { useAuthStore } from '@/shared/model/authStore';
 
 export default function PayPage() {
-  const [role, setRole] = useState<Role>(ROLE.USER);
+  const { user } = useAuthStore();
 
-  // 테스트용 user 설정
-  const [currentUserName] = useState('김하늘');
+  const [role] = useState<Role>(() => {
+    if (!user) return ROLE.USER; // 로그인 정보 없으면 기본 USER
+    return isUserPosition(user.position) ? ROLE.USER : ROLE.MANAGER;
+  });
+
+  const currentUserName = user?.name;
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
   const periodOptions: Array<'연도' | '반기' | '월'> = ['연도', '반기', '월'];
@@ -36,37 +40,35 @@ export default function PayPage() {
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [selectedHalf, setSelectedHalf] = useState('상반기 (1~6월)');
 
-  // let filteredData = [];
+  const { data: payrollList } = usePayrollQuery({
+    year: selectedYear,
+    month: periodType === '월' ? selectedMonth : undefined,
+  });
 
-  const filteredData: PayrollData[] =
-    role === ROLE.MANAGER
-      ? mockPayroll.filter((user: PayrollData) => isUserPosition(user.position))
-      : mockPayroll.filter((user: PayrollData) => user.name === currentUserName);
+  const filteredData =
+    payrollList?.filter((item) => {
+      if (role === ROLE.MANAGER) {
+        // 관리자라면 유저 포지션만 보여줌
+        return isUserPosition(item.position);
+      }
+      // 일반직이라면 본인 급여만
+      return item.name === currentUserName;
+    }) ?? [];
+
+  console.log('user?.name', user?.name);
+  console.log('role', role);
+  console.log(
+    payrollList?.map((p) => ({
+      name: p.name,
+      position: p.position,
+      isUser: isUserPosition(p.position),
+    })),
+  );
 
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="text-2xl font-bold">급여현황</div>
-      <div>
-        <div className="flex gap-2">
-          <Button
-            className={`px-3 py-1 border rounded ${
-              role === ROLE.MANAGER ? 'bg-blue-500 text-white' : ''
-            }`}
-            onClick={() => setRole(ROLE.MANAGER)}
-          >
-            관리직 로그인
-          </Button>
-
-          <Button
-            className={`px-3 py-1 border rounded ${
-              role === ROLE.USER ? 'bg-green-900 text-white' : ''
-            }`}
-            onClick={() => setRole(ROLE.USER)}
-          >
-            일반직 로그인
-          </Button>
-        </div>
-      </div>
+      <div></div>
 
       <Card variant="blueMain">
         <CardContent className="flex flex-col md:flex-row md:items-center gap-5 w-full">
@@ -104,9 +106,11 @@ export default function PayPage() {
         </CardContent>
       </Card>
 
-      {role === ROLE.USER && <UserPosition data={mockUserPayroll} />}
+      {role === ROLE.USER && filteredData.length > 0 && (
+        <UserPosition data={mapToUserPayroll(filteredData[0])} />
+      )}
       {role === ROLE.MANAGER && filteredData.length > 0 && (
-        <ManagerPositions filteredData={filteredData} />
+        <ManagerPositions filteredData={mapToManagerPayroll(filteredData)} />
       )}
     </div>
   );

@@ -1,3 +1,5 @@
+import type { PayrollData as BasePayrollData } from '../type';
+
 export interface PayrollData {
   name: string;
   position: string;
@@ -27,7 +29,7 @@ export interface PayrollData {
   weekly_allowance_pay: number;
   annual_leave_pay: number;
   holiday_pay: number;
-  labor_day_pay: number;
+  labor_day_payts: number;
 
   gross_pay: number;
 
@@ -38,6 +40,12 @@ export interface PayrollData {
 
   total_deduction: number;
   net_pay: number;
+}
+
+export interface ManagerPayrollData extends BasePayrollData {
+  rrn: string;
+  labor_day_hours: number;
+  labor_day_payts: number;
 }
 
 interface Column<T> {
@@ -59,5 +67,5 @@ export interface ColumnSection<T> {
 }
 
 export interface ManagerPositionsProps {
-  filteredData: PayrollData[];
+  filteredData: ManagerPayrollData[];
 }
