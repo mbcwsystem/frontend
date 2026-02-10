@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { mapPayroll } from '../model/mapper';
 
@@ -12,10 +12,12 @@ interface UsePayrollQueryParams {
   month?: number;
 }
 
+
 export const usePayrollQuery = ({ year, month }: UsePayrollQueryParams) => {
   return useQuery<PayrollResponseDTO[], Error, PayrollData[]>({
-    queryKey: month ? ['payroll', year, month] : ['payroll', year],
+    queryKey: ['payroll', year, month],
     queryFn: () => getPayroll({ year, month }),
     select: (data) => data.map(mapPayroll),
+    staleTime: 0,
   });
 };

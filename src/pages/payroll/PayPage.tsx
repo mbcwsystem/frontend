@@ -37,7 +37,9 @@ export default function PayPage() {
 
   const [periodType, setPeriodType] = useState<'연도' | '반기' | '월'>('월');
   const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    currentMonth
+  );
   const [selectedHalf, setSelectedHalf] = useState('상반기 (1~6월)');
 
   const { data: payrollList } = usePayrollQuery({
@@ -54,16 +56,6 @@ export default function PayPage() {
       // 일반직이라면 본인 급여만
       return item.name === currentUserName;
     }) ?? [];
-
-  console.log('user?.name', user?.name);
-  console.log('role', role);
-  console.log(
-    payrollList?.map((p) => ({
-      name: p.name,
-      position: p.position,
-      isUser: isUserPosition(p.position),
-    })),
-  );
 
   return (
     <div className="flex flex-col gap-5 w-full">
@@ -99,7 +91,7 @@ export default function PayPage() {
             <DropdownSelect
               label="급여 월"
               items={months}
-              value={selectedMonth}
+              value={selectedMonth ?? ''}
               onChange={setSelectedMonth}
             />
           )}
