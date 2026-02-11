@@ -3,7 +3,8 @@ import { useMemo } from 'react';
 import { calculateTotals } from '../index';
 import managerColumns from '../model/manager/dataColumns';
 
-import type { ColumnSection, ManagerPositionsProps, PayrollData } from '../model/manager/type';
+import type { ColumnSection, ManagerPositionsProps } from '../model/manager/type';
+import type { PayrollData } from '../model/type';
 
 export default function ManagerPositions({ filteredData }: ManagerPositionsProps) {
   const totals = useMemo(() => calculateTotals(filteredData), [filteredData]);

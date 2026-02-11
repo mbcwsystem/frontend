@@ -6,21 +6,10 @@ import { DropdownSelect } from '../../shared/components/ui/dropdown-select';
 import { ManagerPositions } from '@/features/pay';
 import { usePayrollQuery } from '@/features/pay/api/queries';
 import { mapToManagerPayroll } from '@/features/pay/model/manager/mapper';
-import { ROLE, type Role } from '@/features/pay/model/role';
-import { isUserPosition } from '@/features/pay/model/role';
 import { mapToUserPayroll } from '@/features/pay/model/user/mapper';
 import { Card, CardContent } from '@/shared/components/ui/card';
-import { useAuthStore } from '@/shared/model/authStore';
 
 export default function PayPage() {
-  const { user } = useAuthStore();
-
-  const [role] = useState<Role>(() => {
-    if (!user) return ROLE.USER; // 로그인 정보 없으면 기본 USER
-    return isUserPosition(user.position) ? ROLE.USER : ROLE.MANAGER;
-  });
-
-  const currentUserName = user?.name;
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
   const periodOptions: Array<'연도' | '반기' | '월'> = ['연도', '반기', '월'];
@@ -37,25 +26,19 @@ export default function PayPage() {
 
   const [periodType, setPeriodType] = useState<'연도' | '반기' | '월'>('월');
   const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [selectedMonth, setSelectedMonth] = useState<number>(
-    currentMonth
-  );
+  const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
   const [selectedHalf, setSelectedHalf] = useState('상반기 (1~6월)');
 
   const { data: payrollList } = usePayrollQuery({
     year: selectedYear,
-    month: periodType === '월' ? selectedMonth : undefined,
+    month: selectedMonth,
   });
 
-  const filteredData =
-    payrollList?.filter((item) => {
-      if (role === ROLE.MANAGER) {
-        // 관리자라면 유저 포지션만 보여줌
-        return isUserPosition(item.position);
-      }
-      // 일반직이라면 본인 급여만
-      return item.name === currentUserName;
-    }) ?? [];
+  // 데이터 없을 때 응답값: 유저 - null / 매니저 - 빈 배열
+  const isEmptyPayroll =
+    !payrollList ||
+    (Array.isArray(payrollList) && payrollList.length === 0) ||
+    (!Array.isArray(payrollList) && payrollList.name === '');
 
   return (
     <div className="flex flex-col gap-5 w-full">
@@ -98,11 +81,16 @@ export default function PayPage() {
         </CardContent>
       </Card>
 
-      {role === ROLE.USER && filteredData.length > 0 && (
-        <UserPosition data={mapToUserPayroll(filteredData[0])} />
+      {isEmptyPayroll && (
+        <div className="text-center py-10 text-gray-500">해당 월의 급여 데이터가 없습니다.</div>
       )}
-      {role === ROLE.MANAGER && filteredData.length > 0 && (
-        <ManagerPositions filteredData={mapToManagerPayroll(filteredData)} />
+
+      {!isEmptyPayroll && payrollList && !Array.isArray(payrollList) && (
+        <UserPosition data={mapToUserPayroll(payrollList)} />
+      )}
+
+      {!isEmptyPayroll && payrollList && Array.isArray(payrollList) && (
+        <ManagerPositions filteredData={mapToManagerPayroll(payrollList)} />
       )}
     </div>
   );

@@ -23,7 +23,7 @@ export default function UserPosition({ data }: UserPositionProps) {
             <Item
               key={c.key}
               label={c.label}
-              value={data[c.key]}
+              value={data[c.key] ?? undefined}
               span={c.key === 'gross_pay' ? 'full' : 'default'}
             />
           ))}
@@ -34,7 +34,7 @@ export default function UserPosition({ data }: UserPositionProps) {
             <Item
               key={c.key}
               label={c.label}
-              value={data[c.key]}
+              value={data[c.key] ?? undefined}
               span={c.key === 'total_deduction' ? 'full' : 'quarter'}
             />
           ))}

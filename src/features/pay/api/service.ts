@@ -7,8 +7,10 @@ interface GetPayrollParams {
   month?: number;
 }
 
-export async function getPayroll(params: GetPayrollParams): Promise<PayrollResponseDTO[]> {
-  return apiClient.get<PayrollResponseDTO[]>({
+export async function getPayroll(
+  params: GetPayrollParams,
+): Promise<PayrollResponseDTO | PayrollResponseDTO[]> {
+  return apiClient.get({
     url: '/api/payroll',
     params,
   });

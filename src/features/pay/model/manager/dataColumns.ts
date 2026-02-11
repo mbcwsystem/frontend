@@ -10,7 +10,6 @@ interface Column<T> {
 
 const managerColumns: Column<PayrollData>[] = [
   { key: 'name', label: '이름', sticky: true, bg: 'bg-gray-100' },
-  { key: 'position', label: '직책' },
   { key: 'wage', label: '시급', format: formatNumberOrDash },
   { key: 'rrn', label: '주민등록번호' },
   { key: 'join_date', label: '입사일' },

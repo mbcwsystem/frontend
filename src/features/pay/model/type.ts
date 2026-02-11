@@ -1,13 +1,10 @@
-import type { Position } from './role';
-
 export interface PayrollData {
   name: string;
-  position: Position;
   wage: number;
 
   join_date: string;
-  resign_date?: string | null;
-  last_work_day?: string | null;
+  resign_date: string | null;
+  last_work_day: string | null;
 
   bank_name: string;
   bank_account: string;
@@ -34,7 +31,7 @@ export interface PayrollData {
   insurance_employment: number;
   insurance_pension: number;
 
-  rrn?: string;
+  rrn: string;
   labor_day_hours?: number;
   labor_day_payts?: number;
 

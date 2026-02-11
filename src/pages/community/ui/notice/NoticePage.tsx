@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { Badge } from '../../../../features/community/ui/badge';
 import CommunityModal from '../../../../features/community/ui/modal/CommunityModal';
 
+import { hasAdminAccess } from '@/entities/user/model/role';
 import { useCommunityPostsQuery } from '@/features/community/api/queries';
 import { BoardPage } from '@/features/community/ui/main/BoardPage';
-import { isManagerPosition } from '@/features/pay/model/role';
 import { useAuthStore } from '@/shared/model/authStore';
 
 export default function NoticePage() {
@@ -30,7 +30,7 @@ export default function NoticePage() {
   return (
     <BoardPage
       list={noticeList}
-      canWrite={!!user && isManagerPosition(user.position)}
+      canWrite={!!user && hasAdminAccess(user.position)}
       category="공지"
       renderBadge={() => <Badge variant="notice" label="공지" />}
       pagination={{
