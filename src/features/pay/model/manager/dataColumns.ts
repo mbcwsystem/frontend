@@ -32,7 +32,7 @@ const managerColumns: Column<PayrollData>[] = [
   { key: 'weekly_allowance_pay', label: '주휴수당', format: formatNumberOrDash },
   { key: 'annual_leave_pay', label: '연차수당', format: formatNumberOrDash },
   { key: 'holiday_pay', label: '공휴일 수당', format: formatNumberOrDash },
-  { key: 'labor_day_payts', label: '근로자의 날 수당', format: formatNumberOrDash },
+  { key: 'labor_day_pay', label: '근로자의 날 수당', format: formatNumberOrDash },
   { key: 'gross_pay', label: '급여총액', format: formatNumberOrDash },
   { key: 'insurance_health', label: '건강보험', format: formatNumberOrDash },
   { key: 'insurance_care', label: '요양보험', format: formatNumberOrDash },

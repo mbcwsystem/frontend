@@ -27,7 +27,7 @@ export interface PayrollData {
   weekly_allowance_pay: number | null;
   annual_leave_pay: number | null;
   holiday_pay: number | null;
-  labor_day_payts: number | null;
+  labor_day_pay: number | null;
 
   gross_pay: number | null;
 

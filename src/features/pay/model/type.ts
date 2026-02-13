@@ -33,7 +33,7 @@ export interface PayrollData {
 
   rrn: string;
   labor_day_hours?: number;
-  labor_day_payts?: number;
+  labor_day_pay?: number;
 
   total_deduction: number;
   net_pay: number;

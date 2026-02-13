@@ -19,7 +19,7 @@ export interface PayrollResponseDTO {
   annual_leave_hours: number | null;
   holiday_hours: number | null;
   labor_day_hours: number | null;
-  labor_day_payts: number | null;
+  labor_day_pay: number | null;
 
   day_wage: number | null;
   night_wage: number | null;

@@ -15,7 +15,7 @@ export interface PayrollCalculatable {
   weekly_allowance_pay?: number | null;
   annual_leave_pay?: number | null;
   holiday_pay?: number | null;
-  labor_day_payts?: number | null;
+  labor_day_pay?: number | null;
 
   gross_pay?: number | null;
 
@@ -52,7 +52,7 @@ export const SUM_FIELDS: NumberKeys<PayrollCalculatable>[] = [
   'weekly_allowance_pay',
   'annual_leave_pay',
   'holiday_pay',
-  'labor_day_payts',
+  'labor_day_pay',
 
   'gross_pay',
 
