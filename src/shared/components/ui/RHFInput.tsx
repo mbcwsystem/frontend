@@ -45,7 +45,7 @@ const RHFInput = <T extends FieldValues>({
               className={className}
             />
           </FormControl>
-          <FormMessage className="text-end mt-1" />
+          <FormMessage className="text-end mt-1 absolute top-0" />
         </FormItem>
       )}
     />
