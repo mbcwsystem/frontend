@@ -10,14 +10,16 @@ export const authService = {
       data,
     });
     const token = response.access_token;
+    const refreshToken = response.refresh_token;
 
     if (!token) {
       throw new Error('로그인 실패: 토큰을 받지 못했습니다.');
     }
 
     // Zustand store 업데이트
-    const { setAccessToken, setAuth } = useAuthStore.getState();
+    const { setAccessToken, setRefreshToken, setAuth } = useAuthStore.getState();
     setAccessToken(token);
+    setRefreshToken(refreshToken);
     setAuth();
 
     return response;
