@@ -9,3 +9,7 @@ export interface LoginResponseDTO {
   refresh_token: string;
   token_type: string;
 }
+
+export interface LogOutResponseDTO {
+  message: string;
+}
