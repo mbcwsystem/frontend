@@ -25,3 +25,18 @@ export const useLoginMutation = () => {
     },
   });
 };
+
+export const useLogoutMutation = () => {
+  const { clearAuth } = useAuthStore();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: authService.logout,
+    onSuccess: () => {
+      clearAuth();
+      queryClient.clear();
+      toast.success('로그아웃 성공!');
+      void navigate(ROUTES.LOGIN);
+    },
+  });
+};

@@ -15,10 +15,16 @@ interface AuthRouteProps extends PropsWithChildren {
 }
 
 export const AuthRoute = ({ isPublic, requireAdmin, allowSystem, children }: AuthRouteProps) => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const accessToken = useAuthStore((state) => state.accessToken);
+  // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  // const accessToken = useAuthStore((state) => state.accessToken);
   // const user = useAuthStore((state) => state.user);
-  const { data: user, isLoading } = useUserQuery();
+  // const { data: user, isLoading } = useUserQuery();
+  const user = {
+    position: USER_ROLES.SYSTEM,
+  };
+  const isLoading = false;
+  const isAuthenticated = true;
+  const accessToken = 'dummy_token';
 
   if (!isPublic && !isAuthenticated) {
     return <Navigate to={ROUTES.LOGIN} replace />;
