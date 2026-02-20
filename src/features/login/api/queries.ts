@@ -8,15 +8,6 @@ import { queryClient } from '@/shared/api/queryClient';
 import { ROUTES } from '@/shared/constants/routes';
 import { useAuthStore } from '@/shared/model/authStore';
 
-// export const authQueries = {
-//   login: {
-//     mutationFn: authService.login,
-//   },
-//   logout: {
-//     mutationFn: authService.logout,
-//   },
-// };
-
 export const useLoginMutation = () => {
   const { setAccessToken, setRefreshToken, setAuth } = useAuthStore();
   const navigate = useNavigate();

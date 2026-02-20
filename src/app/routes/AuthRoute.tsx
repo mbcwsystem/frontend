@@ -4,6 +4,7 @@ import { ROUTES } from '../../shared/constants/routes';
 
 import type { PropsWithChildren } from 'react';
 
+import { useUserQuery } from '@/entities/user/api/queries';
 import { isSystemAccount, USER_ROLES } from '@/entities/user/model/role';
 import { useAuthStore } from '@/shared/model/authStore';
 
@@ -15,21 +16,27 @@ interface AuthRouteProps extends PropsWithChildren {
 
 export const AuthRoute = ({ isPublic, requireAdmin, allowSystem, children }: AuthRouteProps) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const user = useAuthStore((state) => state.user);
+  const accessToken = useAuthStore((state) => state.accessToken);
+  // const user = useAuthStore((state) => state.user);
+  const { data: user, isLoading } = useUserQuery();
 
-  // 로그인 안 한 경우
   if (!isPublic && !isAuthenticated) {
     return <Navigate to={ROUTES.LOGIN} replace />;
   }
 
-  // 로그인한 상태에서 public 페이지 접근 시
-  if (isPublic && isAuthenticated && user) {
+  // if (isPublic && isAuthenticated && user) {
+  if (isPublic && user) {
     // 시스템 계정은 work-status로 리다이렉트
     if (isSystemAccount(user.position)) {
       return <Navigate to={ROUTES.WORK_STATUS} replace />;
     }
     // 일반 유저는 메인으로
     return <Navigate to={ROUTES.ROOT} replace />;
+  }
+
+  // 토큰은 있는데 user 아직 로딩 중
+  if (accessToken && isLoading) {
+    return null; // TODO: 로딩 스피너 등으로 대체
   }
 
   // 인증된 상태에서 권한 체크
