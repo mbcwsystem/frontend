@@ -10,7 +10,6 @@ export const axiosInstance: AxiosInstance = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// [TODO]: 인터셉터 추가
 axiosInstance.interceptors.request.use(requestInterceptor);
 axiosInstance.interceptors.response.use(responseInterceptor, rejectInterceptor);
 
