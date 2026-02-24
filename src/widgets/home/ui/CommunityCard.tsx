@@ -31,7 +31,7 @@ const CommunityCard = () => {
           </CardAction>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         {posts.items.length > 0
           ? posts.items.map((post) => <ComunityList key={post.id} post={post} />)
           : '작성된 게시물이 없습니다.'}

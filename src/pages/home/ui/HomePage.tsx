@@ -11,10 +11,10 @@ const HomePage = () => {
   console.log(year, month);
 
   return (
-    <div className=" flex flex-col gap-10 relative w-full h-screen items-center">
+    <div className=" flex flex-col gap-10 relative w-full max-w-4xl h-screen items-center mx-auto">
       <PageLogo color="purple" />
-      <div className=" flex gap-6 w-full">
-        <ContentsCard className="gap-4" profile={<UserProfile />} title="정경준">
+      <div className=" flex flex-col gap-6 w-full sm:flex-row">
+        <ContentsCard className="max-w-80" profile={<UserProfile />} title="정경준">
           {/* TODOS : features 컴포넌트 생성 후 추가 */}
           <UserCalendar />
           <ScheduleList />

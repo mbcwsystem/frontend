@@ -23,7 +23,7 @@ const ContentsCard = ({ profile, title, description, children, className }: Cont
         <CardTitle className=" flex gap-3 items-center">{profile ? profile : title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent className="pt-0">{children}</CardContent>
     </Card>
   );
 };

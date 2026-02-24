@@ -25,7 +25,7 @@ const SideNav = () => {
   });
 
   return (
-    <nav className="fixed top-14 left-0 bottom-0 flex flex-col gap-3 p-2">
+    <nav className="fixed top-14 left-0 bottom-0 flex flex-col gap-3 p-2 z-10">
       <NavItem icon={Menu} />
       <div className=" w-full h-1 bg-mega-gray-light rounded-md" />
       {filteredNavItems.map((item) => (
