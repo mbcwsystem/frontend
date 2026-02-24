@@ -5,12 +5,12 @@ import { NAV_ITEMS, type NavItemConfig } from '../model/nav.config';
 
 import NavItem from './NavItem';
 
-import { useAuthStore } from '@/shared/model/authStore';
+import { useUserQuery } from '@/entities/user/api/queries';
 
 const SideNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const user = useAuthStore((state) => state.user);
+  const { data: user } = useUserQuery();
   const isActive = (item: NavItemConfig) => {
     if (item.exact) {
       return location.pathname === item.path;
