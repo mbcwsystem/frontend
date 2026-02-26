@@ -26,7 +26,7 @@ export const createHoliday = (data: CreateHolidayRequestDTO) =>
   });
 
 export const updateHoliday = (id: number, data: UpdateHolidayRequestDTO) =>
-  apiClient.patch<HolidayDTO>({
+  apiClient.put<HolidayDTO>({
     url: `/api/admin/holidays/${id}`,
     data,
   });

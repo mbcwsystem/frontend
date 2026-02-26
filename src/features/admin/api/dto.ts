@@ -11,8 +11,7 @@ export interface CreateHolidayRequestDTO {
 }
 
 export interface UpdateHolidayRequestDTO {
-  label?: string;
-  date?: string | null;
+  label?: string | null;
 }
 
 // 직원
