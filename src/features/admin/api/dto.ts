@@ -34,6 +34,15 @@ export interface AdminUserDTO {
   wage?: number;
 }
 
+export type AdminUserDetailDTO = AdminUserDTO;
+
+export interface AdminUsersResponseDTO {
+  items: AdminUserDTO[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
 export interface CreateAdminUserRequestDTO {
   username: string;
   password: string;
@@ -46,6 +55,21 @@ export interface CreateAdminUserRequestDTO {
   bank_name?: string;
   bank_account?: string;
   hire_date?: string;
+  wage?: number;
+}
+
+export interface UpdateAdminUserRequestDTO {
+  name?: string;
+  position?: string;
+  gender?: string;
+  birth_date?: string;
+  phone?: string;
+  email?: string;
+  bank_name?: string;
+  bank_account?: string;
+  hire_date?: string;
+  resign_date?: string;
+  is_active?: boolean;
   wage?: number;
 }
 

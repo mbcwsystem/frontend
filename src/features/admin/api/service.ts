@@ -2,10 +2,13 @@ import { apiClient } from '../../../shared/api/apiClients';
 
 import type {
   AdminUserDTO,
+  AdminUserDetailDTO,
+  AdminUsersResponseDTO,
   CreateAdminUserRequestDTO,
   CreateHolidayRequestDTO,
   HolidayDTO,
   InsuranceRateDTO,
+  UpdateAdminUserRequestDTO,
   UpdateHolidayRequestDTO,
 } from './dto';
 
@@ -34,16 +37,32 @@ export const deleteHoliday = (id: number) =>
   });
 
 // 유저
-export const getAdminUsers = (search?: string) =>
-  apiClient.get<AdminUserDTO[]>({
+export const getAdminUsers = (params?: { q?: string; limit?: number; offset?: number }) =>
+  apiClient.get<AdminUsersResponseDTO>({
     url: '/api/admin/users',
-    params: search ? { search } : undefined,
+    params,
+  });
+
+export const getAdminUserDetail = (memberId: number) =>
+  apiClient.get<AdminUserDetailDTO>({
+    url: `/api/admin/users/${memberId}`,
   });
 
 export const createAdminUser = (data: CreateAdminUserRequestDTO) =>
   apiClient.post<AdminUserDTO>({
-    url: '/api/admin/users',
+    url: '/api/admin/users/create',
     data,
+  });
+
+export const updateAdminUser = (memberId: number, data: UpdateAdminUserRequestDTO) =>
+  apiClient.patch<AdminUserDTO>({
+    url: `/api/admin/users/${memberId}`,
+    data,
+  });
+
+export const deleteAdminUser = (memberId: number) =>
+  apiClient.delete<void>({
+    url: `/api/admin/users/${memberId}`,
   });
 
 // 4대보험 요율

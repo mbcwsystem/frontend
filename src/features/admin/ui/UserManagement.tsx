@@ -1,30 +1,57 @@
-import { Plus, Search, Users } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Search, Users } from 'lucide-react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 
-import { useAdminUsersQuery, useCreateAdminUserMutation } from '../api/queries';
+import {
+  useAdminUsersQuery,
+  useCreateAdminUserMutation,
+  useDeleteAdminUserMutation,
+  useUpdateAdminUserMutation,
+} from '../api/queries';
 
 import CreateUserDialog from './CreateUserDialog';
+import EditUserDialog from './EditUserDialog';
 import UserTable from './UserTable';
 
-import type { CreateAdminUserRequestDTO } from '../api/dto';
+import type {
+  AdminUserDTO,
+  CreateAdminUserRequestDTO,
+  UpdateAdminUserRequestDTO,
+} from '../api/dto';
 
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Spinner } from '@/shared/components/ui/spinner';
 
+const PAGE_SIZE = 20;
+
 const UserManagement = () => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState<AdminUserDTO | null>(null);
   const debounceRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { data: users, isLoading, isError } = useAdminUsersQuery(debouncedSearch || undefined);
+  const { data, isLoading, isError } = useAdminUsersQuery({
+    q: debouncedSearch || undefined,
+    limit: PAGE_SIZE,
+    offset,
+  });
+
   const createMutation = useCreateAdminUserMutation();
+  const updateMutation = useUpdateAdminUserMutation();
+  const deleteMutation = useDeleteAdminUserMutation();
+
+  const users = data?.items ?? [];
+  const total = data?.total ?? 0;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const currentPage = Math.floor(offset / PAGE_SIZE) + 1;
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
+    setOffset(0);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => setDebouncedSearch(value), 300);
   };
@@ -33,9 +60,30 @@ const UserManagement = () => {
     createMutation.mutate(data, {
       onSuccess: () => {
         toast.success('직원이 추가되었습니다.');
-        setIsDialogOpen(false);
+        setIsCreateOpen(false);
       },
       onError: () => toast.error('직원 추가에 실패했습니다.'),
+    });
+  };
+
+  const handleUpdate = (memberId: number, data: UpdateAdminUserRequestDTO) => {
+    updateMutation.mutate(
+      { memberId, data },
+      {
+        onSuccess: () => {
+          toast.success('직원 정보가 수정되었습니다.');
+          setEditTarget(null);
+        },
+        onError: () => toast.error('직원 정보 수정에 실패했습니다.'),
+      },
+    );
+  };
+
+  const handleDelete = (user: AdminUserDTO) => {
+    if (!confirm(`'${user.name}' 직원을 삭제하시겠습니까?`)) return;
+    deleteMutation.mutate(user.id, {
+      onSuccess: () => toast.success('직원이 삭제되었습니다.'),
+      onError: () => toast.error('직원 삭제에 실패했습니다.'),
     });
   };
 
@@ -50,7 +98,7 @@ const UserManagement = () => {
             <p className="text-sm text-muted-foreground">직원 계정을 생성하고 정보를 관리합니다.</p>
           </div>
         </div>
-        <Button onClick={() => setIsDialogOpen(true)}>
+        <Button onClick={() => setIsCreateOpen(true)}>
           <Plus />
           직원 추가
         </Button>
@@ -80,8 +128,41 @@ const UserManagement = () => {
       )}
       {!isLoading && !isError && (
         <>
-          {users && users.length > 0 ? (
-            <UserTable users={users} />
+          {users.length > 0 ? (
+            <>
+              <UserTable
+                users={users}
+                onEdit={setEditTarget}
+                onDelete={handleDelete}
+                isDeletePending={deleteMutation.isPending}
+              />
+              {/* 페이지네이션 */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-end gap-2 mt-4">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="size-8"
+                    onClick={() => setOffset((prev) => Math.max(0, prev - PAGE_SIZE))}
+                    disabled={currentPage === 1}
+                  >
+                    <ChevronLeft className="size-4" />
+                  </Button>
+                  <span className="text-sm text-muted-foreground">
+                    {currentPage} / {totalPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="size-8"
+                    onClick={() => setOffset((prev) => prev + PAGE_SIZE)}
+                    disabled={currentPage >= totalPages}
+                  >
+                    <ChevronRight className="size-4" />
+                  </Button>
+                </div>
+              )}
+            </>
           ) : (
             <p className="text-muted-foreground text-sm py-12 text-center">
               {debouncedSearch ? '검색 결과가 없습니다.' : '등록된 직원이 없습니다.'}
@@ -91,10 +172,18 @@ const UserManagement = () => {
       )}
 
       <CreateUserDialog
-        open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
+        open={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
         onSubmit={handleCreate}
         isPending={createMutation.isPending}
+      />
+
+      <EditUserDialog
+        open={editTarget !== null}
+        user={editTarget}
+        onClose={() => setEditTarget(null)}
+        onSubmit={handleUpdate}
+        isPending={updateMutation.isPending}
       />
     </>
   );
