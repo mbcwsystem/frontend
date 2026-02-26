@@ -9,8 +9,7 @@ import {
   useUpdateAdminUserMutation,
 } from '../api/queries';
 
-import CreateUserDialog from './CreateUserDialog';
-import EditUserDialog from './EditUserDialog';
+import UserFormDialog from './UserFormDialog';
 import UserTable from './UserTable';
 
 import type {
@@ -171,14 +170,16 @@ const UserManagement = () => {
         </>
       )}
 
-      <CreateUserDialog
+      <UserFormDialog
+        mode="create"
         open={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}
         onSubmit={handleCreate}
         isPending={createMutation.isPending}
       />
 
-      <EditUserDialog
+      <UserFormDialog
+        mode="edit"
         open={editTarget !== null}
         user={editTarget}
         onClose={() => setEditTarget(null)}

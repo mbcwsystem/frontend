@@ -1,11 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { usePhoneInput } from '../model/usePhoneInput';
-import { createUserSchema, GENDER_OPTIONS, POSITION_OPTIONS } from '../model/user.schema';
+import {
+  createUserFormSchema,
+  GENDER_OPTIONS,
+  POSITION_OPTIONS,
+  userFormSchema,
+} from '../model/user.schema';
 
-import type { CreateAdminUserRequestDTO } from '../api/dto';
-import type { CreateUserFormValues } from '../model/user.schema';
+import type { AdminUserDTO, CreateAdminUserRequestDTO, UpdateAdminUserRequestDTO } from '../api/dto';
+import type { UserFormValues } from '../model/user.schema';
 
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -26,14 +32,24 @@ import {
 } from '@/shared/components/ui/select';
 import { Spinner } from '@/shared/components/ui/spinner';
 
-interface CreateUserDialogProps {
+type UserFormDialogProps = {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: CreateAdminUserRequestDTO) => void;
   isPending: boolean;
-}
+} & (
+  | {
+      mode: 'create';
+      user?: never;
+      onSubmit: (data: CreateAdminUserRequestDTO) => void;
+    }
+  | {
+      mode: 'edit';
+      user: AdminUserDTO | null;
+      onSubmit: (memberId: number, data: UpdateAdminUserRequestDTO) => void;
+    }
+);
 
-const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDialogProps) => {
+const UserFormDialog = ({ open, mode, user, onClose, onSubmit, isPending }: UserFormDialogProps) => {
   const {
     register,
     handleSubmit,
@@ -41,9 +57,9 @@ const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDial
     watch,
     reset,
     formState: { errors },
-  } = useForm<CreateUserFormValues>({
-    resolver: zodResolver(createUserSchema),
-    defaultValues: { username: '', password: '', name: '', position: '' },
+  } = useForm<UserFormValues>({
+    resolver: zodResolver(mode === 'create' ? createUserFormSchema : userFormSchema),
+    defaultValues: mode === 'create' ? { username: '', password: '', name: '', position: '' } : {},
   });
 
   const position = watch('position');
@@ -51,45 +67,92 @@ const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDial
   const phone = watch('phone');
   const handlePhoneChange = usePhoneInput(setValue);
 
+  useEffect(() => {
+    if (mode === 'edit' && user) {
+      reset({
+        name: user.name,
+        position: user.position,
+        gender: user.gender ?? '',
+        phone: user.phone ?? '',
+        email: user.email ?? '',
+        hire_date: user.hire_date ?? '',
+        resign_date: user.resign_date ?? '',
+        is_active: user.is_active,
+        wage: user.wage,
+      });
+    }
+  }, [mode, user, reset]);
+
   const handleClose = () => {
     reset();
     onClose();
   };
 
-  const handleFormSubmit = (values: CreateUserFormValues) => {
-    onSubmit({
-      ...values,
-      email: values.email || undefined,
-    });
+  const handleFormSubmit = (values: UserFormValues) => {
+    if (mode === 'create') {
+      onSubmit({
+        username: values.username!,
+        password: values.password!,
+        name: values.name,
+        position: values.position,
+        gender: values.gender,
+        phone: values.phone,
+        email: values.email || undefined,
+        hire_date: values.hire_date,
+        wage: values.wage,
+      });
+    } else {
+      if (!user) return;
+      onSubmit(user.id, {
+        name: values.name,
+        position: values.position,
+        gender: values.gender,
+        phone: values.phone,
+        email: values.email || undefined,
+        hire_date: values.hire_date,
+        resign_date: values.resign_date || undefined,
+        is_active: values.is_active,
+        wage: values.wage,
+      });
+    }
   };
+
+  const isCreate = mode === 'create';
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>직원 추가</DialogTitle>
+          <DialogTitle>{isCreate ? '직원 추가' : '직원 정보 수정'}</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={(e) => void handleSubmit(handleFormSubmit)(e)}
           className="grid grid-cols-2 gap-4"
         >
-          {/* 계정 */}
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="username">아이디</Label>
-            <Input id="username" placeholder="아이디" {...register('username')} />
-            {errors.username && (
-              <p className="text-destructive text-xs">{errors.username.message}</p>
-            )}
-          </div>
-
-          {/* 비밀번호 */}
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="password">비밀번호</Label>
-            <Input id="password" type="password" placeholder="비밀번호" {...register('password')} />
-            {errors.password && (
-              <p className="text-destructive text-xs">{errors.password.message}</p>
-            )}
-          </div>
+          {/* 생성 전용: 계정 / 비밀번호 */}
+          {isCreate && (
+            <>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="username">아이디</Label>
+                <Input id="username" placeholder="아이디" {...register('username')} />
+                {errors.username && (
+                  <p className="text-destructive text-xs">{errors.username.message}</p>
+                )}
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="password">비밀번호</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="비밀번호"
+                  {...register('password')}
+                />
+                {errors.password && (
+                  <p className="text-destructive text-xs">{errors.password.message}</p>
+                )}
+              </div>
+            </>
+          )}
 
           {/* 이름 */}
           <div className="flex flex-col gap-1.5">
@@ -162,6 +225,14 @@ const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDial
             <Input id="hire_date" type="date" {...register('hire_date')} />
           </div>
 
+          {/* 수정 전용: 퇴사일 */}
+          {!isCreate && (
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="resign_date">퇴사일</Label>
+              <Input id="resign_date" type="date" {...register('resign_date')} />
+            </div>
+          )}
+
           {/* 시급 */}
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="wage">시급</Label>
@@ -179,7 +250,7 @@ const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDial
               취소
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ? <Spinner className="size-4" /> : '추가'}
+              {isPending ? <Spinner className="size-4" /> : isCreate ? '추가' : '저장'}
             </Button>
           </DialogFooter>
         </form>
@@ -188,4 +259,4 @@ const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDial
   );
 };
 
-export default CreateUserDialog;
+export default UserFormDialog;
