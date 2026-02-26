@@ -10,7 +10,11 @@ import {
   userFormSchema,
 } from '../model/user.schema';
 
-import type { AdminUserDTO, CreateAdminUserRequestDTO, UpdateAdminUserRequestDTO } from '../api/dto';
+import type {
+  AdminUserDTO,
+  CreateAdminUserRequestDTO,
+  UpdateAdminUserRequestDTO,
+} from '../api/dto';
 import type { UserFormValues } from '../model/user.schema';
 
 import { Button } from '@/shared/components/ui/button';
@@ -49,7 +53,14 @@ type UserFormDialogProps = {
     }
 );
 
-const UserFormDialog = ({ open, mode, user, onClose, onSubmit, isPending }: UserFormDialogProps) => {
+const UserFormDialog = ({
+  open,
+  mode,
+  user,
+  onClose,
+  onSubmit,
+  isPending,
+}: UserFormDialogProps) => {
   const {
     register,
     handleSubmit,
