@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { usePhoneInput } from '../model/usePhoneInput';
 import { editUserSchema, GENDER_OPTIONS, POSITION_OPTIONS } from '../model/user.schema';
 
 import type { AdminUserDTO, UpdateAdminUserRequestDTO } from '../api/dto';
@@ -48,6 +49,8 @@ const EditUserDialog = ({ open, user, onClose, onSubmit, isPending }: EditUserDi
 
   const position = watch('position');
   const gender = watch('gender');
+  const phone = watch('phone');
+  const handlePhoneChange = usePhoneInput(setValue);
 
   useEffect(() => {
     if (user) {
@@ -139,7 +142,12 @@ const EditUserDialog = ({ open, user, onClose, onSubmit, isPending }: EditUserDi
           {/* 연락처 */}
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="edit-phone">연락처</Label>
-            <Input id="edit-phone" placeholder="010-0000-0000" {...register('phone')} />
+            <Input
+              id="edit-phone"
+              placeholder="010-0000-0000"
+              value={phone ?? ''}
+              onChange={handlePhoneChange}
+            />
           </div>
 
           {/* 이메일 */}

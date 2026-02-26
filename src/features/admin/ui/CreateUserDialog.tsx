@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
+import { usePhoneInput } from '../model/usePhoneInput';
 import { createUserSchema, GENDER_OPTIONS, POSITION_OPTIONS } from '../model/user.schema';
 
 import type { CreateAdminUserRequestDTO } from '../api/dto';
@@ -47,6 +48,8 @@ const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDial
 
   const position = watch('position');
   const gender = watch('gender');
+  const phone = watch('phone');
+  const handlePhoneChange = usePhoneInput(setValue);
 
   const handleClose = () => {
     reset();
@@ -138,7 +141,12 @@ const CreateUserDialog = ({ open, onClose, onSubmit, isPending }: CreateUserDial
           {/* 연락처 */}
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="phone">연락처</Label>
-            <Input id="phone" placeholder="010-0000-0000" {...register('phone')} />
+            <Input
+              id="phone"
+              placeholder="010-0000-0000"
+              value={phone ?? ''}
+              onChange={handlePhoneChange}
+            />
           </div>
 
           {/* 이메일 */}
