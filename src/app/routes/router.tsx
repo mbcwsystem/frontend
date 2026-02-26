@@ -8,6 +8,7 @@ import SystemLayOut from '../layouts/SystemLayOut';
 import { AuthRoute } from './AuthRoute';
 
 import { NotFoundPage } from '@/pages/404';
+import { AdminPage } from '@/pages/admin';
 import {
   Communiity,
   DayoffPage,
@@ -77,6 +78,14 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.PAY,
         element: <PayPage />,
+      },
+      {
+        path: ROUTES.ADMIN,
+        element: (
+          <AuthRoute requireAdmin>
+            <AdminPage />
+          </AuthRoute>
+        ),
       },
       {
         path: ROUTES.COMMUNITY,
