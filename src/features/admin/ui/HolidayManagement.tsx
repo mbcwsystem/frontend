@@ -16,6 +16,7 @@ import type { HolidayDTO } from '../api/dto';
 import type { HolidayFormValues } from '../model/holiday.schema';
 
 import { Button } from '@/shared/components/ui/button';
+import ConfirmDialog from '@/shared/components/ui/confirm-dialog';
 import { Spinner } from '@/shared/components/ui/spinner';
 
 const HolidayManagement = () => {
@@ -27,6 +28,8 @@ const HolidayManagement = () => {
 
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<HolidayDTO | null>(null);
+  const [pendingUpdateValues, setPendingUpdateValues] = useState<HolidayFormValues | null>(null);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
 
   const handleAdd = (values: HolidayFormValues) => {
     createMutation.mutate(values, {
@@ -38,26 +41,51 @@ const HolidayManagement = () => {
     });
   };
 
-  const handleUpdate = (values: HolidayFormValues) => {
-    if (!editTarget) return;
+  // 수정 폼 제출 → 확인 다이얼로그 표시
+  const handleUpdateRequest = (values: HolidayFormValues) => {
+    setPendingUpdateValues(values);
+  };
+
+  // 수정 확인
+  const handleUpdateConfirm = () => {
+    if (!editTarget || !pendingUpdateValues) return;
     updateMutation.mutate(
-      { id: editTarget.id, data: values },
+      { id: editTarget.id, data: { label: pendingUpdateValues.label } },
       {
         onSuccess: () => {
           toast.success('공휴일이 수정되었습니다.');
           setEditTarget(null);
+          setPendingUpdateValues(null);
         },
-        onError: () => toast.error('공휴일 수정에 실패했습니다.'),
+        onError: () => {
+          toast.error('공휴일 수정에 실패했습니다.');
+          setPendingUpdateValues(null);
+        },
       },
     );
   };
 
-  const handleDelete = (id: number) => {
-    deleteMutation.mutate(id, {
-      onSuccess: () => toast.success('공휴일이 삭제되었습니다.'),
-      onError: () => toast.error('공휴일 삭제에 실패했습니다.'),
+  // 삭제 버튼 클릭 → 확인 다이얼로그 표시
+  const handleDeleteRequest = (id: number) => {
+    setDeleteTargetId(id);
+  };
+
+  // 삭제 확인
+  const handleDeleteConfirm = () => {
+    if (deleteTargetId === null) return;
+    deleteMutation.mutate(deleteTargetId, {
+      onSuccess: () => {
+        toast.success('공휴일이 삭제되었습니다.');
+        setDeleteTargetId(null);
+      },
+      onError: () => {
+        toast.error('공휴일 삭제에 실패했습니다.');
+        setDeleteTargetId(null);
+      },
     });
   };
+
+  const deleteTarget = holidays?.find((h) => h.id === deleteTargetId);
 
   return (
     <>
@@ -95,7 +123,7 @@ const HolidayManagement = () => {
             <HolidayTable
               holidays={holidays}
               onEdit={setEditTarget}
-              onDelete={handleDelete}
+              onDelete={handleDeleteRequest}
               isDeleting={deleteMutation.isPending}
             />
           ) : (
@@ -117,12 +145,40 @@ const HolidayManagement = () => {
 
       {/* 수정 모달 */}
       <HolidayFormDialog
-        open={!!editTarget}
+        open={!!editTarget && !pendingUpdateValues}
         onClose={() => setEditTarget(null)}
         title="공휴일 수정"
         defaultValues={editTarget ?? undefined}
-        onSubmit={handleUpdate}
+        onSubmit={handleUpdateRequest}
+        isPending={false}
+        readonlyDate
+      />
+
+      {/* 수정 확인 다이얼로그 */}
+      <ConfirmDialog
+        open={!!pendingUpdateValues}
+        title="공휴일을 수정하시겠습니까?"
+        description={`"${pendingUpdateValues?.label}" 으로 공휴일 이름을 변경합니다.`}
+        confirmLabel="수정"
         isPending={updateMutation.isPending}
+        onConfirm={handleUpdateConfirm}
+        onCancel={() => setPendingUpdateValues(null)}
+      />
+
+      {/* 삭제 확인 다이얼로그 */}
+      <ConfirmDialog
+        open={deleteTargetId !== null}
+        title="공휴일을 삭제하시겠습니까?"
+        description={
+          deleteTarget
+            ? `"${deleteTarget.label}" (${deleteTarget.date})을 삭제하면 복구할 수 없습니다.`
+            : undefined
+        }
+        confirmLabel="삭제"
+        variant="destructive"
+        isPending={deleteMutation.isPending}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setDeleteTargetId(null)}
       />
     </>
   );

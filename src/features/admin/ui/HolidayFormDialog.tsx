@@ -25,6 +25,7 @@ interface HolidayFormDialogProps {
   defaultValues?: HolidayDTO;
   onSubmit: (values: HolidayFormValues) => void;
   isPending: boolean;
+  readonlyDate?: boolean;
 }
 
 const HolidayFormDialog = ({
@@ -34,6 +35,7 @@ const HolidayFormDialog = ({
   defaultValues,
   onSubmit,
   isPending,
+  readonlyDate = false,
 }: HolidayFormDialogProps) => {
   const {
     register,
@@ -74,6 +76,7 @@ const HolidayFormDialog = ({
               id="holiday-date"
               type="date"
               aria-invalid={!!errors.date}
+              disabled={readonlyDate}
               {...register('date')}
             />
             {errors.date && <p className="text-destructive text-xs">{errors.date.message}</p>}
