@@ -32,10 +32,17 @@ const maskSsn = (ssn?: string) => {
   return ssn.length > 6 ? `${ssn.slice(0, 6)}-개인정보입니다` : ssn;
 };
 
+const DAY_LABELS = ['월', '화', '수', '목', '금', '토', '일'];
+
+const formatUnavailableDays = (days?: number[]) => {
+  if (!days || days.length === 0) return '-';
+  return days.map((d) => DAY_LABELS[d]).join(', ');
+};
+
 const UserTable = ({ users, onEdit, onDelete, isDeletePending }: UserTableProps) => {
   return (
     <div className="overflow-x-auto">
-      <Table className="text-sm min-w-[1200px]">
+      <Table className="text-sm min-w-[1800px]">
         <TableHeader>
           <TableRow className="bg-muted/40">
             <TableHead className="whitespace-nowrap">계정</TableHead>
@@ -51,6 +58,9 @@ const UserTable = ({ users, onEdit, onDelete, isDeletePending }: UserTableProps)
             <TableHead className="whitespace-nowrap">계좌번호</TableHead>
             <TableHead className="whitespace-nowrap">입사일</TableHead>
             <TableHead className="whitespace-nowrap">퇴사일</TableHead>
+            <TableHead className="whitespace-nowrap">고정 불가 요일</TableHead>
+            <TableHead className="whitespace-nowrap">보건증 만료일</TableHead>
+            <TableHead className="whitespace-nowrap">재직상태</TableHead>
             <TableHead className="whitespace-nowrap">관리</TableHead>
           </TableRow>
         </TableHeader>
@@ -79,6 +89,22 @@ const UserTable = ({ users, onEdit, onDelete, isDeletePending }: UserTableProps)
               <TableCell>{user.account_number ?? '-'}</TableCell>
               <TableCell className="whitespace-nowrap">{user.hire_date ?? '-'}</TableCell>
               <TableCell className="whitespace-nowrap">{user.retire_date ?? '-'}</TableCell>
+              <TableCell className="whitespace-nowrap">
+                {formatUnavailableDays(user.unavailable_days)}
+              </TableCell>
+              <TableCell className="whitespace-nowrap">{user.health_cert_expire ?? '-'}</TableCell>
+              <TableCell>
+                <Badge
+                  variant="outline"
+                  className={
+                    user.is_active
+                      ? 'bg-green-100 text-green-700 border-green-200'
+                      : 'bg-red-100 text-red-700 border-red-200'
+                  }
+                >
+                  {user.is_active ? '재직중' : '퇴사'}
+                </Badge>
+              </TableCell>
               <TableCell>
                 <div className="flex items-center gap-1">
                   <Button
