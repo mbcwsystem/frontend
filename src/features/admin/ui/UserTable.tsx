@@ -76,9 +76,9 @@ const UserTable = ({ users, onEdit, onDelete, isDeletePending }: UserTableProps)
               <TableCell className="whitespace-nowrap">{user.phone ?? '-'}</TableCell>
               <TableCell>{user.email ?? '-'}</TableCell>
               <TableCell>{user.bank_name ?? '-'}</TableCell>
-              <TableCell>{user.bank_account ?? '-'}</TableCell>
+              <TableCell>{user.account_number ?? '-'}</TableCell>
               <TableCell className="whitespace-nowrap">{user.hire_date ?? '-'}</TableCell>
-              <TableCell className="whitespace-nowrap">{user.resign_date ?? '-'}</TableCell>
+              <TableCell className="whitespace-nowrap">{user.retire_date ?? '-'}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-1">
                   <Button

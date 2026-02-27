@@ -26,11 +26,13 @@ export interface AdminUserDTO {
   phone?: string;
   email?: string;
   bank_name?: string;
-  bank_account?: string;
+  account_number?: string;
   hire_date?: string;
-  resign_date?: string;
+  retire_date?: string;
   is_active: boolean;
   wage?: number;
+  unavailable_days?: number[];
+  health_cert_expire?: string;
 }
 
 export type AdminUserDetailDTO = AdminUserDTO;
@@ -49,12 +51,16 @@ export interface CreateAdminUserRequestDTO {
   position: string;
   gender?: string;
   birth_date?: string;
+  ssn?: string;
   phone?: string;
   email?: string;
   bank_name?: string;
-  bank_account?: string;
+  account_number?: string;
   hire_date?: string;
+  retire_date?: string;
   wage?: number;
+  unavailable_days?: number[];
+  health_cert_expire?: string;
 }
 
 export interface UpdateAdminUserRequestDTO {
@@ -62,14 +68,17 @@ export interface UpdateAdminUserRequestDTO {
   position?: string;
   gender?: string;
   birth_date?: string;
+  ssn?: string;
   phone?: string;
   email?: string;
   bank_name?: string;
-  bank_account?: string;
+  account_number?: string;
   hire_date?: string;
-  resign_date?: string;
+  retire_date?: string;
   is_active?: boolean;
   wage?: number;
+  unavailable_days?: number[];
+  health_cert_expire?: string;
 }
 
 // 4대보험 요율
