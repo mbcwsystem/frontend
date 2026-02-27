@@ -1,5 +1,3 @@
-import { apiClient } from '../../../shared/api/apiClients';
-
 import type {
   AdminUserDTO,
   AdminUserDetailDTO,
@@ -12,6 +10,8 @@ import type {
   UpdateAdminUserRequestDTO,
   UpdateHolidayRequestDTO,
 } from './dto';
+
+import { apiClient } from '@/shared/api/apiClients';
 
 // 공휴일
 export const getHolidays = (year: number) =>
