@@ -3,21 +3,24 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createAdminUser,
   createHoliday,
+  createInsuranceRate,
   deleteAdminUser,
   deleteHoliday,
+  deleteInsuranceRate,
   getAdminUserDetail,
   getAdminUsers,
   getHolidays,
+  getInsuranceRateByYear,
   getInsuranceRates,
   updateAdminUser,
   updateHoliday,
-  updateInsuranceRates,
+  updateInsuranceRate,
 } from './service';
 
 import type {
   CreateAdminUserRequestDTO,
   CreateHolidayRequestDTO,
-  InsuranceRateDTO,
+  InsuranceRateCreateDTO,
   UpdateAdminUserRequestDTO,
   UpdateHolidayRequestDTO,
 } from './dto';
@@ -28,6 +31,7 @@ const ADMIN_QUERY_KEYS = {
   users: (q?: string) => ['admin', 'users', q] as const,
   userDetail: (memberId: number) => ['admin', 'users', memberId] as const,
   insuranceRates: () => ['admin', 'insurance-rates'] as const,
+  insuranceRateByYear: (year: number) => ['admin', 'insurance-rates', year] as const,
 };
 
 // 공휴일
@@ -125,12 +129,46 @@ export function useInsuranceRatesQuery() {
   });
 }
 
-export function useUpdateInsuranceRatesMutation() {
+export function useInsuranceRateByYearQuery(year: number) {
+  return useQuery({
+    queryKey: ADMIN_QUERY_KEYS.insuranceRateByYear(year),
+    queryFn: () => getInsuranceRateByYear(year),
+  });
+}
+
+export function useCreateInsuranceRateMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: InsuranceRateDTO) => updateInsuranceRates(data),
+    mutationFn: (data: InsuranceRateCreateDTO) => createInsuranceRate(data),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.insuranceRates() });
+    },
+  });
+}
+
+export function useUpdateInsuranceRateMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ year, data }: { year: number; data: InsuranceRateCreateDTO }) =>
+      updateInsuranceRate(year, data),
+    onSuccess: (_, variables) => {
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.insuranceRates() });
+      void queryClient.invalidateQueries({
+        queryKey: ADMIN_QUERY_KEYS.insuranceRateByYear(variables.year),
+      });
+    },
+  });
+}
+
+export function useDeleteInsuranceRateMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (year: number) => deleteInsuranceRate(year),
+    onSuccess: (_, year) => {
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.insuranceRates() });
+      void queryClient.removeQueries({
+        queryKey: ADMIN_QUERY_KEYS.insuranceRateByYear(year),
+      });
     },
   });
 }

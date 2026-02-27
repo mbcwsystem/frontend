@@ -7,7 +7,8 @@ import type {
   CreateAdminUserRequestDTO,
   CreateHolidayRequestDTO,
   HolidayDTO,
-  InsuranceRateDTO,
+  InsuranceRateCreateDTO,
+  InsuranceRateResponseDTO,
   UpdateAdminUserRequestDTO,
   UpdateHolidayRequestDTO,
 } from './dto';
@@ -67,12 +68,28 @@ export const deleteAdminUser = (memberId: number) =>
 
 // 4대보험 요율
 export const getInsuranceRates = () =>
-  apiClient.get<InsuranceRateDTO>({
+  apiClient.get<InsuranceRateResponseDTO[]>({
     url: '/api/admin/insurance-rates',
   });
 
-export const updateInsuranceRates = (data: InsuranceRateDTO) =>
-  apiClient.patch<InsuranceRateDTO>({
+export const getInsuranceRateByYear = (year: number) =>
+  apiClient.get<InsuranceRateResponseDTO>({
+    url: `/api/admin/insurance-rates/${year}`,
+  });
+
+export const createInsuranceRate = (data: InsuranceRateCreateDTO) =>
+  apiClient.post<InsuranceRateResponseDTO>({
     url: '/api/admin/insurance-rates',
     data,
+  });
+
+export const updateInsuranceRate = (year: number, data: InsuranceRateCreateDTO) =>
+  apiClient.put<InsuranceRateResponseDTO>({
+    url: `/api/admin/insurance-rates/${year}`,
+    data,
+  });
+
+export const deleteInsuranceRate = (year: number) =>
+  apiClient.delete<void>({
+    url: `/api/admin/insurance-rates/${year}`,
   });

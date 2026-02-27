@@ -4,10 +4,10 @@ import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 
 interface InsuranceRateFormValues {
-  health_rate: number;
-  care_rate: number;
-  employment_rate: number;
-  pension_rate: number;
+  health_insurance_rate: number;
+  long_term_care_rate: number;
+  employment_insurance_rate: number;
+  national_pension_rate: number;
 }
 
 interface RateFieldConfig {
@@ -17,10 +17,10 @@ interface RateFieldConfig {
 }
 
 const FIELDS: RateFieldConfig[] = [
-  { key: 'health_rate', label: '건강보험', hint: '근로자 부담률' },
-  { key: 'care_rate', label: '장기요양보험', hint: '건강보험료의 %' },
-  { key: 'employment_rate', label: '고용보험', hint: '근로자 부담률' },
-  { key: 'pension_rate', label: '국민연금', hint: '근로자 부담률' },
+  { key: 'health_insurance_rate', label: '건강보험', hint: '근로자 부담률' },
+  { key: 'long_term_care_rate', label: '장기요양보험', hint: '건강보험료의 %' },
+  { key: 'employment_insurance_rate', label: '고용보험', hint: '근로자 부담률' },
+  { key: 'national_pension_rate', label: '국민연금', hint: '근로자 부담률' },
 ];
 
 interface InsuranceRateFieldsProps {

@@ -73,10 +73,19 @@ export interface UpdateAdminUserRequestDTO {
 }
 
 // 4대보험 요율
-export interface InsuranceRateDTO {
-  id?: number;
-  health_rate: number; // 건강보험 요율 (%)
-  care_rate: number; // 장기요양보험 요율 (%)
-  employment_rate: number; // 고용보험 요율 (%)
-  pension_rate: number; // 국민연금 요율 (%)
+export interface InsuranceRateResponseDTO {
+  id: number;
+  year: number;
+  national_pension_rate?: number | null;
+  health_insurance_rate?: number | null;
+  long_term_care_rate?: number | null;
+  employment_insurance_rate?: number | null;
+}
+
+export interface InsuranceRateCreateDTO {
+  year: number;
+  national_pension_rate: number;
+  health_insurance_rate: number;
+  long_term_care_rate: number;
+  employment_insurance_rate: number;
 }
