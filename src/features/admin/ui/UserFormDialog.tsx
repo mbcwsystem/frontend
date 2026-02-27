@@ -230,6 +230,7 @@ const UserFormDialog = ({
                     type="password"
                     placeholder={isCreate ? '비밀번호' : '변경할 비밀번호 입력'}
                     {...register('password')}
+                    className="font-sans"
                   />
                   {errors.password && (
                     <p className="text-destructive text-xs">{errors.password.message}</p>
@@ -240,9 +241,7 @@ const UserFormDialog = ({
                 <div className="flex flex-col gap-1.5">
                   <Label htmlFor="name">이름 *</Label>
                   <Input id="name" placeholder="이름" {...register('name')} />
-                  {errors.name && (
-                    <p className="text-destructive text-xs">{errors.name.message}</p>
-                  )}
+                  {errors.name && <p className="text-destructive text-xs">{errors.name.message}</p>}
                 </div>
 
                 {/* 직급 */}
@@ -401,9 +400,7 @@ const UserFormDialog = ({
                     placeholder="시급 입력"
                     {...register('wage', { valueAsNumber: true })}
                   />
-                  {errors.wage && (
-                    <p className="text-destructive text-xs">{errors.wage.message}</p>
-                  )}
+                  {errors.wage && <p className="text-destructive text-xs">{errors.wage.message}</p>}
                 </div>
 
                 {/* 보건증 만료일 */}
