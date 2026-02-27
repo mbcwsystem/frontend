@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 
 import {
   createAdminUser,
@@ -28,7 +29,8 @@ import type {
 const ADMIN_QUERY_KEYS = {
   base: ['admin'] as const,
   holidays: (year: number) => ['admin', 'holidays', year] as const,
-  users: (q?: string) => ['admin', 'users', q] as const,
+  users: (params?: { q?: string; limit?: number; offset?: number }) =>
+    ['admin', 'users', params] as const,
   userDetail: (memberId: number) => ['admin', 'users', memberId] as const,
   insuranceRates: () => ['admin', 'insurance-rates'] as const,
   insuranceRateByYear: (year: number) => ['admin', 'insurance-rates', year] as const,
@@ -77,7 +79,7 @@ export function useDeleteHolidayMutation() {
 // 유저
 export function useAdminUsersQuery(params?: { q?: string; limit?: number; offset?: number }) {
   return useQuery({
-    queryKey: ADMIN_QUERY_KEYS.users(params?.q),
+    queryKey: ADMIN_QUERY_KEYS.users(params),
     queryFn: () => getAdminUsers(params),
   });
 }
@@ -132,7 +134,14 @@ export function useInsuranceRatesQuery() {
 export function useInsuranceRateByYearQuery(year: number) {
   return useQuery({
     queryKey: ADMIN_QUERY_KEYS.insuranceRateByYear(year),
-    queryFn: () => getInsuranceRateByYear(year),
+    queryFn: async () => {
+      try {
+        return await getInsuranceRateByYear(year);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) return null;
+        throw error;
+      }
+    },
   });
 }
 
