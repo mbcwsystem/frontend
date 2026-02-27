@@ -90,7 +90,7 @@ const UserManagement = () => {
     <>
       {/* 헤더 */}
       <div className="flex items-start justify-between mb-5">
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2">
           <Users className="size-5 text-mega-secondary mt-0.5" />
           <div>
             <h2 className="text-base font-semibold">직원 관리</h2>

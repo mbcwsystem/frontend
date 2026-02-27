@@ -139,14 +139,16 @@ const InsuranceRateManagement = () => {
   return (
     <div>
       {/* 헤더 */}
-      <div className="flex items-center gap-2 mb-1">
+      <div className="flex gap-2 mb-1">
         <ShieldCheck className="size-5 text-mega-secondary" />
-        <h2 className="text-base font-semibold">4대 보험 요율 관리</h2>
+        <div>
+          <h2 className="text-base font-semibold">4대 보험 요율 관리</h2>
+          <p className="text-sm text-muted-foreground mb-6">
+            건강보험, 장기요양보험, 고용보험, 국민연금의 요율을 설정합니다. 설정된 요율은 급여
+            계산에 자동으로 반영됩니다.
+          </p>
+        </div>
       </div>
-      <p className="text-sm text-muted-foreground mb-6">
-        건강보험, 장기요양보험, 고용보험, 국민연금의 요율을 설정합니다. 설정된 요율은 급여 계산에
-        자동으로 반영됩니다.
-      </p>
 
       {/* 연도 선택 */}
       <div className="flex items-center gap-3 mb-6">

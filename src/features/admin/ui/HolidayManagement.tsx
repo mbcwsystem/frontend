@@ -91,7 +91,7 @@ const HolidayManagement = () => {
     <>
       {/* 헤더 */}
       <div className="flex items-start justify-between mb-5">
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2">
           <CalendarDays className="size-5 text-mega-secondary mt-0.5" />
           <div>
             <h2 className="text-base font-semibold">{year}년 공휴일 관리</h2>
