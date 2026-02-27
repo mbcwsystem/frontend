@@ -19,6 +19,7 @@ import type {
 } from '../api/dto';
 
 import { Button } from '@/shared/components/ui/button';
+import ConfirmDialog from '@/shared/components/ui/confirm-dialog';
 import { Input } from '@/shared/components/ui/input';
 import { Spinner } from '@/shared/components/ui/spinner';
 
@@ -30,6 +31,7 @@ const UserManagement = () => {
   const [offset, setOffset] = useState(0);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<AdminUserDTO | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<AdminUserDTO | null>(null);
   const debounceRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { data, isLoading, isError } = useAdminUsersQuery({
@@ -78,11 +80,21 @@ const UserManagement = () => {
     );
   };
 
-  const handleDelete = (user: AdminUserDTO) => {
-    if (!confirm(`'${user.name}' 직원을 삭제하시겠습니까?`)) return;
-    deleteMutation.mutate(user.id, {
-      onSuccess: () => toast.success('직원이 삭제되었습니다.'),
-      onError: () => toast.error('직원 삭제에 실패했습니다.'),
+  const handleDeleteRequest = (user: AdminUserDTO) => {
+    setPendingDelete(user);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (!pendingDelete) return;
+    deleteMutation.mutate(pendingDelete.id, {
+      onSuccess: () => {
+        toast.success('직원이 삭제되었습니다.');
+        setPendingDelete(null);
+      },
+      onError: () => {
+        toast.error('직원 삭제에 실패했습니다.');
+        setPendingDelete(null);
+      },
     });
   };
 
@@ -132,7 +144,7 @@ const UserManagement = () => {
               <UserTable
                 users={users}
                 onEdit={setEditTarget}
-                onDelete={handleDelete}
+                onDelete={handleDeleteRequest}
                 isDeletePending={deleteMutation.isPending}
               />
               {/* 페이지네이션 */}
@@ -185,6 +197,19 @@ const UserManagement = () => {
         onClose={() => setEditTarget(null)}
         onSubmit={handleUpdate}
         isPending={updateMutation.isPending}
+      />
+
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        title="직원을 삭제하시겠습니까?"
+        description={
+          pendingDelete ? `'${pendingDelete.name}' 직원을 삭제하면 복구할 수 없습니다.` : undefined
+        }
+        confirmLabel="삭제"
+        variant="destructive"
+        isPending={deleteMutation.isPending}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setPendingDelete(null)}
       />
     </>
   );
