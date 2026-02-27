@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { toast } from 'sonner';
 
 import {
+  useAdminUserDetailQuery,
   useAdminUsersQuery,
   useCreateAdminUserMutation,
   useDeleteAdminUserMutation,
@@ -43,6 +44,10 @@ const UserManagement = () => {
   const createMutation = useCreateAdminUserMutation();
   const updateMutation = useUpdateAdminUserMutation();
   const deleteMutation = useDeleteAdminUserMutation();
+
+  const { data: editUserDetail, isLoading: isDetailLoading } = useAdminUserDetailQuery(
+    editTarget?.id ?? 0,
+  );
 
   const users = data?.items ?? [];
   const total = data?.total ?? 0;
@@ -193,10 +198,10 @@ const UserManagement = () => {
       <UserFormDialog
         mode="edit"
         open={editTarget !== null}
-        user={editTarget}
+        user={editUserDetail ?? editTarget}
         onClose={() => setEditTarget(null)}
         onSubmit={handleUpdate}
-        isPending={updateMutation.isPending}
+        isPending={updateMutation.isPending || isDetailLoading}
       />
 
       <ConfirmDialog
