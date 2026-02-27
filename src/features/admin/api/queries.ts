@@ -26,15 +26,9 @@ import type {
   UpdateHolidayRequestDTO,
 } from './dto';
 
-const ADMIN_QUERY_KEYS = {
-  base: ['admin'] as const,
-  holidays: (year: number) => ['admin', 'holidays', year] as const,
-  users: (params?: { q?: string; limit?: number; offset?: number }) =>
-    ['admin', 'users', params] as const,
-  userDetail: (memberId: number) => ['admin', 'users', memberId] as const,
-  insuranceRates: () => ['admin', 'insurance-rates'] as const,
-  insuranceRateByYear: (year: number) => ['admin', 'insurance-rates', year] as const,
-};
+import { QUERY_KEYS } from '@/shared/api/queryKeys';
+
+const ADMIN_QUERY_KEYS = QUERY_KEYS.admin;
 
 // 공휴일
 export function useHolidaysQuery(year: number) {
@@ -61,7 +55,7 @@ export function useUpdateHolidayMutation() {
     mutationFn: ({ id, data }: { id: number; data: UpdateHolidayRequestDTO }) =>
       updateHoliday(id, data),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'holidays'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.holidaysBase() });
     },
   });
 }
@@ -71,7 +65,7 @@ export function useDeleteHolidayMutation() {
   return useMutation({
     mutationFn: (id: number) => deleteHoliday(id),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'holidays'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.holidaysBase() });
     },
   });
 }
@@ -97,7 +91,7 @@ export function useCreateAdminUserMutation() {
   return useMutation({
     mutationFn: (data: CreateAdminUserRequestDTO) => createAdminUser(data),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.usersBase() });
     },
   });
 }
@@ -108,7 +102,7 @@ export function useUpdateAdminUserMutation() {
     mutationFn: ({ memberId, data }: { memberId: number; data: UpdateAdminUserRequestDTO }) =>
       updateAdminUser(memberId, data),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.usersBase() });
     },
   });
 }
@@ -118,7 +112,7 @@ export function useDeleteAdminUserMutation() {
   return useMutation({
     mutationFn: (memberId: number) => deleteAdminUser(memberId),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.usersBase() });
     },
   });
 }
