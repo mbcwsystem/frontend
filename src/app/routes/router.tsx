@@ -9,6 +9,7 @@ import { AuthRoute } from './AuthRoute';
 
 import { NotFoundPage } from '@/pages/404';
 import { AdminPage } from '@/pages/admin';
+import { SchedulePage } from '@/pages/schedule';
 import {
   Communiity,
   DayoffPage,
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.PAY,
         element: <PayPage />,
+      },
+      {
+        path: ROUTES.SCHEDULE,
+        element: <SchedulePage />,
       },
       {
         path: ROUTES.ADMIN,

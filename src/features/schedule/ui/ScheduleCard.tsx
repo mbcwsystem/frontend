@@ -1,9 +1,9 @@
 import { Clock, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
-import { cn } from '@/shared/lib/utils';
-
 import type { ScheduleResponse } from '../model/type';
+
+import { cn } from '@/shared/lib/utils';
 
 interface ScheduleCardProps {
   schedule: ScheduleResponse;

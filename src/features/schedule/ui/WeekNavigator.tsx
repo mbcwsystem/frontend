@@ -1,20 +1,20 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
+import { formatWeekRange } from '../model/weekUtils';
 
-import { formatWeekRange, getWeekDates } from '../model/weekUtils';
+import { Button } from '@/shared/components/ui/button';
 
 interface WeekNavigatorProps {
   year: number;
   week: number;
+  weekDates: Date[];
   onPrev: () => void;
   onNext: () => void;
   onToday: () => void;
 }
 
-const WeekNavigator = ({ year, week, onPrev, onNext, onToday }: WeekNavigatorProps) => {
-  const dates = getWeekDates(year, week);
-  const rangeText = formatWeekRange(dates);
+const WeekNavigator = ({ weekDates, onPrev, onNext, onToday }: WeekNavigatorProps) => {
+  const rangeText = formatWeekRange(weekDates);
 
   return (
     <div className="flex items-center gap-2">
