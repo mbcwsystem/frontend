@@ -16,7 +16,7 @@ const InsuranceRatePreview = ({
   pensionRate,
 }: InsuranceRatePreviewProps) => {
   const health = Math.floor((BASE_SALARY * healthRate) / 100);
-  const care = Math.floor((BASE_SALARY * careRate) / 100);
+  const care = Math.floor((health * careRate) / 100);
   const employment = Math.floor((BASE_SALARY * employmentRate) / 100);
   const pension = Math.floor((BASE_SALARY * pensionRate) / 100);
   const total = health + care + employment + pension;

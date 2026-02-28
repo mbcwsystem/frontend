@@ -1,13 +1,17 @@
-import { apiClient } from '../../../shared/api/apiClients';
-
 import type {
   AdminUserDTO,
+  AdminUserDetailDTO,
+  AdminUsersResponseDTO,
   CreateAdminUserRequestDTO,
   CreateHolidayRequestDTO,
   HolidayDTO,
-  InsuranceRateDTO,
+  InsuranceRateCreateDTO,
+  InsuranceRateResponseDTO,
+  UpdateAdminUserRequestDTO,
   UpdateHolidayRequestDTO,
 } from './dto';
+
+import { apiClient } from '@/shared/api/apiClients';
 
 // 공휴일
 export const getHolidays = (year: number) =>
@@ -23,7 +27,7 @@ export const createHoliday = (data: CreateHolidayRequestDTO) =>
   });
 
 export const updateHoliday = (id: number, data: UpdateHolidayRequestDTO) =>
-  apiClient.patch<HolidayDTO>({
+  apiClient.put<HolidayDTO>({
     url: `/api/admin/holidays/${id}`,
     data,
   });
@@ -34,26 +38,58 @@ export const deleteHoliday = (id: number) =>
   });
 
 // 유저
-export const getAdminUsers = (search?: string) =>
-  apiClient.get<AdminUserDTO[]>({
+export const getAdminUsers = (params?: { q?: string; limit?: number; offset?: number }) =>
+  apiClient.get<AdminUsersResponseDTO>({
     url: '/api/admin/users',
-    params: search ? { search } : undefined,
+    params,
+  });
+
+export const getAdminUserDetail = (memberId: number) =>
+  apiClient.get<AdminUserDetailDTO>({
+    url: `/api/admin/users/${memberId}`,
   });
 
 export const createAdminUser = (data: CreateAdminUserRequestDTO) =>
   apiClient.post<AdminUserDTO>({
-    url: '/api/admin/users',
+    url: '/api/admin/users/create',
     data,
+  });
+
+export const updateAdminUser = (memberId: number, data: UpdateAdminUserRequestDTO) =>
+  apiClient.patch<AdminUserDTO>({
+    url: `/api/admin/users/${memberId}`,
+    data,
+  });
+
+export const deleteAdminUser = (memberId: number) =>
+  apiClient.delete<void>({
+    url: `/api/admin/users/${memberId}`,
   });
 
 // 4대보험 요율
 export const getInsuranceRates = () =>
-  apiClient.get<InsuranceRateDTO>({
+  apiClient.get<InsuranceRateResponseDTO[]>({
     url: '/api/admin/insurance-rates',
   });
 
-export const updateInsuranceRates = (data: InsuranceRateDTO) =>
-  apiClient.patch<InsuranceRateDTO>({
+export const getInsuranceRateByYear = (year: number) =>
+  apiClient.get<InsuranceRateResponseDTO>({
+    url: `/api/admin/insurance-rates/${year}`,
+  });
+
+export const createInsuranceRate = (data: InsuranceRateCreateDTO) =>
+  apiClient.post<InsuranceRateResponseDTO>({
     url: '/api/admin/insurance-rates',
     data,
+  });
+
+export const updateInsuranceRate = (year: number, data: InsuranceRateCreateDTO) =>
+  apiClient.put<InsuranceRateResponseDTO>({
+    url: `/api/admin/insurance-rates/${year}`,
+    data,
+  });
+
+export const deleteInsuranceRate = (year: number) =>
+  apiClient.delete<void>({
+    url: `/api/admin/insurance-rates/${year}`,
   });

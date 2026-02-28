@@ -1,29 +1,34 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 
 import {
   createAdminUser,
   createHoliday,
+  createInsuranceRate,
+  deleteAdminUser,
   deleteHoliday,
+  deleteInsuranceRate,
+  getAdminUserDetail,
   getAdminUsers,
   getHolidays,
+  getInsuranceRateByYear,
   getInsuranceRates,
+  updateAdminUser,
   updateHoliday,
-  updateInsuranceRates,
+  updateInsuranceRate,
 } from './service';
 
 import type {
   CreateAdminUserRequestDTO,
   CreateHolidayRequestDTO,
-  InsuranceRateDTO,
+  InsuranceRateCreateDTO,
+  UpdateAdminUserRequestDTO,
   UpdateHolidayRequestDTO,
 } from './dto';
 
-const ADMIN_QUERY_KEYS = {
-  base: ['admin'] as const,
-  holidays: (year: number) => ['admin', 'holidays', year] as const,
-  users: (search?: string) => ['admin', 'users', search] as const,
-  insuranceRates: () => ['admin', 'insurance-rates'] as const,
-};
+import { QUERY_KEYS } from '@/shared/api/queryKeys';
+
+const ADMIN_QUERY_KEYS = QUERY_KEYS.admin;
 
 // 공휴일
 export function useHolidaysQuery(year: number) {
@@ -50,7 +55,7 @@ export function useUpdateHolidayMutation() {
     mutationFn: ({ id, data }: { id: number; data: UpdateHolidayRequestDTO }) =>
       updateHoliday(id, data),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'holidays'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.holidaysBase() });
     },
   });
 }
@@ -60,16 +65,24 @@ export function useDeleteHolidayMutation() {
   return useMutation({
     mutationFn: (id: number) => deleteHoliday(id),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'holidays'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.holidaysBase() });
     },
   });
 }
 
 // 유저
-export function useAdminUsersQuery(search?: string) {
+export function useAdminUsersQuery(params?: { q?: string; limit?: number; offset?: number }) {
   return useQuery({
-    queryKey: ADMIN_QUERY_KEYS.users(search),
-    queryFn: () => getAdminUsers(search),
+    queryKey: ADMIN_QUERY_KEYS.users(params),
+    queryFn: () => getAdminUsers(params),
+  });
+}
+
+export function useAdminUserDetailQuery(memberId: number) {
+  return useQuery({
+    queryKey: ADMIN_QUERY_KEYS.userDetail(memberId),
+    queryFn: () => getAdminUserDetail(memberId),
+    enabled: memberId > 0,
   });
 }
 
@@ -78,7 +91,28 @@ export function useCreateAdminUserMutation() {
   return useMutation({
     mutationFn: (data: CreateAdminUserRequestDTO) => createAdminUser(data),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.usersBase() });
+    },
+  });
+}
+
+export function useUpdateAdminUserMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ memberId, data }: { memberId: number; data: UpdateAdminUserRequestDTO }) =>
+      updateAdminUser(memberId, data),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.usersBase() });
+    },
+  });
+}
+
+export function useDeleteAdminUserMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (memberId: number) => deleteAdminUser(memberId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.usersBase() });
     },
   });
 }
@@ -91,12 +125,53 @@ export function useInsuranceRatesQuery() {
   });
 }
 
-export function useUpdateInsuranceRatesMutation() {
+export function useInsuranceRateByYearQuery(year: number) {
+  return useQuery({
+    queryKey: ADMIN_QUERY_KEYS.insuranceRateByYear(year),
+    queryFn: async () => {
+      try {
+        return await getInsuranceRateByYear(year);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) return null;
+        throw error;
+      }
+    },
+  });
+}
+
+export function useCreateInsuranceRateMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: InsuranceRateDTO) => updateInsuranceRates(data),
+    mutationFn: (data: InsuranceRateCreateDTO) => createInsuranceRate(data),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.insuranceRates() });
+    },
+  });
+}
+
+export function useUpdateInsuranceRateMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ year, data }: { year: number; data: InsuranceRateCreateDTO }) =>
+      updateInsuranceRate(year, data),
+    onSuccess: (_, variables) => {
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.insuranceRates() });
+      void queryClient.invalidateQueries({
+        queryKey: ADMIN_QUERY_KEYS.insuranceRateByYear(variables.year),
+      });
+    },
+  });
+}
+
+export function useDeleteInsuranceRateMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (year: number) => deleteInsuranceRate(year),
+    onSuccess: (_, year) => {
+      void queryClient.invalidateQueries({ queryKey: ADMIN_QUERY_KEYS.insuranceRates() });
+      void queryClient.removeQueries({
+        queryKey: ADMIN_QUERY_KEYS.insuranceRateByYear(year),
+      });
     },
   });
 }
