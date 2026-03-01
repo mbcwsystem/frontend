@@ -13,7 +13,7 @@ export const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(requestInterceptor);
 axiosInstance.interceptors.response.use(
   responseInterceptor,
-  createRejectInterceptor(axiosInstance),
+  createRejectInterceptor(axiosInstance, BASE_URL),
 );
 
 export const apiClient = {

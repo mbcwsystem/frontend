@@ -7,8 +7,6 @@ import { queryClient } from './queryClient';
 import type { ErrorResponse } from '../types/apiResponse';
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-const BASE_URL = (import.meta.env.VITE_BASE_URL as string) || 'http://localhost:8000';
-
 function appendFormData(formData: FormData, key: string, value: unknown) {
   if (value == null) return;
 
@@ -76,7 +74,7 @@ export const responseInterceptor = (response: AxiosResponse) => {
 };
 
 // 커스텀 에러 클래스
-class ApiError extends Error {
+export class ApiError extends Error {
   code: string;
   status?: number;
   details?: unknown;
@@ -121,9 +119,9 @@ const clearSession = () => {
 };
 
 // 응답 에러 인터셉터 팩토리
-// axiosInstance를 직접 참조해야 원본 요청을 재시도할 수 있으므로 팩토리 패턴 사용
+// axiosInstance와 baseUrl을 직접 참조해야 원본 요청 재시도 및 refresh 호출이 가능하므로 팩토리 패턴 사용
 export const createRejectInterceptor =
-  (axiosInstance: AxiosInstance) =>
+  (axiosInstance: AxiosInstance, baseUrl: string) =>
   async (error: AxiosError<ErrorResponse>): Promise<AxiosResponse> => {
     // 네트워크 에러
     if (!error.response) {
@@ -170,11 +168,15 @@ export const createRejectInterceptor =
         if (isRefreshing) {
           return new Promise<string>((resolve, reject) => {
             failedQueue.push({ resolve, reject });
-          }).then((token) => {
-            originalRequest._retry = true;
-            (originalRequest.headers as Record<string, string>).Authorization = `Bearer ${token}`;
-            return axiosInstance(originalRequest);
-          });
+          })
+            .then((token) => {
+              originalRequest._retry = true;
+              (originalRequest.headers as Record<string, string>).Authorization = `Bearer ${token}`;
+              return axiosInstance(originalRequest);
+            })
+            .catch((err: unknown) =>
+              Promise.reject(err instanceof Error ? err : new Error(String(err))),
+            );
         }
 
         // 토큰 갱신 시작
@@ -184,7 +186,7 @@ export const createRejectInterceptor =
         try {
           // 인터셉터 루프 방지를 위해 raw axios 사용 (axiosInstance 인터셉터 우회)
           const response = await axios.post<RefreshTokenResponse>(
-            `${BASE_URL}/api/auth/refresh`,
+            `${baseUrl}/api/auth/refresh`,
             null,
             { params: { refresh_token: refreshToken } },
           );
