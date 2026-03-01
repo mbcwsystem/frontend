@@ -17,9 +17,9 @@ const WeekNavigator = ({ weekDates, onPrev, onNext, onToday }: WeekNavigatorProp
   const { year, range } = formatWeekRangeParts(weekDates);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 ">
       {/* Bordered box: [<] [year / date range] [>] */}
-      <div className="flex items-center border border-mega-gray-light rounded-lg overflow-hidden">
+      <div className="flex items-center border border-mega-gray-light rounded-lg overflow-hidden bg-white">
         <button
           type="button"
           onClick={onPrev}
