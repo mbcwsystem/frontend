@@ -1,7 +1,7 @@
 import { ArrowLeftRight, Calendar, MessageSquare, User, X } from 'lucide-react';
 import { useState } from 'react';
 
-import type { UserOption } from '../model/type';
+import type { ScheduleUserOption } from '../model/type';
 
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -31,7 +31,7 @@ interface ShiftModalProps {
     target_schedule_date: string;
     reason: string;
   }) => void;
-  employees: UserOption[];
+  employees: ScheduleUserOption[];
   isPending?: boolean;
 }
 
@@ -121,7 +121,7 @@ const ShiftModal = ({ open, onClose, onSubmit, employees, isPending = false }: S
                   <SelectItem key={employee.id} value={String(employee.id)}>
                     {employee.name}
                     <span className="text-muted-foreground ml-1 text-xs">
-                      ({employee.position})
+                      ({employee.username})
                     </span>
                   </SelectItem>
                 ))}

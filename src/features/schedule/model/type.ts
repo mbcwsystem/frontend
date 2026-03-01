@@ -34,8 +34,8 @@ export interface ShiftResponse {
   created_at: string;
 }
 
-export interface UserOption {
+export interface ScheduleUserOption {
   id: number;
+  username: string;
   name: string;
-  position: string;
 }

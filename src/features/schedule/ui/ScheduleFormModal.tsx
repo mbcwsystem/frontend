@@ -1,7 +1,10 @@
 import { CalendarPlus, Clock, User, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import type { UserOption } from '../model/type';
+import { getISOWeek } from '../model/weekUtils';
+
+import type { ScheduleCreateDTO } from '../api/dto';
+import type { ScheduleUserOption } from '../model/type';
 
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -21,21 +24,14 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 
-interface ScheduleFormData {
-  user_id: number;
-  work_date: string;
-  start_time: string;
-  end_time: string;
-}
-
 interface ScheduleFormModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: ScheduleFormData) => void;
-  employees: UserOption[];
+  onSubmit: (data: ScheduleCreateDTO) => void;
+  employees: ScheduleUserOption[];
   initialData?: {
     id?: number;
-    user_id?: number;
+    target_id?: number;
     work_date?: string;
     start_time?: string;
     end_time?: string;
@@ -51,7 +47,7 @@ const ScheduleFormModal = ({
   initialData,
   isPending = false,
 }: ScheduleFormModalProps) => {
-  const [userId, setUserId] = useState<number | ''>('');
+  const [targetId, setTargetId] = useState<number | ''>('');
   const [workDate, setWorkDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -60,7 +56,7 @@ const ScheduleFormModal = ({
 
   useEffect(() => {
     if (open && initialData) {
-      setUserId(initialData.user_id ?? '');
+      setTargetId(initialData.target_id ?? '');
       setWorkDate(initialData.work_date ?? '');
       setStartTime(initialData.start_time ?? '');
       setEndTime(initialData.end_time ?? '');
@@ -68,7 +64,7 @@ const ScheduleFormModal = ({
   }, [open, initialData]);
 
   const resetForm = () => {
-    setUserId('');
+    setTargetId('');
     setWorkDate('');
     setStartTime('');
     setEndTime('');
@@ -80,16 +76,26 @@ const ScheduleFormModal = ({
   };
 
   const isFormValid =
-    userId !== '' && workDate.trim() !== '' && startTime.trim() !== '' && endTime.trim() !== '';
+    targetId !== '' && workDate.trim() !== '' && startTime.trim() !== '' && endTime.trim() !== '';
 
   const handleSubmit = () => {
     if (!isFormValid) return;
-    onSubmit({
-      user_id: userId,
-      work_date: workDate,
-      start_time: startTime,
-      end_time: endTime,
-    });
+
+    // work_date "YYYY-MM-DD"에서 Date 객체 생성 후 week_number, year, month 계산
+    const dateObj = new Date(`${workDate}T00:00:00`);
+    const { year, week: week_number } = getISOWeek(dateObj);
+    const month = dateObj.getMonth() + 1;
+
+    const dto: ScheduleCreateDTO = {
+      start_date: `${workDate}T${startTime}:00`,
+      end_date: `${workDate}T${endTime}:00`,
+      target_id: targetId,
+      week_number,
+      year,
+      month,
+    };
+
+    onSubmit(dto);
   };
 
   return (
@@ -117,16 +123,17 @@ const ScheduleFormModal = ({
               직원 선택
             </Label>
             <Select
-              value={userId !== '' ? String(userId) : ''}
-              onValueChange={(v) => setUserId(Number(v))}
+              value={targetId !== '' ? String(targetId) : ''}
+              onValueChange={(v) => setTargetId(Number(v))}
             >
               <SelectTrigger id="schedule-user" className="w-full">
                 <SelectValue placeholder="직원을 선택하세요" />
               </SelectTrigger>
               <SelectContent>
-                {employees.map((employee) => (
-                  <SelectItem key={employee.id} value={String(employee.id)}>
-                    {employee.name} ({employee.position})
+                {employees.map((emp) => (
+                  <SelectItem key={emp.id} value={String(emp.id)}>
+                    {emp.name}
+                    <span className="text-muted-foreground ml-1 text-xs">({emp.username})</span>
                   </SelectItem>
                 ))}
               </SelectContent>
