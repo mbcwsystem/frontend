@@ -1,48 +1,34 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { DayOffApprovalDTO, DayOffCreateDTO, ShiftApprovalDTO, ShiftCreateDTO } from './dto';
-import type { ScheduleCreateDTO, ScheduleUpdateDTO } from './dto';
 import {
   approveDayOff,
-  approveShift,
   createSchedule,
+  deleteDayOff,
   deleteSchedule,
   getDayOffRequests,
-  getMySchedules,
-  getScheduleEmployees,
-  getSchedules,
+  getScheduleWeek,
   getShiftRequests,
   requestDayOff,
-  requestShift,
   updateSchedule,
 } from './service';
+
+import type {
+  DayOffApprovalDTO,
+  DayOffCreateDTO,
+  ScheduleCreateDTO,
+  ScheduleUpdateDTO,
+} from './dto';
 
 import { QUERY_KEYS } from '@/shared/api/queryKeys';
 
 const SK = QUERY_KEYS.schedule;
 
-// 전체 스케줄 조회
-export function useSchedulesQuery(params: { start_date: string; end_date: string }) {
+// 특정 주차 스케줄 조회
+export function useScheduleWeekQuery(year: number, week: number) {
   return useQuery({
-    queryKey: SK.all(params),
-    queryFn: () => getSchedules(params),
-  });
-}
-
-// 내 스케줄 조회
-export function useMySchedulesQuery(params: { start_date: string; end_date: string }) {
-  return useQuery({
-    queryKey: SK.my(params),
-    queryFn: () => getMySchedules(params),
-  });
-}
-
-// 교대 가능 직원 목록
-export function useScheduleEmployeesQuery() {
-  return useQuery({
-    queryKey: SK.employees(),
-    queryFn: getScheduleEmployees,
+    queryKey: SK.week(year, week),
+    queryFn: () => getScheduleWeek(year, week),
   });
 }
 
@@ -62,8 +48,7 @@ export function useCreateScheduleMutation() {
 export function useUpdateScheduleMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: ScheduleUpdateDTO }) =>
-      updateSchedule(id, data),
+    mutationFn: ({ id, data }: { id: number; data: ScheduleUpdateDTO }) => updateSchedule(id, data),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: SK.base });
       toast.success('스케줄이 수정되었습니다.');
@@ -83,11 +68,11 @@ export function useDeleteScheduleMutation() {
   });
 }
 
-// 휴무 신청 목록 조회
-export function useDayOffRequestsQuery() {
+// 휴무 리스트 조회
+export function useDayOffRequestsQuery(status?: string) {
   return useQuery({
-    queryKey: SK.dayoffs(),
-    queryFn: getDayOffRequests,
+    queryKey: SK.dayoffs(status),
+    queryFn: () => getDayOffRequests(status),
   });
 }
 
@@ -110,7 +95,21 @@ export function useApproveDayOffMutation() {
     mutationFn: ({ id, data }: { id: number; data: DayOffApprovalDTO }) => approveDayOff(id, data),
     onSuccess: (_, { data }) => {
       void queryClient.invalidateQueries({ queryKey: SK.dayoffsBase() });
-      toast.success(data.status === 'APPROVED' ? '휴무 신청을 승인했습니다.' : '휴무 신청을 거절했습니다.');
+      toast.success(
+        data.status === 'APPROVED' ? '휴무 신청을 승인했습니다.' : '휴무 신청을 거절했습니다.',
+      );
+    },
+  });
+}
+
+// 휴무 삭제
+export function useDeleteDayOffMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => deleteDayOff(id),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: SK.dayoffsBase() });
+      toast.success('휴무 신청이 삭제되었습니다.');
     },
   });
 }
@@ -120,29 +119,5 @@ export function useShiftRequestsQuery() {
   return useQuery({
     queryKey: SK.shifts(),
     queryFn: getShiftRequests,
-  });
-}
-
-// 근무교대 신청 (크루)
-export function useRequestShiftMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: ShiftCreateDTO) => requestShift(data),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: SK.shiftsBase() });
-      toast.success('근무교대 신청이 완료되었습니다.');
-    },
-  });
-}
-
-// 근무교대 승인/거절 (어드민)
-export function useApproveShiftMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: ShiftApprovalDTO }) => approveShift(id, data),
-    onSuccess: (_, { data }) => {
-      void queryClient.invalidateQueries({ queryKey: SK.shiftsBase() });
-      toast.success(data.status === 'APPROVED' ? '근무교대 신청을 승인했습니다.' : '근무교대 신청을 거절했습니다.');
-    },
   });
 }

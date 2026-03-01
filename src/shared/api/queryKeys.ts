@@ -24,13 +24,10 @@ export const QUERY_KEYS = {
 
   schedule: {
     base: ['schedule'] as const,
-    all: (params: { start_date: string; end_date: string }) =>
-      [...QUERY_KEYS.schedule.base, 'all', params] as const,
-    my: (params: { start_date: string; end_date: string }) =>
-      [...QUERY_KEYS.schedule.base, 'my', params] as const,
-    employees: () => [...QUERY_KEYS.schedule.base, 'employees'] as const,
+    week: (year: number, week: number) =>
+      [...QUERY_KEYS.schedule.base, 'week', year, week] as const,
     dayoffsBase: () => [...QUERY_KEYS.schedule.base, 'dayoffs'] as const,
-    dayoffs: () => [...QUERY_KEYS.schedule.base, 'dayoffs', 'list'] as const,
+    dayoffs: (status?: string) => [...QUERY_KEYS.schedule.base, 'dayoffs', 'list', status] as const,
     shiftsBase: () => [...QUERY_KEYS.schedule.base, 'shifts'] as const,
     shifts: () => [...QUERY_KEYS.schedule.base, 'shifts', 'list'] as const,
   },

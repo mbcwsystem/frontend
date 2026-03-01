@@ -3,90 +3,66 @@ import type {
   DayOffCreateDTO,
   ScheduleCreateDTO,
   ScheduleUpdateDTO,
-  ShiftApprovalDTO,
-  ShiftCreateDTO,
 } from './dto';
-
-import type { DayOffResponse, ScheduleResponse, ShiftResponse, UserOption } from '../model/type';
+import type { DayOffResponse, ScheduleResponse, ShiftResponse } from '../model/type';
 
 import { apiClient } from '@/shared/api/apiClients';
 
-// 스케줄 조회 (전체 - 어드민/크루 모두)
-export const getSchedules = (params: { start_date: string; end_date: string }) =>
+// 특정 주차 스케줄 조회
+export const getScheduleWeek = (year: number, weekNumber: number) =>
   apiClient.get<ScheduleResponse[]>({
-    url: '/api/schedules',
-    params,
-  });
-
-// 내 스케줄 조회 (크루 본인)
-export const getMySchedules = (params: { start_date: string; end_date: string }) =>
-  apiClient.get<ScheduleResponse[]>({
-    url: '/api/schedules/my',
-    params,
+    url: `/api/schedule/week/${year}/${weekNumber}`,
   });
 
 // 스케줄 생성 (어드민)
 export const createSchedule = (data: ScheduleCreateDTO) =>
   apiClient.post<ScheduleResponse>({
-    url: '/api/schedules',
+    url: '/api/schedule/create',
     data,
   });
 
 // 스케줄 수정 (어드민)
-export const updateSchedule = (id: number, data: ScheduleUpdateDTO) =>
+export const updateSchedule = (scheduleId: number, data: ScheduleUpdateDTO) =>
   apiClient.patch<ScheduleResponse>({
-    url: `/api/schedules/${id}`,
+    url: `/api/schedule/${scheduleId}`,
     data,
   });
 
 // 스케줄 삭제 (어드민)
-export const deleteSchedule = (id: number) =>
+export const deleteSchedule = (scheduleId: number) =>
   apiClient.delete<void>({
-    url: `/api/schedules/${id}`,
-  });
-
-// 교대 가능 직원 목록
-export const getScheduleEmployees = () =>
-  apiClient.get<UserOption[]>({
-    url: '/api/schedules/employees',
+    url: `/api/schedule/${scheduleId}`,
   });
 
 // 휴무 신청 (크루)
 export const requestDayOff = (data: DayOffCreateDTO) =>
   apiClient.post<DayOffResponse>({
-    url: '/api/dayoffs',
+    url: '/api/schedule/dayoff/apply',
     data,
   });
 
-// 휴무 신청 목록 조회
-export const getDayOffRequests = () =>
+// 휴무 리스트 조회
+export const getDayOffRequests = (status?: string) =>
   apiClient.get<DayOffResponse[]>({
-    url: '/api/dayoffs',
+    url: '/api/schedule/dayoff',
+    params: status ? { status } : undefined,
   });
 
 // 휴무 승인/거절 (어드민)
-export const approveDayOff = (id: number, data: DayOffApprovalDTO) =>
+export const approveDayOff = (dayOffId: number, data: DayOffApprovalDTO) =>
   apiClient.patch<DayOffResponse>({
-    url: `/api/dayoffs/${id}`,
+    url: `/api/schedule/dayoff/${dayOffId}`,
     data,
   });
 
-// 근무교대 신청 (크루)
-export const requestShift = (data: ShiftCreateDTO) =>
-  apiClient.post<ShiftResponse>({
-    url: '/api/shifts',
-    data,
+// 휴무 삭제
+export const deleteDayOff = (dayOffId: number) =>
+  apiClient.delete<void>({
+    url: `/api/schedule/dayoff/${dayOffId}`,
   });
 
 // 근무교대 신청 목록 조회
 export const getShiftRequests = () =>
   apiClient.get<ShiftResponse[]>({
-    url: '/api/shifts',
-  });
-
-// 근무교대 승인/거절 (어드민)
-export const approveShift = (id: number, data: ShiftApprovalDTO) =>
-  apiClient.patch<ShiftResponse>({
-    url: `/api/shifts/${id}`,
-    data,
+    url: '/api/schedule/shift/',
   });
