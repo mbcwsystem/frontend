@@ -19,6 +19,8 @@ const positionStyles: Record<string, { border: string; badge: string; text: stri
     badge: 'bg-mega-secondary/15',
     text: 'text-mega-secondary',
   },
+  라이더: { border: 'border-l-violet-500', badge: 'bg-violet-500/15', text: 'text-violet-600' },
+  바이저: { border: 'border-l-rose-500', badge: 'bg-rose-500/15', text: 'text-rose-600' },
 };
 
 function getPositionStyle(position: string) {

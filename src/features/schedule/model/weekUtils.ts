@@ -47,6 +47,18 @@ export function formatWeekRange(dates: Date[]): string {
   return `${year}년 ${m1}월 ${d1}일 - ${m2}월 ${d2}일`;
 }
 
+// Returns year and date range separately for multi-line display
+export function formatWeekRangeParts(dates: Date[]): { year: string; range: string } {
+  const first = dates[0];
+  const last = dates[6];
+  const year = first.getFullYear();
+  const m1 = String(first.getMonth() + 1).padStart(2, '0');
+  const d1 = String(first.getDate()).padStart(2, '0');
+  const m2 = String(last.getMonth() + 1).padStart(2, '0');
+  const d2 = String(last.getDate()).padStart(2, '0');
+  return { year: `${year}년`, range: `${m1}월 ${d1}일 - ${m2}월 ${d2}일` };
+}
+
 // Format date to YYYY-MM-DD
 export function formatDate(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;

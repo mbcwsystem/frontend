@@ -1,5 +1,8 @@
 import { ArrowLeftRight, Calendar, CalendarPlus, Check, User, Users } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
+
+import type { ScheduleResponse } from '@/features/schedule';
 
 import {
   DayoffModal,
@@ -14,14 +17,10 @@ import {
   getWeekDates,
   useCreateScheduleMutation,
   useDeleteScheduleMutation,
-  useMySchedulesQuery,
   useRequestDayOffMutation,
-  useRequestShiftMutation,
-  useScheduleEmployeesQuery,
-  useSchedulesQuery,
+  useScheduleWeekQuery,
   useUpdateScheduleMutation,
 } from '@/features/schedule';
-import type { ScheduleResponse } from '@/features/schedule';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { useAuthStore } from '@/shared/model/authStore';
@@ -37,8 +36,6 @@ const SchedulePage = () => {
   const today = new Date();
   const [{ year, week }, setYearWeek] = useState(() => getISOWeek(today));
   const weekDates = getWeekDates(year, week);
-  const startDate = formatDate(weekDates[0]);
-  const endDate = formatDate(weekDates[6]);
 
   const [viewMode, setViewMode] = useState<'my' | 'all'>('all');
   const [dayoffOpen, setDayoffOpen] = useState(false);
@@ -49,17 +46,29 @@ const SchedulePage = () => {
   const { user } = useAuthStore();
   const isAdmin = user?.position === '점장';
 
-  const scheduleParams = { start_date: startDate, end_date: endDate };
-  const { data: allSchedules = [] } = useSchedulesQuery(scheduleParams);
-  const { data: mySchedules = [] } = useMySchedulesQuery(scheduleParams);
-  const { data: employees = [] } = useScheduleEmployeesQuery();
-  const schedules = viewMode === 'my' ? mySchedules : allSchedules;
+  // 주차 기반 스케줄 조회
+  const { data: allSchedules = [], isLoading } = useScheduleWeekQuery(year, week);
+
+  // 개인 뷰: 현재 사용자 스케줄만 클라이언트 필터링
+  const schedules =
+    viewMode === 'my' ? allSchedules.filter((s) => s.user_id === user?.id) : allSchedules;
+
+  // 스케줄 데이터에서 직원 목록 추출 (ShiftModal / ScheduleFormModal용)
+  const employees = useMemo(() => {
+    const seen = new Set<number>();
+    return allSchedules
+      .filter((s) => {
+        if (seen.has(s.user_id)) return false;
+        seen.add(s.user_id);
+        return true;
+      })
+      .map((s) => ({ id: s.user_id, name: s.user_name, position: s.position }));
+  }, [allSchedules]);
 
   const { mutate: createSchedule, isPending: isCreating } = useCreateScheduleMutation();
   const { mutate: updateSchedule, isPending: isUpdating } = useUpdateScheduleMutation();
   const { mutate: deleteSchedule } = useDeleteScheduleMutation();
   const { mutate: requestDayOff, isPending: isDayOffPending } = useRequestDayOffMutation();
-  const { mutate: requestShift, isPending: isShiftPending } = useRequestShiftMutation();
 
   const schedulesByDate = weekDates.reduce<Record<string, ScheduleResponse[]>>((acc, date) => {
     const key = formatDate(date);
@@ -233,17 +242,32 @@ const SchedulePage = () => {
                   </span>
                 </div>
 
-                {/* 스케줄 카드 */}
+                {/* 스케줄 카드 / 로딩 / 빈 상태 */}
                 <div className="flex flex-col gap-1.5 flex-1">
-                  {daySchedules.map((schedule) => (
-                    <ScheduleCard
-                      key={schedule.id}
-                      schedule={schedule}
-                      isAdmin={isAdmin}
-                      onEdit={handleEditSchedule}
-                      onDelete={(id) => deleteSchedule(id)}
-                    />
-                  ))}
+                  {isLoading ? (
+                    // 로딩 스켈레톤
+                    Array.from({ length: 2 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="bg-mega-gray-light/40 rounded-lg h-[58px] animate-pulse"
+                      />
+                    ))
+                  ) : daySchedules.length > 0 ? (
+                    daySchedules.map((schedule) => (
+                      <ScheduleCard
+                        key={schedule.id}
+                        schedule={schedule}
+                        isAdmin={isAdmin}
+                        onEdit={handleEditSchedule}
+                        onDelete={(id) => deleteSchedule(id)}
+                      />
+                    ))
+                  ) : (
+                    // 빈 상태
+                    <div className="flex-1 flex items-center justify-center min-h-20 rounded-lg border border-dashed border-mega-gray-light/60">
+                      <span className="text-[11px] text-muted-foreground/50">-</span>
+                    </div>
+                  )}
                 </div>
               </div>
             );
@@ -263,9 +287,11 @@ const SchedulePage = () => {
       <ShiftModal
         open={shiftOpen}
         onClose={() => setShiftOpen(false)}
-        onSubmit={(data) => requestShift(data, { onSuccess: () => setShiftOpen(false) })}
+        onSubmit={() => {
+          toast.info('근무교대 신청 기능은 준비 중입니다.');
+          setShiftOpen(false);
+        }}
         employees={employees}
-        isPending={isShiftPending}
       />
 
       {/* 스케줄 생성/수정 모달 (어드민) */}

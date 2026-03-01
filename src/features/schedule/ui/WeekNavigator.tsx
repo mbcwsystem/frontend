@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { formatWeekRange } from '../model/weekUtils';
+import { formatWeekRangeParts } from '../model/weekUtils';
 
 import { Button } from '@/shared/components/ui/button';
 
@@ -14,33 +14,37 @@ interface WeekNavigatorProps {
 }
 
 const WeekNavigator = ({ weekDates, onPrev, onNext, onToday }: WeekNavigatorProps) => {
-  const rangeText = formatWeekRange(weekDates);
+  const { year, range } = formatWeekRangeParts(weekDates);
 
   return (
     <div className="flex items-center gap-2">
-      <button
-        type="button"
-        onClick={onPrev}
-        className="p-1.5 rounded-md hover:bg-mega-gray-light/60 transition-colors"
-        aria-label="이전 주"
-      >
-        <ChevronLeft className="size-5 text-mega-gray" />
-      </button>
+      {/* Bordered box: [<] [year / date range] [>] */}
+      <div className="flex items-center border border-mega-gray-light rounded-lg overflow-hidden">
+        <button
+          type="button"
+          onClick={onPrev}
+          className="p-2.5 hover:bg-mega-gray-light/60 transition-colors border-r border-mega-gray-light"
+          aria-label="이전 주"
+        >
+          <ChevronLeft className="size-4 text-mega-gray" />
+        </button>
 
-      <span className="text-sm font-medium text-mega-gray min-w-[220px] text-center">
-        {rangeText}
-      </span>
+        <div className="px-4 py-1.5 text-center min-w-[180px]">
+          <p className="text-[11px] text-muted-foreground leading-none mb-0.5">{year}</p>
+          <p className="text-sm font-semibold text-foreground leading-tight">{range}</p>
+        </div>
 
-      <button
-        type="button"
-        onClick={onNext}
-        className="p-1.5 rounded-md hover:bg-mega-gray-light/60 transition-colors"
-        aria-label="다음 주"
-      >
-        <ChevronRight className="size-5 text-mega-gray" />
-      </button>
+        <button
+          type="button"
+          onClick={onNext}
+          className="p-2.5 hover:bg-mega-gray-light/60 transition-colors border-l border-mega-gray-light"
+          aria-label="다음 주"
+        >
+          <ChevronRight className="size-4 text-mega-gray" />
+        </button>
+      </div>
 
-      <Button variant="outline" size="sm" onClick={onToday} className="ml-1 text-xs h-8">
+      <Button variant="outline" size="sm" onClick={onToday} className="text-xs h-9">
         이번주
       </Button>
     </div>
