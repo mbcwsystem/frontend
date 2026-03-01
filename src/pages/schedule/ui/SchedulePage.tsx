@@ -1,8 +1,9 @@
 import { ArrowLeftRight, Calendar, CalendarPlus, Check, User, Users } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 import type { ScheduleResponse } from '@/features/schedule';
+import type { ScheduleCreateDTO } from '@/features/schedule/api/dto';
 
 import { useUserQuery } from '@/entities/user/api/queries';
 import { hasAdminAccess } from '@/entities/user/model/role';
@@ -20,18 +21,12 @@ import {
   useCreateScheduleMutation,
   useDeleteScheduleMutation,
   useRequestDayOffMutation,
+  useScheduleUsersQuery,
   useScheduleWeekQuery,
   useUpdateScheduleMutation,
 } from '@/features/schedule';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
-
-interface ScheduleFormData {
-  user_id: number;
-  work_date: string;
-  start_time: string;
-  end_time: string;
-}
 
 const SchedulePage = () => {
   const today = new Date();
@@ -50,21 +45,12 @@ const SchedulePage = () => {
   // 주차 기반 스케줄 조회
   const { data: allSchedules = [], isLoading } = useScheduleWeekQuery(year, week);
 
+  // 스케줄 배정용 직원 목록 조회 (admin endpoint 기반)
+  const { data: employees = [] } = useScheduleUsersQuery();
+
   // 개인 뷰: 현재 사용자 스케줄만 클라이언트 필터링
   const schedules =
     viewMode === 'my' ? allSchedules.filter((s) => s.user_id === user?.id) : allSchedules;
-
-  // 스케줄 데이터에서 직원 목록 추출 (ShiftModal / ScheduleFormModal용)
-  const employees = useMemo(() => {
-    const seen = new Set<number>();
-    return allSchedules
-      .filter((s) => {
-        if (seen.has(s.user_id)) return false;
-        seen.add(s.user_id);
-        return true;
-      })
-      .map((s) => ({ id: s.user_id, name: s.user_name, position: s.position }));
-  }, [allSchedules]);
 
   const { mutate: createSchedule, isPending: isCreating } = useCreateScheduleMutation();
   const { mutate: updateSchedule, isPending: isUpdating } = useUpdateScheduleMutation();
@@ -89,10 +75,15 @@ const SchedulePage = () => {
     setScheduleFormOpen(true);
   };
 
-  const handleScheduleFormSubmit = (data: ScheduleFormData) => {
+  const handleScheduleFormSubmit = (data: ScheduleCreateDTO) => {
     if (editingSchedule) {
+      // 수정 모드: start_date/end_date에서 work_date, start_time, end_time 추출
+      const work_date = data.start_date.split('T')[0];
+      const start_time = data.start_date.split('T')[1].slice(0, 5);
+      const end_time = data.end_date.split('T')[1].slice(0, 5);
+
       updateSchedule(
-        { id: editingSchedule.id, data },
+        { id: editingSchedule.id, data: { work_date, start_time, end_time } },
         {
           onSuccess: () => {
             setScheduleFormOpen(false);
@@ -309,7 +300,7 @@ const SchedulePage = () => {
             editingSchedule
               ? {
                   id: editingSchedule.id,
-                  user_id: editingSchedule.user_id,
+                  target_id: editingSchedule.user_id,
                   work_date: editingSchedule.work_date,
                   start_time: editingSchedule.start_time,
                   end_time: editingSchedule.end_time,
