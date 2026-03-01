@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import type { ScheduleResponse } from '../model/type';
 
+import { getPositionBadgeStyle, getPositionBorderStyle } from '@/entities/user/model/position';
 import { cn } from '@/shared/lib/utils';
 
 interface ScheduleCardProps {
@@ -12,36 +13,14 @@ interface ScheduleCardProps {
   onDelete?: (id: number) => void;
 }
 
-const positionStyles: Record<string, { border: string; badge: string; text: string }> = {
-  크루: { border: 'border-l-mega-blue', badge: 'bg-mega-blue/15', text: 'text-mega-blue' },
-  점장: {
-    border: 'border-l-mega-secondary',
-    badge: 'bg-mega-secondary/15',
-    text: 'text-mega-secondary',
-  },
-  라이더: { border: 'border-l-violet-500', badge: 'bg-violet-500/15', text: 'text-violet-600' },
-  바이저: { border: 'border-l-rose-500', badge: 'bg-rose-500/15', text: 'text-rose-600' },
-};
-
-function getPositionStyle(position: string) {
-  return (
-    positionStyles[position] ?? {
-      border: 'border-l-orange',
-      badge: 'bg-orange/15',
-      text: 'text-orange',
-    }
-  );
-}
-
 const ScheduleCard = ({ schedule, isAdmin, onEdit, onDelete }: ScheduleCardProps) => {
   const [showActions, setShowActions] = useState(false);
-  const style = getPositionStyle(schedule.position);
 
   return (
     <div
       className={cn(
         'relative bg-white rounded-lg shadow-sm border border-mega-gray-light border-l-[3px] p-2.5 cursor-default',
-        style.border,
+        getPositionBorderStyle(schedule.position),
       )}
       onMouseEnter={() => isAdmin && setShowActions(true)}
       onMouseLeave={() => isAdmin && setShowActions(false)}
@@ -73,9 +52,8 @@ const ScheduleCard = ({ schedule, isAdmin, onEdit, onDelete }: ScheduleCardProps
         <span className="font-medium text-sm leading-tight">{schedule.user_name}</span>
         <span
           className={cn(
-            'text-[10px] px-1.5 py-0.5 rounded-full font-medium leading-tight',
-            style.badge,
-            style.text,
+            'text-[10px] px-1.5 py-0.5 rounded-full font-medium leading-tight border',
+            getPositionBadgeStyle(schedule.position),
           )}
         >
           {schedule.position}
