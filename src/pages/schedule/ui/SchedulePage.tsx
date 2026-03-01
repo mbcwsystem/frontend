@@ -6,6 +6,7 @@ import type { ScheduleResponse } from '@/features/schedule';
 import type { ScheduleCreateDTO } from '@/features/schedule/api/dto';
 
 import { useUserQuery } from '@/entities/user/api/queries';
+import { getPositionBadgeStyle } from '@/entities/user/model/position';
 import { hasAdminAccess } from '@/entities/user/model/role';
 import {
   DayoffModal,
@@ -182,7 +183,14 @@ const SchedulePage = () => {
       {/* 현재 권한 표시 */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <span>현재 권한:</span>
-        <span className="px-2 py-0.5 rounded-full bg-mega-gray-light text-mega-gray text-xs font-medium">
+        <span
+          className={cn(
+            'px-2 py-0.5 rounded-full text-xs font-medium border',
+            user?.position
+              ? getPositionBadgeStyle(user.position)
+              : 'bg-mega-gray-light text-mega-gray border-transparent',
+          )}
+        >
           {user?.position ?? '-'}
         </span>
         {isAdmin && (
