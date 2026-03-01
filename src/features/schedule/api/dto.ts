@@ -18,18 +18,7 @@ export interface DayOffCreateDTO {
   reason: string;
 }
 
-export interface DayOffApprovalDTO {
-  status: 'APPROVED' | 'REJECTED';
-}
-
-// Shift Swap
-export interface ShiftCreateDTO {
-  requester_schedule_date: string; // YYYY-MM-DD
-  target_user_id: number;
-  target_schedule_date: string; // YYYY-MM-DD
-  reason: string;
-}
-
-export interface ShiftApprovalDTO {
+/** 백엔드 스펙: DayOffDecisionRequest */
+export interface DayOffDecisionDTO {
   status: 'APPROVED' | 'REJECTED';
 }

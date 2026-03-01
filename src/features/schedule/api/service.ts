@@ -1,5 +1,5 @@
 import type {
-  DayOffApprovalDTO,
+  DayOffDecisionDTO,
   DayOffCreateDTO,
   ScheduleCreateDTO,
   ScheduleUpdateDTO,
@@ -49,7 +49,7 @@ export const getDayOffRequests = (status?: string) =>
   });
 
 // 휴무 승인/거절 (어드민)
-export const approveDayOff = (dayOffId: number, data: DayOffApprovalDTO) =>
+export const approveDayOff = (dayOffId: number, data: DayOffDecisionDTO) =>
   apiClient.patch<DayOffResponse>({
     url: `/api/schedule/dayoff/${dayOffId}`,
     data,

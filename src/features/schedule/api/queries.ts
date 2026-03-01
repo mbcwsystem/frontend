@@ -14,7 +14,7 @@ import {
 } from './service';
 
 import type {
-  DayOffApprovalDTO,
+  DayOffDecisionDTO,
   DayOffCreateDTO,
   ScheduleCreateDTO,
   ScheduleUpdateDTO,
@@ -92,7 +92,7 @@ export function useRequestDayOffMutation() {
 export function useApproveDayOffMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: DayOffApprovalDTO }) => approveDayOff(id, data),
+    mutationFn: ({ id, data }: { id: number; data: DayOffDecisionDTO }) => approveDayOff(id, data),
     onSuccess: (_, { data }) => {
       void queryClient.invalidateQueries({ queryKey: SK.dayoffsBase() });
       toast.success(
