@@ -129,7 +129,7 @@ export function useScheduleUsersQuery() {
     queryKey: SK.users(),
     queryFn: async () => {
       const res = await getScheduleUserList();
-      return res.members;
+      return res.items;
     },
   });
 }

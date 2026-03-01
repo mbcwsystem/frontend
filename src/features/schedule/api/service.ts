@@ -76,7 +76,7 @@ interface ScheduleUserListItem {
 
 // 스케줄 배정용 직원 목록 조회 (admin endpoint 직접 호출, features 간 import 금지로 인해)
 export const getScheduleUserList = () =>
-  apiClient.get<{ members: ScheduleUserListItem[] }>({
+  apiClient.get<{ items: ScheduleUserListItem[]; total: number }>({
     url: '/api/admin/users',
-    params: { limit: 200 },
+    params: { limit: 100 },
   });
