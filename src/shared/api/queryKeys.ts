@@ -30,6 +30,7 @@ export const QUERY_KEYS = {
     dayoffs: (status?: string) => [...QUERY_KEYS.schedule.base, 'dayoffs', 'list', status] as const,
     shiftsBase: () => [...QUERY_KEYS.schedule.base, 'shifts'] as const,
     shifts: () => [...QUERY_KEYS.schedule.base, 'shifts', 'list'] as const,
+    users: () => [...QUERY_KEYS.schedule.base, 'users'] as const,
   },
 
   admin: {

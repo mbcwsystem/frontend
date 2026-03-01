@@ -7,6 +7,7 @@ import {
   deleteDayOff,
   deleteSchedule,
   getDayOffRequests,
+  getScheduleUserList,
   getScheduleWeek,
   getShiftRequests,
   requestDayOff,
@@ -119,5 +120,16 @@ export function useShiftRequestsQuery() {
   return useQuery({
     queryKey: SK.shifts(),
     queryFn: getShiftRequests,
+  });
+}
+
+// 스케줄 배정용 직원 목록 조회
+export function useScheduleUsersQuery() {
+  return useQuery({
+    queryKey: SK.users(),
+    queryFn: async () => {
+      const res = await getScheduleUserList();
+      return res.members;
+    },
   });
 }

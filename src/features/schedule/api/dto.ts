@@ -1,9 +1,11 @@
 // Schedule
 export interface ScheduleCreateDTO {
-  user_id: number;
-  work_date: string; // YYYY-MM-DD
-  start_time: string; // HH:MM
-  end_time: string; // HH:MM
+  start_date: string; // ISO datetime "YYYY-MM-DDTHH:mm:ss"
+  end_date: string; // ISO datetime "YYYY-MM-DDTHH:mm:ss"
+  target_id: number;
+  week_number: number;
+  year: number;
+  month: number;
 }
 
 export interface ScheduleUpdateDTO {

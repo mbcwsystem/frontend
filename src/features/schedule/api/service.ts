@@ -66,3 +66,17 @@ export const getShiftRequests = () =>
   apiClient.get<ShiftResponse[]>({
     url: '/api/schedule/shift/',
   });
+
+// 스케줄 배정용 직원 목록 항목 타입 (id, username, name만 사용)
+interface ScheduleUserListItem {
+  id: number;
+  username: string;
+  name: string;
+}
+
+// 스케줄 배정용 직원 목록 조회 (admin endpoint 직접 호출, features 간 import 금지로 인해)
+export const getScheduleUserList = () =>
+  apiClient.get<{ members: ScheduleUserListItem[] }>({
+    url: '/api/admin/users',
+    params: { limit: 200 },
+  });
