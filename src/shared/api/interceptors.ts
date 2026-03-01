@@ -24,7 +24,8 @@ function appendFormData(formData: FormData, key: string, value: unknown) {
     return;
   }
 
-  // 그 외 기본값은 문자열로 append
+  // 그 외 기본값은 문자열로 append (object/array/Blob은 위에서 처리됨)
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   formData.append(key, String(value));
 }
 
