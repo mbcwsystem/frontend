@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 
 import type { ScheduleResponse } from '@/features/schedule';
 
+import { useUserQuery } from '@/entities/user/api/queries';
+import { hasAdminAccess } from '@/entities/user/model/role';
 import {
   DayoffModal,
   ScheduleCard,
@@ -23,7 +25,6 @@ import {
 } from '@/features/schedule';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
-import { useAuthStore } from '@/shared/model/authStore';
 
 interface ScheduleFormData {
   user_id: number;
@@ -43,8 +44,8 @@ const SchedulePage = () => {
   const [scheduleFormOpen, setScheduleFormOpen] = useState(false);
   const [editingSchedule, setEditingSchedule] = useState<ScheduleResponse | null>(null);
 
-  const { user } = useAuthStore();
-  const isAdmin = user?.position === '점장';
+  const { data: user } = useUserQuery();
+  const isAdmin = !!user && hasAdminAccess(user.position);
 
   // 주차 기반 스케줄 조회
   const { data: allSchedules = [], isLoading } = useScheduleWeekQuery(year, week);
