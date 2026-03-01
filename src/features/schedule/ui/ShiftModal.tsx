@@ -1,6 +1,8 @@
 import { ArrowLeftRight, Calendar, MessageSquare, User, X } from 'lucide-react';
 import { useState } from 'react';
 
+import type { UserOption } from '../model/type';
+
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -20,8 +22,6 @@ import {
 } from '@/shared/components/ui/select';
 import { Textarea } from '@/shared/components/ui/textarea';
 
-import type { UserOption } from '../model/type';
-
 interface ShiftModalProps {
   open: boolean;
   onClose: () => void;
@@ -35,23 +35,14 @@ interface ShiftModalProps {
   isPending?: boolean;
 }
 
-const ShiftModal = ({
-  open,
-  onClose,
-  onSubmit,
-  employees,
-  isPending = false,
-}: ShiftModalProps) => {
+const ShiftModal = ({ open, onClose, onSubmit, employees, isPending = false }: ShiftModalProps) => {
   const [myDate, setMyDate] = useState('');
   const [targetUserId, setTargetUserId] = useState<string>('');
   const [targetDate, setTargetDate] = useState('');
   const [reason, setReason] = useState('');
 
   const isValid =
-    myDate.trim() !== '' &&
-    targetUserId !== '' &&
-    targetDate.trim() !== '' &&
-    reason.trim() !== '';
+    myDate.trim() !== '' && targetUserId !== '' && targetDate.trim() !== '' && reason.trim() !== '';
 
   const handleSubmit = () => {
     if (!isValid) return;
@@ -98,8 +89,7 @@ const ShiftModal = ({
           {/* My work date */}
           <div className="space-y-1.5">
             <Label htmlFor="shift-my-date" className="flex items-center gap-1.5">
-              <Calendar className="size-4 text-muted-foreground" />
-              내 근무일 (양도할 날짜)
+              <Calendar className="size-4 text-muted-foreground" />내 근무일 (양도할 날짜)
             </Label>
             <Input
               id="shift-my-date"
@@ -130,7 +120,9 @@ const ShiftModal = ({
                 {employees.map((employee) => (
                   <SelectItem key={employee.id} value={String(employee.id)}>
                     {employee.name}
-                    <span className="text-muted-foreground ml-1 text-xs">({employee.position})</span>
+                    <span className="text-muted-foreground ml-1 text-xs">
+                      ({employee.position})
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>

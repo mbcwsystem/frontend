@@ -1,6 +1,8 @@
 import { CalendarPlus, Clock, User, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import type { UserOption } from '../model/type';
+
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -18,8 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-
-import type { UserOption } from '../model/type';
 
 interface ScheduleFormData {
   user_id: number;
@@ -85,7 +85,7 @@ const ScheduleFormModal = ({
   const handleSubmit = () => {
     if (!isFormValid) return;
     onSubmit({
-      user_id: userId as number,
+      user_id: userId,
       work_date: workDate,
       start_time: startTime,
       end_time: endTime,
