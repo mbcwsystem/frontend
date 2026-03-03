@@ -85,9 +85,9 @@ export default function ManagerTable({ data }: Props) {
                           col.rightBorder ? 'border-r border-gray-100' : ''
                         } ${
                           col.highlight === 'primary'
-                            ? 'text-mega-secondary font-medium'
+                            ? 'text-mega-secondary font-bold'
                             : col.highlight === 'danger'
-                            ? 'text-red-500 font-medium'
+                            ? 'text-red-500 font-bold'
                             : ''
                         }`}
                       >

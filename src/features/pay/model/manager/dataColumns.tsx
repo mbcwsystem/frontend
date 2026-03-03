@@ -88,6 +88,7 @@ export const dataColumns: ColumnGroup[] = [
   },
   {
     group: '지급',
+    highlight: 'primary',
     columns: [
       { key: 'net_pay', label: '총 지급액', highlight: 'primary' },
     ],

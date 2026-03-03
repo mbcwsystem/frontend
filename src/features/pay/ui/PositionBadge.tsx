@@ -13,7 +13,7 @@ export default function PositionBadge({ role }: PositionBadgeProps) {
 
   return (
     <span
-      className={`px-3 py-1 rounded-full text-xs font-medium ${style}`}
+      className={`px-3 py-1 rounded-full text-[10px] font-bold ${style}`}
     >
       {role}
     </span>
