@@ -23,6 +23,10 @@ export default function PeriodSelector({
 
   const popoverRef = useRef<HTMLDivElement | null>(null);
 
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+
   useEffect(() => {
     if (isOpen) {
       setTempYear(selectedYear);
@@ -53,13 +57,31 @@ export default function PeriodSelector({
   };
 
   const handleNextMonth = () => {
+    // 이미 현재 연/월이면 막기
+    if (selectedYear === currentYear && selectedMonth === currentMonth) {
+      return;
+    }
+
     if (selectedMonth === 12) {
+      if (selectedYear + 1 > currentYear) return;
       onChangeYear(selectedYear + 1);
       onChangeMonth(1);
     } else {
+      if (
+        selectedYear === currentYear &&
+        selectedMonth + 1 > currentMonth
+      ) {
+        return;
+      }
       onChangeMonth(selectedMonth + 1);
     }
   };
+
+  const isNextDisabled =
+    selectedYear > currentYear ||
+    (selectedYear === currentYear && selectedMonth >= currentMonth);
+    
+  const isYearNextDisabled = tempYear >= currentYear;
 
   const formattedDate = `${selectedYear}.${String(selectedMonth).padStart(2, '0')}`;
 
@@ -87,7 +109,15 @@ export default function PeriodSelector({
             {formattedDate}
           </div>
 
-          <ChevronRight size={20} className="cursor-pointer" onClick={handleNextMonth} />
+          <ChevronRight
+            size={20}
+            className={`${
+              isNextDisabled
+                ? 'text-gray-300 cursor-not-allowed'
+                : 'cursor-pointer text-gray-700'
+            }`}
+            onClick={!isNextDisabled ? handleNextMonth : undefined}
+          />
         </div>
       </CardContent>
 
@@ -105,23 +135,44 @@ export default function PeriodSelector({
             <span className="text-sm font-semibold">{tempYear}</span>
             <ChevronRight
               size={18}
-              className="cursor-pointer"
-              onClick={() => setTempYear((prev) => prev + 1)}
+              className={`${
+                isYearNextDisabled
+                  ? 'text-gray-300 cursor-not-allowed'
+                  : 'cursor-pointer text-gray-700'
+              }`}
+              onClick={
+                !isYearNextDisabled
+                  ? () => setTempYear((prev) => prev + 1)
+                  : undefined
+              }
             />
           </div>
 
           <div className="grid grid-cols-4 gap-2 mb-4">
-            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-              <button
-                key={month}
-                onClick={() => setTempMonth(month)}
-                className={`py-2 rounded-lg text-xs transition
-                  ${tempMonth === month ? 'bg-mega text-white' : 'hover:bg-gray-100'}
-                `}
-              >
-                {String(month).padStart(2, '0')}
-              </button>
-            ))}
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
+              const isFuture =
+                tempYear > currentYear ||
+                (tempYear === currentYear && month > currentMonth);
+
+              return (
+                <button
+                  key={month}
+                  disabled={isFuture}
+                  onClick={() => !isFuture && setTempMonth(month)}
+                  className={`py-2 rounded-lg text-xs transition
+                    ${
+                      isFuture
+                        ? 'text-gray-300 cursor-not-allowed'
+                        : tempMonth === month
+                        ? 'bg-mega text-white'
+                        : 'hover:bg-gray-100'
+                    }
+                  `}
+                >
+                  {String(month).padStart(2, '0')}
+                </button>
+              );
+            })}
           </div>
 
           <div className="flex justify-end">
