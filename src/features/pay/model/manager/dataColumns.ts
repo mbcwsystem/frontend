@@ -1,45 +1,82 @@
-import { formatNumberOrDash, type PayrollData } from './type';
+import type { PayrollData } from '../type'
 
-interface Column<T> {
-  key: keyof T;
+export type ColumnConfig = {
+  key: keyof PayrollData;
   label: string;
-  sticky?: boolean;
-  bg?: string;
-  format?: (val: T[keyof T]) => string | number;
-}
+  align?: 'left' | 'center' | 'right';
+  highlight?: 'primary' | 'danger';
+  rightBorder?: boolean;
+};
 
-const managerColumns: Column<PayrollData>[] = [
-  { key: 'name', label: '이름', sticky: true, bg: 'bg-gray-100' },
-  { key: 'wage', label: '시급', format: formatNumberOrDash },
-  { key: 'rrn', label: '주민등록번호' },
-  { key: 'join_date', label: '입사일' },
-  { key: 'resign_date', label: '퇴사예정일' },
-  { key: 'last_work_day', label: '마지막 근무일' },
-  { key: 'bank_name', label: '은행명' },
-  { key: 'bank_account', label: '계좌번호' },
-  { key: 'email', label: '이메일' },
-  { key: 'total_work_days', label: '총 근무일수', format: formatNumberOrDash },
-  { key: 'total_work_hours', label: '총 근무시간', format: formatNumberOrDash },
-  { key: 'avg_daily_hours', label: '일 평균시간', format: formatNumberOrDash },
-  { key: 'day_hours', label: '주간시간', format: formatNumberOrDash },
-  { key: 'night_hours', label: '야간시간', format: formatNumberOrDash },
-  { key: 'weekly_allowance_hours', label: '주휴시간', format: formatNumberOrDash },
-  { key: 'annual_leave_hours', label: '연차시간', format: formatNumberOrDash },
-  { key: 'holiday_hours', label: '공휴시간', format: formatNumberOrDash },
-  { key: 'labor_day_hours', label: '근로자의 날', format: formatNumberOrDash },
-  { key: 'day_wage', label: '주간급여', format: formatNumberOrDash },
-  { key: 'night_wage', label: '야간급여', format: formatNumberOrDash },
-  { key: 'weekly_allowance_pay', label: '주휴수당', format: formatNumberOrDash },
-  { key: 'annual_leave_pay', label: '연차수당', format: formatNumberOrDash },
-  { key: 'holiday_pay', label: '공휴일 수당', format: formatNumberOrDash },
-  { key: 'labor_day_pay', label: '근로자의 날 수당', format: formatNumberOrDash },
-  { key: 'gross_pay', label: '급여총액', format: formatNumberOrDash },
-  { key: 'insurance_health', label: '건강보험', format: formatNumberOrDash },
-  { key: 'insurance_care', label: '요양보험', format: formatNumberOrDash },
-  { key: 'insurance_employment', label: '고용보험', format: formatNumberOrDash },
-  { key: 'insurance_pension', label: '국민연금', format: formatNumberOrDash },
-  { key: 'total_deduction', label: '공제합계', format: formatNumberOrDash },
-  { key: 'net_pay', label: '지급액', format: formatNumberOrDash },
+type ColumnGroup = {
+  group: string;
+  highlight?: 'primary' | 'danger';
+  columns: ColumnConfig[];
+};
+
+export const dataColumns: ColumnGroup[] = [
+  {
+    group: '기본정보',
+    columns: [
+      { key: 'name', label: '이름', align: 'left' },
+      // { key: 'position', label: '직급' },
+      { key: 'wage', label: '시급' },
+      // { key: 'rrn', label: '주민번호' },
+      { key: 'join_date', label: '입사일' },
+      { key: 'resign_date', label: '퇴사예정일' },
+      { key: 'last_work_day', label: '마지막근무일' },
+      { key: 'bank_name', label: '은행' },
+      { key: 'bank_account', label: '계좌번호' },
+      { key: 'email', label: '이메일', rightBorder: true },
+    ],
+  },
+  {
+    group: '근무요약',
+    columns: [
+      { key: 'total_work_days', label: '근무일수' },
+      { key: 'total_work_hours', label: '총근무시간' },
+      { key: 'avg_daily_hours', label: '일평균시간', rightBorder: true },
+    ],
+  },
+  {
+    group: '근무시간',
+    columns: [
+      { key: 'day_hours', label: '주간시간' },
+      { key: 'night_hours', label: '야간시간' },
+      { key: 'weekly_allowance_hours', label: '주휴시간' },
+      { key: 'annual_leave_hours', label: '연차시간' },
+      { key: 'holiday_hours', label: '공휴일시간' },
+      { key: 'labor_day_hours', label: '근로자의날시간', rightBorder: true },
+    ],
+  },
+  {
+    group: '급여',
+    highlight: 'primary',
+    columns: [
+      { key: 'day_wage', label: '주간급여' },
+      { key: 'night_wage', label: '야간급여' },
+      { key: 'weekly_allowance_pay', label: '주휴수당' },
+      { key: 'annual_leave_pay', label: '연차수당' },
+      { key: 'holiday_pay', label: '공휴일수당' },
+      { key: 'labor_day_pay', label: '근로자의날수당' },
+      { key: 'gross_pay', label: '급여총액', highlight: 'primary', rightBorder: true },
+    ],
+  },
+  {
+    group: '공제',
+    highlight: 'danger',
+    columns: [
+      { key: 'insurance_health', label: '건강보험' },
+      { key: 'insurance_care', label: '요양보험' },
+      { key: 'insurance_employment', label: '고용보험' },
+      { key: 'insurance_pension', label: '국민연금' },
+      { key: 'total_deduction', label: '공제계', highlight: 'danger', rightBorder: true },
+    ],
+  },
+  {
+    group: '지급',
+    columns: [
+      { key: 'net_pay', label: '총 지급액', highlight: 'primary' },
+    ],
+  },
 ];
-
-export default managerColumns;
