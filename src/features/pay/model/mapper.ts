@@ -4,6 +4,7 @@ import type { PayrollResponseDTO } from '../api/dto';
 export function mapPayroll(dto: PayrollResponseDTO): PayrollData {
   return {
     name: dto.name ?? '',
+    position: dto.position ?? '',
     wage: dto.wage ?? 0,
     rrn: dto.rrn ?? '',
     join_date: dto.join_date ?? '',

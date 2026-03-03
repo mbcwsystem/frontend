@@ -1,4 +1,6 @@
+import type { ReactNode } from 'react';
 import type { PayrollData } from '../type'
+import PositionBadge from '../../ui/PositionBadge'
 
 export type ColumnConfig = {
   key: keyof PayrollData;
@@ -6,6 +8,7 @@ export type ColumnConfig = {
   align?: 'left' | 'center' | 'right';
   highlight?: 'primary' | 'danger';
   rightBorder?: boolean;
+  render?: (value: any, row: PayrollData) => ReactNode;
 };
 
 type ColumnGroup = {
@@ -19,9 +22,19 @@ export const dataColumns: ColumnGroup[] = [
     group: '기본정보',
     columns: [
       { key: 'name', label: '이름', align: 'left' },
-      // { key: 'position', label: '직급' },
+      {
+        key: 'position',
+        label: '직급',
+        render: (value) => <PositionBadge role={value} />,
+      },
       { key: 'wage', label: '시급' },
-      // { key: 'rrn', label: '주민번호' },
+      { key: 'rrn', label: '주민번호' ,
+        // 주민번호 길이 임의 프론트 제한
+        render: (value) => {
+          if (!value) return '-';
+          return (value as string).slice(0, 14);
+        },
+      },
       { key: 'join_date', label: '입사일' },
       { key: 'resign_date', label: '퇴사예정일' },
       { key: 'last_work_day', label: '마지막근무일' },

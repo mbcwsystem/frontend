@@ -1,5 +1,6 @@
 export interface PayrollData {
   name: string;
+  position: string | null;
   wage: number;
 
   join_date: string;

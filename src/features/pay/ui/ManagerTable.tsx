@@ -1,4 +1,4 @@
-import type { PayrollData } from '../model/manager/type';
+import type { PayrollData } from '../model/type';
 import { dataColumns } from '../model/manager/dataColumns';
 import type { ReactNode } from 'react';
 
@@ -74,20 +74,24 @@ export default function ManagerTable({ data }: Props) {
                   group.columns.map((col) => {
                     const value = row[col.key];
 
+                    const renderedValue = col.render
+                      ? col.render(value, row)
+                      : formatValue(value);
+
                     return (
                       <td
                         key={String(col.key)}
                         className={`p-4 text-center ${
-                            col.rightBorder ? 'border-r border-gray-100' : ''
+                          col.rightBorder ? 'border-r border-gray-100' : ''
                         } ${
-                            col.highlight === 'primary'
-                                ? 'text-mega-secondary font-medium'
-                                : col.highlight === 'danger'
-                                ? 'text-red-500 font-medium'
-                                : ''
+                          col.highlight === 'primary'
+                            ? 'text-mega-secondary font-medium'
+                            : col.highlight === 'danger'
+                            ? 'text-red-500 font-medium'
+                            : ''
                         }`}
                       >
-                        {formatValue(value)}
+                        {renderedValue}
                       </td>
                     );
                   })

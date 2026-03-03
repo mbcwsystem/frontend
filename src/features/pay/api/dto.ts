@@ -1,6 +1,6 @@
 export interface PayrollResponseDTO {
   name: string | null;
-  // position: string | null;
+  position: string | null;
   wage: number | null;
   rrn: string | null;
   join_date: string | null;
