@@ -3,9 +3,12 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import { ROUTES } from '../../shared/constants/routes';
 import { Layout } from '../layouts/Layout';
 import PublicLayout from '../layouts/PublicLayout';
+import SystemLayOut from '../layouts/SystemLayOut';
 
 import { AuthRoute } from './AuthRoute';
 
+import { NotFoundPage } from '@/pages/404';
+import { AdminPage } from '@/pages/admin';
 import {
   Communiity,
   DayoffPage,
@@ -21,6 +24,7 @@ import CommunityPage from '@/pages/community/ui/CommunityPage';
 import { HomePage } from '@/pages/home';
 import { LoginPage } from '@/pages/login';
 import PayPage from '@/pages/payroll/PayPage';
+import { SchedulePage } from '@/pages/schedule';
 import { WorkStatusPage } from '@/pages/work-status';
 
 export const router = createBrowserRouter([
@@ -36,6 +40,10 @@ export const router = createBrowserRouter([
         path: ROUTES.LOGIN,
         element: <LoginPage />,
       },
+      {
+        path: ROUTES.NOT_FOUND,
+        element: <NotFoundPage />,
+      },
     ],
   },
 
@@ -44,7 +52,7 @@ export const router = createBrowserRouter([
     path: ROUTES.WORK_STATUS,
     element: (
       <AuthRoute allowSystem>
-        <Layout />
+        <SystemLayOut />
       </AuthRoute>
     ),
     children: [
@@ -71,6 +79,18 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.PAY,
         element: <PayPage />,
+      },
+      {
+        path: ROUTES.SCHEDULE,
+        element: <SchedulePage />,
+      },
+      {
+        path: ROUTES.ADMIN,
+        element: (
+          <AuthRoute requireAdmin>
+            <AdminPage />
+          </AuthRoute>
+        ),
       },
       {
         path: ROUTES.COMMUNITY,
@@ -116,10 +136,6 @@ export const router = createBrowserRouter([
             ],
           },
         ],
-      },
-      {
-        path: ROUTES.WORK_STATUS,
-        element: <WorkStatusPage />,
       },
     ],
   },

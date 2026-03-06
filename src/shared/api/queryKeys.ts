@@ -21,4 +21,28 @@ export const QUERY_KEYS = {
     overview: (year: number) => [...QUERY_KEYS.pay.base, 'overview', year] as const,
     detail: (payId: number) => [...QUERY_KEYS.pay.base, 'detail', payId] as const,
   },
+
+  schedule: {
+    base: ['schedule'] as const,
+    week: (year: number, week: number) =>
+      [...QUERY_KEYS.schedule.base, 'week', year, week] as const,
+    dayoffsBase: () => [...QUERY_KEYS.schedule.base, 'dayoffs'] as const,
+    dayoffs: (status?: string) => [...QUERY_KEYS.schedule.base, 'dayoffs', 'list', status] as const,
+    shiftsBase: () => [...QUERY_KEYS.schedule.base, 'shifts'] as const,
+    shifts: () => [...QUERY_KEYS.schedule.base, 'shifts', 'list'] as const,
+    users: () => [...QUERY_KEYS.schedule.base, 'users'] as const,
+  },
+
+  admin: {
+    base: ['admin'] as const,
+    holidaysBase: () => [...QUERY_KEYS.admin.base, 'holidays'] as const,
+    holidays: (year: number) => [...QUERY_KEYS.admin.base, 'holidays', year] as const,
+    usersBase: () => [...QUERY_KEYS.admin.base, 'users'] as const,
+    users: (params?: { q?: string; limit?: number; offset?: number }) =>
+      [...QUERY_KEYS.admin.base, 'users', params] as const,
+    userDetail: (memberId: number) => [...QUERY_KEYS.admin.base, 'users', memberId] as const,
+    insuranceRates: () => [...QUERY_KEYS.admin.base, 'insurance-rates'] as const,
+    insuranceRateByYear: (year: number) =>
+      [...QUERY_KEYS.admin.base, 'insurance-rates', year] as const,
+  },
 } as const;

@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 
-import { rejectInterceptor, requestInterceptor, responseInterceptor } from './interceptors';
+import { createRejectInterceptor, requestInterceptor, responseInterceptor } from './interceptors';
 
 const BASE_URL = (import.meta.env.VITE_BASE_URL as string) || 'http://localhost:8000';
 
@@ -10,9 +10,11 @@ export const axiosInstance: AxiosInstance = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// [TODO]: 인터셉터 추가
 axiosInstance.interceptors.request.use(requestInterceptor);
-axiosInstance.interceptors.response.use(responseInterceptor, rejectInterceptor);
+axiosInstance.interceptors.response.use(
+  responseInterceptor,
+  createRejectInterceptor(axiosInstance, BASE_URL),
+);
 
 export const apiClient = {
   get: <T>(config: AxiosRequestConfig) =>
@@ -20,6 +22,8 @@ export const apiClient = {
 
   post: <T>(config: AxiosRequestConfig) =>
     axiosInstance.post<T>(config.url!, config.data, config).then((response) => response.data),
+  put: <T>(config: AxiosRequestConfig) =>
+    axiosInstance.put<T>(config.url!, config.data, config).then((response) => response.data),
   patch: <T>(config: AxiosRequestConfig) =>
     axiosInstance.patch<T>(config.url!, config.data, config).then((response) => response.data),
   delete: <T>(config: AxiosRequestConfig) =>

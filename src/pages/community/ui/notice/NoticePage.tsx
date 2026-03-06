@@ -7,11 +7,10 @@ import CommunityModal from '../../../../features/community/ui/modal/CommunityMod
 import { hasAdminAccess } from '@/entities/user/model/role';
 import { useCommunityPostsQuery } from '@/features/community/api/queries';
 import { BoardPage } from '@/features/community/ui/main/BoardPage';
-import { useAuthStore } from '@/shared/model/authStore';
+import { useUserQuery } from '@/entities/user/api/queries';
 
 export default function NoticePage() {
-  // const user = { role: ROLE.MANAGER };
-  const { user } = useAuthStore();
+  const { data: user } = useUserQuery();
 
   const [page, setPage] = useState(1);
 
