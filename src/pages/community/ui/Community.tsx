@@ -22,11 +22,11 @@ export default function Communiity() {
   const categoryCounts = data?.counts ?? {};
 
   return (
-    <div className="flex flex-col gap-5 w-3/4 mx-auto mb-10">
-      <img src={logo} alt="logo" className="w-50 self-center mb-4" />
+    <div className="flex flex-col gap-5 w-full sm:w-3/4 mx-auto mb-10 px-4 sm:px-0">
+      <img src={logo} alt="logo" className="w-40 sm:w-50 self-center mb-4" />
 
       <div className="flex flex-col gap-5">
-        <div className="flex self-start gap-2">
+        <div className="flex flex-wrap self-start gap-2">
           <ListButton
             label="전체"
             to="community"
