@@ -1,5 +1,6 @@
 import { CalendarSync, CloudOff, Megaphone, MessagesSquare, TextAlignStart } from 'lucide-react';
-import { Outlet } from 'react-router';
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router';
 
 import logo from '../../../shared/assets/logo/Megabox_Logo_Indigo.png';
 
@@ -7,7 +8,14 @@ import { ListButton } from '@/features/community';
 import { useCategoryCountsQuery } from '@/features/community/api/queries';
 
 export default function Communiity() {
-  const { data, isLoading } = useCategoryCountsQuery();
+  const location = useLocation();
+  const { data, isLoading, refetch } = useCategoryCountsQuery();
+
+  // 커뮤니티 내 라우팅 이동 시 카테고리 카운트 최신화
+  // (휴무신청 후 탭 뱃지가 즉시 반영되도록 보장)
+  useEffect(() => {
+    void refetch();
+  }, [location.pathname, refetch]);
 
   if (isLoading) return null;
 
